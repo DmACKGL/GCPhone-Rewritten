@@ -20,7 +20,6 @@ jobs:
         with:
           node-version: '12'
 
-      - run: 
       - run: cd ./src_htmlPhone && npm install && npm run build
 
       - uses: actions/upload-artifact@master
