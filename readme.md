@@ -8,6 +8,7 @@
   <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/DmACKGL/GCPhone-Rewrite/total?style=for-the-badge">
   <br>
   <img alt="StyleCI" src="https://github.styleci.io/repos/349118467/shield">
+  <img src='https://bettercodehub.com/edge/badge/DmACKGL/GCPhone-Rewrite?branch=master'>
 </h1>
 
 ## Functions 
