@@ -95,9 +95,9 @@ export default {
       if (this.ignoreControls === true) return
       this.ignoreControls = true
       let choix = [
-        {id: 1, title: this.IntlString('APP_DARKTCHAT_NEW_CHANNEL'), icons: 'fa-plus', color: 'dodgerblue'},
-        {id: 2, title: this.IntlString('APP_DARKTCHAT_DELETE_CHANNEL'), icons: 'fa-minus', color: 'tomato'},
-        {id: 3, title: this.IntlString('APP_DARKTCHAT_CANCEL'), icons: 'fa-undo'}
+        {id: 1, title: this.IntlString('APP_DARKTCHAT_NEW_CHANNEL'), icons: 'plus', color: 'dodgerblue'},
+        {id: 2, title: this.IntlString('APP_DARKTCHAT_DELETE_CHANNEL'), icons: 'minus', color: 'tomato'},
+        {id: 3, title: this.IntlString('APP_DARKTCHAT_CANCEL'), icons: 'undo'}
       ]
       if (this.tchatChannels.length === 0) {
         choix.splice(1, 1)
@@ -119,8 +119,8 @@ export default {
       if (this.tchatChannels.length === 0) {
         this.ignoreControls = true
         let choix = [
-          {id: 1, title: this.IntlString('APP_DARKTCHAT_NEW_CHANNEL'), icons: 'fa-plus', color: 'green'},
-          {id: 3, title: this.IntlString('APP_DARKTCHAT_CANCEL'), icons: 'fa-undo'}
+          {id: 1, title: this.IntlString('APP_DARKTCHAT_NEW_CHANNEL'), icons: 'plus', color: 'green'},
+          {id: 3, title: this.IntlString('APP_DARKTCHAT_CANCEL'), icons: 'undo'}
         ]
         const rep = await Modal.CreateModal({ choix })
         this.ignoreControls = false

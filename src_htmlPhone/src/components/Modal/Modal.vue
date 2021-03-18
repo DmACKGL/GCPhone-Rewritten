@@ -6,18 +6,17 @@
     >
       <div class="modal-container">
         <div
-          v-for="(val, index) in choix" 
-          :key="index" 
+          v-for="(val, index) in choix"
+          :key="index"
           class="modal-choix"
           :class="{ select: index === currentSelect}"
           :style="{color: val.color}"
           @click.stop="selectItem(val)"
         >
-          <i
-            class="fas"
-            :class="val.icons"
+          <FontAwesomeIcon
+            :icon="['fas', val.icons]"
             @click.stop="selectItem(val)"
-          />{{ val.title }}
+          /> {{ val.title }}
         </div>
       </div>
     </div>

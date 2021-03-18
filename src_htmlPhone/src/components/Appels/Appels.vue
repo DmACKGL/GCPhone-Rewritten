@@ -14,15 +14,16 @@
       <div
         v-for="(Comp, i) of subMenu"
         :key="i"
-        class="subMenu-elem" 
+        class="subMenu-elem"
         :style="getColorItem(i)"
         @click="swapMenu(i)"
       >
-        <i
-          class="subMenu-icon fa"
-          :class="['fa-' + Comp.icon]"
-          @click.stop="swapMenu(i)"
-        />
+        <div class="subMenu-icon">
+          <FontAwesomeIcon
+            :icon="['fas', Comp.icon]"
+            @click.stop="swapMenu(i)"
+          />
+        </div>
         <span
           class="subMenu-name"
           @click.stop="swapMenu(i)"
@@ -59,7 +60,7 @@ export default {
       }, {
         Comp: AppelsRecents,
         name: this.IntlString('APP_PHONE_MENU_RECENTS'),
-        icon: 'clock-o'
+        icon: 'clock'
       }, {
         Comp: AppelsContacts,
         name: this.IntlString('APP_PHONE_MENU_CONTACTS'),

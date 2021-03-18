@@ -63,33 +63,33 @@ export default {
       confirmReset[confirmResetStr] = 'accept'
       return [
         {
-          icons: 'fa-phone',
+          icons: 'phone',
           title: this.IntlString('APP_CONFIG_MY_MUNBER'),
           value: this.myPhoneNumber
         },
         {
-          icons: 'fa-picture-o',
+          icons: 'image',
           title: this.IntlString('APP_CONFIG_WALLPAPER'),
           value: this.backgroundLabel,
           onValid: 'onChangeBackground',
           values: this.config.background
         },
         {
-          icons: 'fa-mobile',
+          icons: 'mobile',
           title: this.IntlString('APP_CONFIG_CASE'),
           value: this.coqueLabel,
           onValid: 'onChangeCoque',
           values: this.config.coque
         },
         {
-          icons: 'fa-bell-o',
+          icons: 'bell',
           title: this.IntlString('APP_CONFIG_SOUND'),
           value: this.sonidoLabel,
           onValid: 'onChangeSonido',
           values: this.config.sonido
         },
         {
-          icons: 'fa-search',
+          icons: 'search',
           title: this.IntlString('APP_CONFIG_ZOOM'),
           value: this.zoom,
           onValid: 'setZoom',
@@ -105,7 +105,7 @@ export default {
           }
         },
         {
-          icons: 'fa-volume-down',
+          icons: 'volume-down',
           title: this.IntlString('APP_CONFIG_VOLUME'),
           value: this.valumeDisplay,
           onValid: 'setPhoneVolume',
@@ -121,7 +121,7 @@ export default {
           }
         },
         {
-          icons: 'fa-globe',
+          icons: 'globe-americas',
           title: this.IntlString('APP_CONFIG_LANGUAGE'),
           onValid: 'onChangeLanguages',
           values: {
@@ -130,7 +130,7 @@ export default {
           }
         },
         {
-          icons: 'fa-mouse-pointer',
+          icons: 'mouse-pointer',
           title: this.IntlString('APP_CONFIG_MOUSE_SUPPORT'),
           onValid: 'onChangeMouseSupport',
           values: {
@@ -140,7 +140,7 @@ export default {
           }
         },
         {
-          icons: 'fa-exclamation-triangle',
+          icons: 'exclamation-triangle',
           color: '#ee3838',
           title: this.IntlString('APP_CONFIG_RESET'),
           onValid: 'resetPhone',

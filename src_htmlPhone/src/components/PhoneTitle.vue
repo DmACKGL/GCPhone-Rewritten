@@ -13,8 +13,8 @@
         class="btn-back"
         @click.stop="back"
       >
-        <i
-          class="fas fa-angle-left"
+        <FontAwesomeIcon
+          :icon="['fas', 'angle-left']"
           @click.stop="back"
         />
       </button>
@@ -23,7 +23,6 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
 import InfoBare from './InfoBare'
 
 export default {
@@ -45,10 +44,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['themeColorTitle']),
     style () {
       return {
-        backgroundColor: this.backgroundColor || this.themeColorTitle,
+        backgroundColor: this.backgroundColor,
         color: this.color || '#FFF'
       }
     }

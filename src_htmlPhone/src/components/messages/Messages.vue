@@ -30,7 +30,7 @@
     >
       <div
         v-for="(mess, key) in messagesList"
-        :key="mess.id"
+        :key="mess.id+key"
         class="sms"
         :class="{ select: key === selectMessage}"
         @click.stop="onActionMessage(mess)"
@@ -261,17 +261,17 @@ export default {
         let choix = [{
           id: 'delete',
           title: this.IntlString('APP_MESSAGE_DELETE'),
-          icons: 'fa-trash'
+          icons: 'trash'
         }, {
           id: -1,
           title: this.IntlString('CANCEL'),
-          icons: 'fa-undo'
+          icons: 'undo'
         }]
         if (isGPS === true) {
           choix = [{
             id: 'gps',
             title: this.IntlString('APP_MESSAGE_SET_GPS'),
-            icons: 'fa-location-arrow'
+            icons: 'location-arrow'
           }, ...choix]
         }
         if (hasNumber === true) {
@@ -280,14 +280,14 @@ export default {
             id: 'num',
             title: `${this.IntlString('APP_MESSAGE_MESS_NUMBER')} ${num}`,
             number: num,
-            icons: 'fa-phone'
+            icons: 'phone'
           }, ...choix]
         }
         if (isSMSImage === true) {
           choix = [{
             id: 'zoom',
             title: this.IntlString('APP_MESSAGE_ZOOM_IMG'),
-            icons: 'fa-search'
+            icons: 'search'
           }, ...choix]
         }
         this.ignoreControls = true
@@ -317,25 +317,25 @@ export default {
           {
             id: 'sms',
             title: this.IntlString('APP_MESSAGE_MESS_SMS'),
-            icons: 'fa-comment'
+            icons: 'comment'
           },
           {
             id: 'call',
             title: this.IntlString('APP_MESSAGE_MESS_CALL'),
-            icons: 'fa-phone'
+            icons: 'phone'
           }
         ]
         // if (this.useMouse === true) {
         choix.push({
           id: 'copy',
           title: this.IntlString('APP_MESSAGE_MESS_COPY'),
-          icons: 'fa-copy'
+          icons: 'copy'
         })
         // }
         choix.push({
           id: -1,
           title: this.IntlString('CANCEL'),
-          icons: 'fa-undo'
+          icons: 'undo'
         })
         const data = await Modal.CreateModal({ choix })
         if (data.id === 'sms') {
@@ -379,14 +379,14 @@ export default {
       try {
         this.ignoreControls = true
         let choix = [
-          {id: 1, title: this.IntlString('APP_MESSAGE_SEND_GPS'), icons: 'fa-location-arrow'},
-          {id: -1, title: this.IntlString('CANCEL'), icons: 'fa-undo'}
+          {id: 1, title: this.IntlString('APP_MESSAGE_SEND_GPS'), icons: 'location-arrow'},
+          {id: -1, title: this.IntlString('CANCEL'), icons: 'undo'}
         ]
         if (this.enableTakePhoto) {
           choix = [
-            {id: 1, title: this.IntlString('APP_MESSAGE_SEND_GPS'), icons: 'fa-location-arrow'},
-            {id: 2, title: this.IntlString('APP_MESSAGE_SEND_PHOTO'), icons: 'fa-picture-o'},
-            {id: -1, title: this.IntlString('CANCEL'), icons: 'fa-undo'}
+            {id: 1, title: this.IntlString('APP_MESSAGE_SEND_GPS'), icons: 'location-arrow'},
+            {id: 2, title: this.IntlString('APP_MESSAGE_SEND_PHOTO'), icons: 'camera'},
+            {id: -1, title: this.IntlString('CANCEL'), icons: 'undo'}
           ]
         }
         const data = await Modal.CreateModal({ choix })

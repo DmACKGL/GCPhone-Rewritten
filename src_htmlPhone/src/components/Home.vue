@@ -9,7 +9,7 @@
       v-if="messages.length >= warningMessageCount"
       class="warningMess"
     >
-      <div class="warningMess_icon"><i class="fa fa-warning" /></div>
+      <div class="warningMess_icon"><FontAwesomeIcon :icon="['fas', 'exclamation-circle']" /></div>
       <span class="warningMess_content">
         <span class="warningMess_title">{{ IntlString('PHONE_WARNING_MESSAGE') }}</span><br>
         <span class="warningMess_mess">{{ messages.length }} / {{ warningMessageCount }} {{ IntlString('PHONE_WARNING_MESSAGE_MESS') }}</span>
@@ -61,6 +61,7 @@ export default {
   },
   data () {
     return {
+      timeDisplay: null,
       currentSelect: 0
     }
   },

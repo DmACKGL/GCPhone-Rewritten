@@ -19,9 +19,8 @@
         :class="{select: i === currentScreenIndex}"
         @click.stop="openMenu(i)"
       >
-        <i
-          class="fa"
-          :class="s.icon"
+        <FontAwesomeIcon
+          :icon="['fas', s.icon]"
           @click.stop="openMenu(i)"
         />
       </div>
@@ -53,22 +52,22 @@ export default {
         {
           title: this.IntlString('APP_TWITTER_VIEW_TWITTER'),
           component: TwitterView,
-          icon: 'fa-home'
+          icon: 'home'
         },
         {
           title: this.IntlString('APP_TWITTER_VIEW_TOP_TWEETS'),
           component: TwitterTopTweet,
-          icon: 'fa-heart'
+          icon: 'heart'
         },
         {
           title: this.IntlString('APP_TWITTER_VIEW_TWEETER'),
           component: TwitterPostTweet,
-          icon: ' fa-comment-o'
+          icon: 'comment'
         },
         {
           title: this.IntlString('APP_TWITTER_VIEW_SETTING'),
           component: TwitterAccount,
-          icon: 'fa-cog'
+          icon: 'cog'
         }
       ]
     },

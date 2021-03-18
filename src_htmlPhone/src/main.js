@@ -6,8 +6,72 @@ import VueTimeago from './TimeAgo'
 import PhoneAPI from './PhoneAPI'
 import Notification from './Notification'
 import AutoFocus from './directives/autofocus'
-import * as Sentry from '@sentry/browser'
-import { Vue as VueIntegration } from '@sentry/integrations'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import {
+  faAngleLeft,
+  faComment,
+  faLocationArrow,
+  faUndo,
+  faCamera,
+  faTrash,
+  faPhone,
+  faCircle,
+  faSearch,
+  faCopy,
+  faMask,
+  faSms,
+  faSave,
+  faPlus,
+  faMinus,
+  faImage,
+  faMobile,
+  faBell,
+  faVolumeDown,
+  faGlobeAmericas,
+  faMousePointer,
+  faExclamationTriangle,
+  faExclamationCircle,
+  faHome,
+  faHeart,
+  faCog,
+  faClock,
+  faStar,
+  faUser,
+} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+library.add(
+  faAngleLeft,
+  faComment,
+  faLocationArrow,
+  faUndo,
+  faCamera,
+  faTrash,
+  faPhone,
+  faCircle,
+  faSearch,
+  faCopy,
+  faMask,
+  faSms,
+  faSave,
+  faPlus,
+  faMinus,
+  faImage,
+  faMobile,
+  faBell,
+  faVolumeDown,
+  faGlobeAmericas,
+  faMousePointer,
+  faExclamationTriangle,
+  faExclamationCircle,
+  faHome,
+  faHeart,
+  faCog,
+  faClock,
+  faStar,
+  faUser,
+)
+
+Vue.component('FontAwesomeIcon', FontAwesomeIcon)
 
 Vue.use(VueTimeago)
 Vue.use(Notification)
@@ -29,14 +93,3 @@ window.APP = new Vue({
   router,
   render: h => h(App)
 })
-
-Sentry.init({
-  dsn: 'https://af5384de8c5f44c0bf01b92a95a183cf@o157063.ingest.sentry.io/5341297',
-  integrations: [new VueIntegration({
-    Vue,
-    attachProps: true,
-    logErrors: true,
-    release: 'vue@1.3'
-  })]
-})
-console.log('Sentry ON!')
