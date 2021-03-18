@@ -3,7 +3,6 @@
   GCPhone Rewritten
   <br>
   <br>
-
   <img alt="GitHub Workflow Status (branch)" src="https://img.shields.io/github/workflow/status/DmACKGL/GCPhone-Rewrite/CI/master?style=for-the-badge">
   <a href="https://github.com/DmACKGL/GCPhone-Rewrite"><img alt="GitHub license" src="https://img.shields.io/github/license/DmACKGL/GCPhone-Rewrite?style=for-the-badge"></a>
   <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/DmACKGL/GCPhone-Rewrite/total?style=for-the-badge">
