@@ -27,15 +27,18 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '12'
+      
       - name: Install modules
-          working-directory: ./src_htmlPhone
-          run: yarn
+        working-directory: ./src_htmlPhone
+        run: yarn
+      
       - name: Run Lint
-          working-directory: ./src_htmlPhone
-          run: yarn lint
+        working-directory: ./src_htmlPhone
+        run: yarn lint
+      
       - name: Run Lint
-          working-directory: ./src_htmlPhone
-          run: yarn build
+        working-directory: ./src_htmlPhone
+        run: yarn build
           
       - uses: actions/upload-artifact@master
         with:
