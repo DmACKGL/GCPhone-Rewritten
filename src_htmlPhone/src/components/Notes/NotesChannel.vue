@@ -1,15 +1,31 @@
 <template>
-  <div style="width: 334px; height: 742px; color: white" class="phone_app">
-    <PhoneTitle :title="IntlString('APP_NOTES')" backgroundColor="#f8d344" color="white" @back="onBack" />
-    <div  style="backgroundColor: white;" class="elements" @contextmenu.prevent="addChannelOption">
-        <div  
-          >
-            <div v-for='(elem, key) in notesChannels' 
-          v-bind:key="elem.channel"
-          v-bind:class="{ select: key === currentSelect}" class="elem-title">
-              <h3 style="margin-left: 7px; font-size: 16px; font-weight: 400;"> {{elem.channel}}</h3>
-            </div>
+  <div
+    style="width: 334px; height: 742px; color: white"
+    class="phone_app"
+  >
+    <PhoneTitle
+      :title="IntlString('APP_NOTES')"
+      background-color="#f8d344"
+      color="white"
+      @back="onBack"
+    />
+    <div
+      style="backgroundColor: white;"
+      class="elements"
+      @contextmenu.prevent="addChannelOption"
+    >
+      <div>
+        <div
+          v-for="(elem, key) in notesChannels"
+          :key="elem.channel"
+          :class="{ select: key === currentSelect}"
+          class="elem-title"
+        >
+          <h3 style="margin-left: 7px; font-size: 16px; font-weight: 400;">
+            {{ elem.channel }}
+          </h3>
         </div>
+      </div>
     </div>
   </div>
 </template>
@@ -27,13 +43,31 @@ export default {
       ignoreControls: false
     }
   },
+  computed: {
+    ...mapGetters(['IntlString', 'useMouse', 'notesChannels', 'Apps'])
+  },
   watch: {
     list: function () {
       this.currentSelect = 0
     }
   },
-  computed: {
-    ...mapGetters(['IntlString', 'useMouse', 'notesChannels', 'Apps'])
+  created () {
+    if (!this.useMouse) {
+      this.$bus.$on('keyUpArrowDown', this.onDown)
+      this.$bus.$on('keyUpArrowUp', this.onUp)
+      this.$bus.$on('keyUpArrowRight', this.onRight)
+      this.$bus.$on('keyUpEnter', this.onEnter)
+      this.$bus.$on('keyUpBackspace', this.onBack)
+    } else {
+      this.currentSelect = -1
+    }
+  },
+  beforeDestroy () {
+    this.$bus.$off('keyUpArrowDown', this.onDown)
+    this.$bus.$off('keyUpArrowUp', this.onUp)
+    this.$bus.$off('keyUpArrowRight', this.onRight)
+    this.$bus.$off('keyUpEnter', this.onEnter)
+    this.$bus.$off('keyUpBackspace', this.onBack)
   },
   methods: {
     ...mapActions(['notesAddChannel', 'notesRemoveChannel']),
@@ -91,7 +125,7 @@ export default {
         if (rep.id === 1) {
           this.addChannelOption()
         }
-      } else {
+
       }
     },
     showChannel (channel) {
@@ -110,31 +144,16 @@ export default {
           this.currentSelect = 0
           this.notesAddChannel({ channel })
         }
-      } catch (e) {}
+      } catch (e) {
+        console.log("ERROR");
+      }
     },
     async removeChannelOption () {
       const channel = this.notesChannels[this.currentSelect].channel
       this.currentSelect = 0
       this.notesRemoveChannel({ channel })
     }
-  },
-  created () {
-    if (!this.useMouse) {
-      this.$bus.$on('keyUpArrowDown', this.onDown)
-      this.$bus.$on('keyUpArrowUp', this.onUp)
-      this.$bus.$on('keyUpArrowRight', this.onRight)
-      this.$bus.$on('keyUpEnter', this.onEnter)
-      this.$bus.$on('keyUpBackspace', this.onBack)
-    } else {
-      this.currentSelect = -1
-    }
-  },
-  beforeDestroy () {
-    this.$bus.$off('keyUpArrowDown', this.onDown)
-    this.$bus.$off('keyUpArrowUp', this.onUp)
-    this.$bus.$off('keyUpArrowRight', this.onRight)
-    this.$bus.$off('keyUpEnter', this.onEnter)
-    this.$bus.$off('keyUpBackspace', this.onBack)
+
   }
 }
 </script>
@@ -176,7 +195,7 @@ export default {
   color: #34302f;
   margin-left: 13px;
   border-radius: 13px;
-  
+
 }
 .elem-title .diese {
   color: #34302f;
@@ -188,7 +207,7 @@ export default {
 .elem-title.select, .elem-title:hover{
    background-color:rgba(112, 108, 108, 0.1);
    color: #34302f;
-   
+
 }
 .element.select .elem-title, .element:hover .elem-title {
    margin-left: 12px;

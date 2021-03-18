@@ -1,14 +1,33 @@
 <template>
-  <div style="width: 334px; height: 742px; color: white" class="phone_app">
-    <PhoneTitle style="color: white" :title="IntlString('APP_DARKTCHAT_TITLE')" backgroundColor="#ff4500" @back="onBack" />
-    <div style="backgroundColor: #dae0e6;" class="elements" @contextmenu.prevent="addChannelOption">
-        <div class="element" v-for='(elem, key) in tchatChannels' 
-          v-bind:key="elem.channel"
-          v-bind:class="{ select: key === currentSelect}"
+  <div
+    style="width: 334px; height: 742px; color: white"
+    class="phone_app"
+  >
+    <PhoneTitle
+      style="color: white"
+      :title="IntlString('APP_DARKTCHAT_TITLE')"
+      background-color="#ff4500"
+      @back="onBack"
+    />
+    <div
+      style="backgroundColor: #dae0e6;"
+      class="elements"
+      @contextmenu.prevent="addChannelOption"
+    >
+      <div
+        v-for="(elem, key) in tchatChannels"
+        :key="elem.channel"
+        class="element"
+        :class="{ select: key === currentSelect}"
+        @click.stop="showChannel(elem.channel)"
+      >
+        <div
+          class="elem-title"
           @click.stop="showChannel(elem.channel)"
-          >
-            <div class="elem-title" @click.stop="showChannel(elem.channel)"><span class="diese">#</span> {{elem.channel}}</div>
+        >
+          <span class="diese">#</span> {{ elem.channel }}
         </div>
+      </div>
     </div>
   </div>
 </template>
@@ -26,13 +45,31 @@ export default {
       ignoreControls: false
     }
   },
+  computed: {
+    ...mapGetters(['IntlString', 'useMouse', 'tchatChannels', 'Apps'])
+  },
   watch: {
     list: function () {
       this.currentSelect = 0
     }
   },
-  computed: {
-    ...mapGetters(['IntlString', 'useMouse', 'tchatChannels', 'Apps'])
+  created () {
+    if (!this.useMouse) {
+      this.$bus.$on('keyUpArrowDown', this.onDown)
+      this.$bus.$on('keyUpArrowUp', this.onUp)
+      this.$bus.$on('keyUpArrowRight', this.onRight)
+      this.$bus.$on('keyUpEnter', this.onEnter)
+      this.$bus.$on('keyUpBackspace', this.onBack)
+    } else {
+      this.currentSelect = -1
+    }
+  },
+  beforeDestroy () {
+    this.$bus.$off('keyUpArrowDown', this.onDown)
+    this.$bus.$off('keyUpArrowUp', this.onUp)
+    this.$bus.$off('keyUpArrowRight', this.onRight)
+    this.$bus.$off('keyUpEnter', this.onEnter)
+    this.$bus.$off('keyUpBackspace', this.onBack)
   },
   methods: {
     ...mapActions(['tchatAddChannel', 'tchatRemoveChannel']),
@@ -111,31 +148,16 @@ export default {
           this.currentSelect = 0
           this.tchatAddChannel({ channel })
         }
-      } catch (e) {}
+      } catch (e) {
+        console.log("ERROR")
+      }
     },
     async removeChannelOption () {
       const channel = this.tchatChannels[this.currentSelect].channel
       this.currentSelect = 0
       this.tchatRemoveChannel({ channel })
     }
-  },
-  created () {
-    if (!this.useMouse) {
-      this.$bus.$on('keyUpArrowDown', this.onDown)
-      this.$bus.$on('keyUpArrowUp', this.onUp)
-      this.$bus.$on('keyUpArrowRight', this.onRight)
-      this.$bus.$on('keyUpEnter', this.onEnter)
-      this.$bus.$on('keyUpBackspace', this.onBack)
-    } else {
-      this.currentSelect = -1
-    }
-  },
-  beforeDestroy () {
-    this.$bus.$off('keyUpArrowDown', this.onDown)
-    this.$bus.$off('keyUpArrowUp', this.onUp)
-    this.$bus.$off('keyUpArrowRight', this.onRight)
-    this.$bus.$off('keyUpEnter', this.onEnter)
-    this.$bus.$off('keyUpBackspace', this.onBack)
+
   }
 }
 </script>
@@ -184,7 +206,7 @@ export default {
 .element.select, .element:hover{
    background-color: white;
    color: #0079d3;
-   
+
 }
 .element.select .elem-title, .element:hover .elem-title {
    margin-left: 12px;

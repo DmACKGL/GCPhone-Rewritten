@@ -1,21 +1,43 @@
 <template>
-  <div style="width: 334px; height: 742px; background: white" class="phone_app">
-    <PhoneTitle :title="channelName" backgroundColor="#f8d344" @back="onQuit"/>
+  <div
+    style="width: 334px; height: 742px; background: white"
+    class="phone_app"
+  >
+    <PhoneTitle
+      :title="channelName"
+      background-color="#f8d344"
+      @back="onQuit"
+    />
     <div class="phone_content">
-      <div class="elements" ref="elementsDiv">
-          <div class="element" v-for='(elem) in notesMessages' 
-            v-bind:key="elem.id"
-            >
-            <div class="time">{{formatTime(elem.time)}}</div>
-            <div class="message">
-              {{elem.message}}
-            </div>
+      <div
+        ref="elementsDiv"
+        class="elements"
+      >
+        <div
+          v-for="(elem) in notesMessages"
+          :key="elem.id"
+          class="element"
+        >
+          <div class="time">
+            {{ formatTime(elem.time) }}
           </div>
+          <div class="message">
+            {{ elem.message }}
+          </div>
+        </div>
       </div>
 
-      <div class='notes_write'>
-          <input type="text" placeholder="..." v-model="message" @keyup.enter.prevent="sendMessage">
-          <span class='notes_send' @click="sendMessage">></span>
+      <div class="notes_write">
+        <input
+          v-model="message"
+          type="text"
+          placeholder="..."
+          @keyup.enter.prevent="sendMessage"
+        >
+        <span
+          class="notes_send"
+          @click="sendMessage"
+        >></span>
       </div>
     </div>
   </div>
@@ -45,6 +67,28 @@ export default {
       const c = this.$refs.elementsDiv
       c.scrollTop = c.scrollHeight
     }
+  },
+  created () {
+    if (!this.useMouse) {
+      this.$bus.$on('keyUpArrowDown', this.onDown)
+      this.$bus.$on('keyUpArrowUp', this.onUp)
+      this.$bus.$on('keyUpEnter', this.onEnter)
+    } else {
+      this.currentSelect = -1
+    }
+    this.$bus.$on('keyUpBackspace', this.onBack)
+    this.setChannel(this.$route.params.channel)
+  },
+  mounted () {
+    window.c = this.$refs.elementsDiv
+    const c = this.$refs.elementsDiv
+    c.scrollTop = c.scrollHeight
+  },
+  beforeDestroy () {
+    this.$bus.$off('keyUpArrowDown', this.onDown)
+    this.$bus.$off('keyUpArrowUp', this.onUp)
+    this.$bus.$off('keyUpEnter', this.onEnter)
+    this.$bus.$off('keyUpBackspace', this.onBack)
   },
   methods: {
     setChannel (channel) {
@@ -102,28 +146,6 @@ export default {
       return d.toLocaleTimeString()
     }
   },
-  created () {
-    if (!this.useMouse) {
-      this.$bus.$on('keyUpArrowDown', this.onDown)
-      this.$bus.$on('keyUpArrowUp', this.onUp)
-      this.$bus.$on('keyUpEnter', this.onEnter)
-    } else {
-      this.currentSelect = -1
-    }
-    this.$bus.$on('keyUpBackspace', this.onBack)
-    this.setChannel(this.$route.params.channel)
-  },
-  mounted () {
-    window.c = this.$refs.elementsDiv
-    const c = this.$refs.elementsDiv
-    c.scrollTop = c.scrollHeight
-  },
-  beforeDestroy () {
-    this.$bus.$off('keyUpArrowDown', this.onDown)
-    this.$bus.$off('keyUpArrowUp', this.onUp)
-    this.$bus.$off('keyUpEnter', this.onEnter)
-    this.$bus.$off('keyUpBackspace', this.onBack)
-  }
 }
 </script>
 
@@ -148,7 +170,7 @@ export default {
   line-height: 18px;
   font-size: 18px;
   padding-bottom: 6px;
-  
+
   flex-direction: row;
   height: 60px; */
 }

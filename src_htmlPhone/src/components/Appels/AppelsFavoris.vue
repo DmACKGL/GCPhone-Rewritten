@@ -1,6 +1,11 @@
 <template>
   <div>
-    <list :list='callList' :showHeader="false" :disable='ignoreControls' v-on:select="onSelect"></list>
+    <list
+      :list="callList"
+      :show-header="false"
+      :disable="ignoreControls"
+      @select="onSelect"
+    />
   </div>
 </template>
 
@@ -23,6 +28,12 @@ export default {
       return this.config.serviceCall || []
     }
   },
+
+  created () {
+  },
+
+  beforeDestroy () {
+  },
   methods: {
     onSelect (itemSelect) {
       if (this.ignoreControls === true) return
@@ -34,12 +45,6 @@ export default {
         this.$router.push({name: 'home'})
       })
     }
-  },
-
-  created () {
-  },
-
-  beforeDestroy () {
   }
 }
 </script>

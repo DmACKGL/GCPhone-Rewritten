@@ -1,52 +1,101 @@
 <template>
   <div class="phone_app">
     <div class="elements">
-        <div class="element" :class="{'active': selectIndex === key}" v-for='(histo, key) in historique' :key="key"
+      <div
+        v-for="(histo, key) in historique"
+        :key="key"
+        class="element"
+        :class="{'active': selectIndex === key}"
+        @click.stop="selectItem(histo)"
+      >
+        <!--<div @click.stop="selectItem(histo)" class="elem-pic" :style="stylePuce(histo)">{{histo.letter}}</div>-->
+        <img
+          style="width: 32px; margin-left: 10px;"
+          src="/html/static/img/icons_app/borrado.png"
+          alt="Logotipo APR2"
+        >
+
+
+        <div
+          class="elem-content"
           @click.stop="selectItem(histo)"
+        >
+          <div
+            style="font-size: 20px; font-weight: 400;     margin-top: 20px;"
+            class="elem-content-p"
+            @click.stop="selectItem(histo)"
           >
+            {{ histo.display }}
+          </div>
 
-            <!--<div @click.stop="selectItem(histo)" class="elem-pic" :style="stylePuce(histo)">{{histo.letter}}</div>-->
-            <img style="width: 32px; margin-left: 10px;" src="/html/static/img/icons_app/borrado.png" alt="Logotipo APR2">
-
-
-            <div @click.stop="selectItem(histo)" class="elem-content">
-              <div style="font-size: 20px; font-weight: 400;     margin-top: 20px;" @click.stop="selectItem(histo)" class="elem-content-p">{{histo.display}}</div>
-
-              <div @click.stop="selectItem(histo)" class="elem-content-s">
-               <div
-              @click.stop="selectItem(histo)"
+          <div
+            class="elem-content-s"
+            @click.stop="selectItem(histo)"
+          >
+            <div
+              v-for="(hc, i) in histo.lastCall"
+              :key="i"
               class="elem-histo-pico"
               :class="{'reject': hc.accept === false}"
-              v-for="(hc, i) in histo.lastCall" :key="i">
-                <svg @click.stop="selectItem(histo)" v-if="hc.accepts === 1 && hc.incoming === 1" viewBox="0 0 24 24" fill="#c5c5c7">
-                  <path d="M9,5v2h6.59L4,18.59L5.41,20L17,8.41V15h2V5H9z"/>
-                </svg>
-                <svg @click.stop="selectItem(histo)" v-else-if="hc.accepts === 1 && hc.incoming === 0" viewBox="0 0 24 24" fill="#c5c5c7">
-                  <path d="M20,5.41L18.59,4L7,15.59V9H5v10h10v-2H8.41L20,5.41z"/>
-                </svg>
-                <svg @click.stop="selectItem(histo)" v-else-if="hc.accepts === 0 && hc.incoming === 1" viewBox="0 0 24 24" fill="#c5c5c7">
-                  <path @click.stop="selectItem(histo)" d="M3,8.41l9,9l7-7V15h2V7h-8v2h4.59L12,14.59L4.41,7L3,8.41z"/>
-                </svg>
-                <svg @click.stop="selectItem(histo)" v-else-if="hc.accepts === 0 && hc.incoming === 0" viewBox="0 0 24 24" fill="#c5c5c7">
-                  <path d="M19.59,7L12,14.59L6.41,9H11V7H3v8h2v-4.59l7,7l9-9L19.59,7z"/>
-                </svg>
-              </div>
+              @click.stop="selectItem(histo)"
+            >
+              <svg
+                v-if="hc.accepts === 1 && hc.incoming === 1"
+                viewBox="0 0 24 24"
+                fill="#c5c5c7"
+                @click.stop="selectItem(histo)"
+              >
+                <path d="M9,5v2h6.59L4,18.59L5.41,20L17,8.41V15h2V5H9z" />
+              </svg>
+              <svg
+                v-else-if="hc.accepts === 1 && hc.incoming === 0"
+                viewBox="0 0 24 24"
+                fill="#c5c5c7"
+                @click.stop="selectItem(histo)"
+              >
+                <path d="M20,5.41L18.59,4L7,15.59V9H5v10h10v-2H8.41L20,5.41z" />
+              </svg>
+              <svg
+                v-else-if="hc.accepts === 0 && hc.incoming === 1"
+                viewBox="0 0 24 24"
+                fill="#c5c5c7"
+                @click.stop="selectItem(histo)"
+              >
+                <path
+                  d="M3,8.41l9,9l7-7V15h2V7h-8v2h4.59L12,14.59L4.41,7L3,8.41z"
+                  @click.stop="selectItem(histo)"
+                />
+              </svg>
+              <svg
+                v-else-if="hc.accepts === 0 && hc.incoming === 0"
+                viewBox="0 0 24 24"
+                fill="#c5c5c7"
+                @click.stop="selectItem(histo)"
+              >
+                <path d="M19.59,7L12,14.59L6.41,9H11V7H3v8h2v-4.59l7,7l9-9L19.59,7z" />
+              </svg>
+            </div>
 
-                <!--<div v-if="histo.lastCall.length !==0" class="lastCall">
+            <!--<div v-if="histo.lastCall.length !==0" class="lastCall">
                   <timeago :since='histo.lastCall[0].date' :auto-update="20"></timeago>
                 </div>-->
-              </div>
-              <div style="float: right; margin-top: -43px;" v-if="histo.lastCall.length !==0" class="lastCall">
-                <timeago class="time" :since='histo.lastCall[0].date' :auto-update="20"></timeago>
-              </div>
-            </div>
-            <!--<div class="elem-icon" @click.stop="selectItem(histo)">
+          </div>
+          <div
+            v-if="histo.lastCall.length !==0"
+            style="float: right; margin-top: -43px;"
+            class="lastCall"
+          >
+            <timeago
+              class="time"
+              :since="histo.lastCall[0].date"
+              :auto-update="20"
+            />
+          </div>
+        </div>
+        <!--<div class="elem-icon" @click.stop="selectItem(histo)">
               <i class="fa fa-phone" @click.stop="selectItem(histo)"></i>
             </div>-->
-
-
-
-        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -64,6 +113,50 @@ export default {
       ignoreControls: false,
       selectIndex: 0
     }
+  },
+
+  computed: {
+    ...mapGetters(['IntlString', 'useMouse', 'appelsHistorique', 'contacts']),
+    historique () {
+      let grpHist = groupBy(this.appelsHistorique, 'num')
+      let hist = []
+      for (let key in grpHist) {
+        const hg = grpHist[key]
+        const histoByDate = hg.map(e => {
+          e.date = new Date(e.time)
+          return e
+        }).sort((a, b) => {
+          return b.date - a.date
+        }).slice(0, 6)
+        const contact = this.getContact(key) || { letter: '#' }
+        hist.push({
+          num: key,
+          display: contact.display || key,
+          lastCall: histoByDate,
+          letter: contact.letter || contact.display[0],
+          backgroundColor: contact.backgroundColor || generateColorForStr(key),
+          icon: contact.icon
+        })
+      }
+      hist.sort((a, b) => {
+        return b.lastCall[0].time - a.lastCall[0].time
+      })
+      return hist
+    }
+  },
+  created () {
+    if (!this.useMouse) {
+      this.$bus.$on('keyUpArrowDown', this.onDown)
+      this.$bus.$on('keyUpArrowUp', this.onUp)
+      this.$bus.$on('keyUpEnter', this.onEnter)
+    } else {
+      this.selectIndex = -1
+    }
+  },
+  beforeDestroy () {
+    this.$bus.$off('keyUpArrowDown', this.onDown)
+    this.$bus.$off('keyUpArrowUp', this.onUp)
+    this.$bus.$off('keyUpEnter', this.onEnter)
   },
   methods: {
     ...mapActions(['startCall', 'appelsDeleteHistorique', 'appelsDeleteAllHistorique', 'addContact']),
@@ -145,49 +238,6 @@ export default {
       }
     }
   },
-  computed: {
-    ...mapGetters(['IntlString', 'useMouse', 'appelsHistorique', 'contacts']),
-    historique () {
-      let grpHist = groupBy(this.appelsHistorique, 'num')
-      let hist = []
-      for (let key in grpHist) {
-        const hg = grpHist[key]
-        const histoByDate = hg.map(e => {
-          e.date = new Date(e.time)
-          return e
-        }).sort((a, b) => {
-          return b.date - a.date
-        }).slice(0, 6)
-        const contact = this.getContact(key) || { letter: '#' }
-        hist.push({
-          num: key,
-          display: contact.display || key,
-          lastCall: histoByDate,
-          letter: contact.letter || contact.display[0],
-          backgroundColor: contact.backgroundColor || generateColorForStr(key),
-          icon: contact.icon
-        })
-      }
-      hist.sort((a, b) => {
-        return b.lastCall[0].time - a.lastCall[0].time
-      })
-      return hist
-    }
-  },
-  created () {
-    if (!this.useMouse) {
-      this.$bus.$on('keyUpArrowDown', this.onDown)
-      this.$bus.$on('keyUpArrowUp', this.onUp)
-      this.$bus.$on('keyUpEnter', this.onEnter)
-    } else {
-      this.selectIndex = -1
-    }
-  },
-  beforeDestroy () {
-    this.$bus.$off('keyUpArrowDown', this.onDown)
-    this.$bus.$off('keyUpArrowUp', this.onUp)
-    this.$bus.$off('keyUpEnter', this.onEnter)
-  }
 }
 </script>
 

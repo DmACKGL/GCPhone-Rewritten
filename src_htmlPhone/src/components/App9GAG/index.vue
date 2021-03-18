@@ -1,16 +1,42 @@
 <template>
   <div class="phone_app">
-    <PhoneTitle :title="'9 GAG (' + currentSelectPost + ')'" backgroundColor="#000" @back="quit"/>  
-    <div class='phone_content' @click="onClick">
-      <div class="post" v-if="currentPost !== undefined">
-        <h1 class="post-title">{{ currentPost.title }}</h1>
+    <PhoneTitle
+      :title="'9 GAG (' + currentSelectPost + ')'"
+      background-color="#000"
+      @back="quit"
+    />  
+    <div
+      class="phone_content"
+      @click="onClick"
+    >
+      <div
+        v-if="currentPost !== undefined"
+        class="post"
+      >
+        <h1 class="post-title">
+          {{ currentPost.title }}
+        </h1>
         <div class="post-content">
-          <video class="post-video" ref="video" v-if="currentPost.images.image460svwm !== undefined" autoplay loop :src="currentPost.images.image460svwm.url">
-          </video>
-          <img class="post-image" v-else :src="currentPost.images.image460.url" alt="">
+          <video
+            v-if="currentPost.images.image460svwm !== undefined"
+            ref="video"
+            class="post-video"
+            autoplay
+            loop
+            :src="currentPost.images.image460svwm.url"
+          />
+          <img
+            v-else
+            class="post-image"
+            :src="currentPost.images.image460.url"
+            alt=""
+          >
         </div>
       </div>
-      <div v-else class="loading">
+      <div
+        v-else
+        class="loading"
+      >
         <div>CHARGEMENT</div>
       </div>
     </div>
@@ -38,6 +64,16 @@ export default {
       this.loadItems()
       return undefined
     }
+  },
+  created: function () {
+    this.$bus.$on('keyUpArrowLeft', this.previewPost)
+    this.$bus.$on('keyUpArrowRight', this.nextPost)
+    this.$bus.$on('keyUpBackspace', this.quit)
+  },
+  beforeDestroy: function () {
+    this.$bus.$off('keyUpArrowLeft', this.previewPost)
+    this.$bus.$off('keyUpArrowRight', this.nextPost)
+    this.$bus.$off('keyUpBackspace', this.quit)
   },
   methods: {
     async loadItems () {
@@ -76,16 +112,6 @@ export default {
     quit: function () {
       this.$router.push({ name: 'home' })
     }
-  },
-  created: function () {
-    this.$bus.$on('keyUpArrowLeft', this.previewPost)
-    this.$bus.$on('keyUpArrowRight', this.nextPost)
-    this.$bus.$on('keyUpBackspace', this.quit)
-  },
-  beforeDestroy: function () {
-    this.$bus.$off('keyUpArrowLeft', this.previewPost)
-    this.$bus.$off('keyUpArrowRight', this.nextPost)
-    this.$bus.$off('keyUpBackspace', this.quit)
   }
 }
 </script>

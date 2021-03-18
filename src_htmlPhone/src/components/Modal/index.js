@@ -6,7 +6,7 @@ import PhoneAPI from '@/PhoneAPI'
 
 export default {
   CreateModal (propsData = {}) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       let modal = new (Vue.extend(Modal))({
         el: document.createElement('div'),
         propsData

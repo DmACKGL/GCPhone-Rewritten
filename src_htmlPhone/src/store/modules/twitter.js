@@ -25,6 +25,7 @@ const actions = {
   twitterCreateNewAccount (_, {username, password, avatarUrl}) {
     PhoneAPI.twitter_createAccount(username, password, avatarUrl)
   },
+  // eslint-disable-next-line no-unused-vars
   twitterLogin ({ commit }, { username, password }) {
     PhoneAPI.twitter_login(username, password)
   },
@@ -44,7 +45,7 @@ const actions = {
   twitterSetAvatar ({ state }, { avatarUrl }) {
     PhoneAPI.twitter_setAvatar(state.twitterUsername, state.twitterPassword, avatarUrl)
   },
-  twitterPostTweet ({ state, commit }, { message }) {
+  twitterPostTweet ({ state }, { message }) {
     if (/^https?:\/\/.*\.(png|jpg|jpeg|gif)$/.test(message)) {
       PhoneAPI.twitter_postTweetImg(state.twitterUsername, state.twitterPassword, message)
     } else {

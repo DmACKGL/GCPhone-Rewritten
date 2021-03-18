@@ -1,15 +1,21 @@
 <template>
   <div class="notifications">
     <div
-      v-for='notif in list'
+      v-for="notif in list"
       :key="notif.id"
       class="notification"
       :style="style(notif)"
     >
       <div class="title">
-        <i v-if="notif.icon" class="fa" :class="'fa-' + notif.icon"/> {{notif.title}}
+        <i
+          v-if="notif.icon"
+          class="fa"
+          :class="'fa-' + notif.icon"
+        /> {{ notif.title }}
       </div>
-      <div class="message">{{notif.message}}</div>
+      <div class="message">
+        {{ notif.message }}
+      </div>
     </div>
   </div>
 </template>

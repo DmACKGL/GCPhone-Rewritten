@@ -1,9 +1,15 @@
 <template>
-  <div class="screen" @click="onBackspace">
-    <div class='elements'>
-      <img class="logo_maze" src="/html/static/img/app_bank/logo_mazebank.jpg">
-      <div class="hr"></div>
-      <div class='element'>
+  <div
+    class="screen"
+    @click="onBackspace"
+  >
+    <div class="elements">
+      <img
+        class="logo_maze"
+        src="/html/static/img/app_bank/logo_mazebank.jpg"
+      >
+      <div class="hr" />
+      <div class="element">
         <div class="element-content">
           <span>$ {{ bankAmontFormat }}</span>
         </div>
@@ -26,16 +32,16 @@ export default {
       return Intl.NumberFormat().format(this.bankAmont)
     }
   },
-  methods: {
-    onBackspace () {
-      this.$router.push({ name: 'home' })
-    }
-  },
   created () {
     this.$bus.$on('keyUpBackspace', this.onBackspace)
   },
   beforeDestroy () {
     this.$bus.$off('keyUpBackspace', this.onBackspace)
+  },
+  methods: {
+    onBackspace () {
+      this.$router.push({ name: 'home' })
+    }
   }
 }
 </script>

@@ -1,6 +1,14 @@
 <template>
-  <div style="width: 326px; height: 743px; backgroundColor: white" class="contact">
-    <list :list='lcontacts' :title="IntlString('APP_MESSAGE_CONTACT_TITLE')" v-on:select="onSelect" @back="back"></list>
+  <div
+    style="width: 326px; height: 743px; backgroundColor: white"
+    class="contact"
+  >
+    <list
+      :list="lcontacts"
+      :title="IntlString('APP_MESSAGE_CONTACT_TITLE')"
+      @select="onSelect"
+      @back="back"
+    />
   </div>
 </template>
 
@@ -29,6 +37,13 @@ export default {
       return [addContact, ...this.contacts]
     }
   },
+  created () {
+    this.$bus.$on('keyUpBackspace', this.back)
+  },
+
+  beforeDestroy () {
+    this.$bus.$off('keyUpBackspace', this.back)
+  },
   methods: {
     onSelect (contact) {
       if (contact.num === -1) {
@@ -54,13 +69,6 @@ export default {
     back () {
       history.back()
     }
-  },
-  created () {
-    this.$bus.$on('keyUpBackspace', this.back)
-  },
-
-  beforeDestroy () {
-    this.$bus.$off('keyUpBackspace', this.back)
   }
 }
 </script>

@@ -1,6 +1,12 @@
 <template>
-  <div style="width: 334px; height: 678px; background: white" class="splash">
-    <img src="/html/static/img/app_tchat/reddit.png" alt="">
+  <div
+    style="width: 334px; height: 678px; background: white"
+    class="splash"
+  >
+    <img
+      src="/html/static/img/app_tchat/reddit.png"
+      alt=""
+    >
   </div>
 </template>
 

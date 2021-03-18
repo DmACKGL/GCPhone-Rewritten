@@ -1,22 +1,35 @@
 <template>
-   <div style="width: 326px; height: 743px;" class="phone_app">
-    <PhoneTitle :title="IntlString('APP_PHONE_TITLE')" v-on:back="onBackspace" />
+  <div
+    style="width: 326px; height: 743px;"
+    class="phone_app"
+  >
+    <PhoneTitle
+      :title="IntlString('APP_PHONE_TITLE')"
+      @back="onBackspace"
+    />
     <div class="content">
       <component :is="subMenu[currentMenuIndex].Comp" />
     </div>
     <div class="subMenu">
       <div
-        class="subMenu-elem"
-        :style="getColorItem(i)"
-        v-for="(Comp, i) of subMenu" 
+        v-for="(Comp, i) of subMenu"
         :key="i"
+        class="subMenu-elem" 
+        :style="getColorItem(i)"
         @click="swapMenu(i)"
       >
-        <i class="subMenu-icon fa" :class="['fa-' + Comp.icon]" @click.stop="swapMenu(i)"></i>
-        <span class="subMenu-name" @click.stop="swapMenu(i)">{{Comp.name}}</span>
+        <i
+          class="subMenu-icon fa"
+          :class="['fa-' + Comp.icon]"
+          @click.stop="swapMenu(i)"
+        />
+        <span
+          class="subMenu-name"
+          @click.stop="swapMenu(i)"
+        >{{ Comp.name }}</span>
       </div>
     </div>
-   </div>
+  </div>
 </template>
 
 <script>
@@ -54,6 +67,19 @@ export default {
       }]
     }
   },
+
+  created () {
+    if (!this.useMouse) {
+      this.$bus.$on('keyUpBackspace', this.onBackspace)
+      this.$bus.$on('keyUpArrowLeft', this.onLeft)
+      this.$bus.$on('keyUpArrowRight', this.onRight)
+    }
+  },
+  beforeDestroy () {
+    this.$bus.$off('keyUpBackspace', this.onBackspace)
+    this.$bus.$off('keyUpArrowLeft', this.onLeft)
+    this.$bus.$off('keyUpArrowRight', this.onRight)
+  },
   methods: {
     getColorItem (index) {
       if (this.currentMenuIndex === index) {
@@ -76,19 +102,6 @@ export default {
       if (this.ignoreControls === true) return
       this.$router.push({ name: 'home' })
     }
-  },
-
-  created () {
-    if (!this.useMouse) {
-      this.$bus.$on('keyUpBackspace', this.onBackspace)
-      this.$bus.$on('keyUpArrowLeft', this.onLeft)
-      this.$bus.$on('keyUpArrowRight', this.onRight)
-    }
-  },
-  beforeDestroy () {
-    this.$bus.$off('keyUpBackspace', this.onBackspace)
-    this.$bus.$off('keyUpArrowLeft', this.onLeft)
-    this.$bus.$off('keyUpArrowRight', this.onRight)
   }
 }
 </script>

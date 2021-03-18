@@ -1,15 +1,37 @@
 <template>
   <div class="phone_app">
-    <PhoneTitle :title="IntlString('APP_BOURSE_TITLE')" @back="onBackspace"/>
-    <div class='elements'>
-      <div class='element'
-          v-for='(elem, key) in bourseInfo' 
-          v-bind:class="{ select: key === currentSelect}"
-          v-bind:key="key">
-        <div class="elem-evo"><i class="fa" :class="classInfo(elem)"></i></div>
-        <div class="elem-libelle">{{elem.libelle}}</div>
-        <div class="elem-price" :style="{color: colorBourse(elem)}">{{elem.price}} $ </div>
-        <div class="elem-difference" :style="{color: colorBourse(elem)}"> <span v-if="elem.difference > 0">+</span>{{elem.difference}}</div>
+    <PhoneTitle
+      :title="IntlString('APP_BOURSE_TITLE')"
+      @back="onBackspace"
+    />
+    <div class="elements">
+      <div
+        v-for="(elem, key) in bourseInfo"
+        :key="key" 
+        class="element"
+        :class="{ select: key === currentSelect}"
+      >
+        <div class="elem-evo">
+          <i
+            class="fa"
+            :class="classInfo(elem)"
+          />
+        </div>
+        <div class="elem-libelle">
+          {{ elem.libelle }}
+        </div>
+        <div
+          class="elem-price"
+          :style="{color: colorBourse(elem)}"
+        >
+          {{ elem.price }} $
+        </div>
+        <div
+          class="elem-difference"
+          :style="{color: colorBourse(elem)}"
+        >
+          <span v-if="elem.difference > 0">+</span>{{ elem.difference }}
+        </div>
       </div>
     </div>
   </div>
@@ -29,6 +51,18 @@ export default {
   },
   computed: {
     ...mapGetters(['IntlString', 'useMouse', 'bourseInfo'])
+  },
+  created () {
+    if (!this.useMouse) {
+      this.$bus.$on('keyUpArrowDown', this.onDown)
+      this.$bus.$on('keyUpArrowUp', this.onUp)
+    }
+    this.$bus.$on('keyUpBackspace', this.onBackspace)
+  },
+  beforeDestroy () {
+    this.$bus.$off('keyUpArrowDown', this.onDown)
+    this.$bus.$off('keyUpArrowUp', this.onUp)
+    this.$bus.$off('keyUpBackspace', this.onBackspace)
   },
   methods: {
     scrollIntoViewIfNeeded: function () {
@@ -65,18 +99,6 @@ export default {
       this.currentSelect = this.currentSelect === this.bourseInfo.length - 1 ? this.currentSelect : this.currentSelect + 1
       this.scrollIntoViewIfNeeded()
     }
-  },
-  created () {
-    if (!this.useMouse) {
-      this.$bus.$on('keyUpArrowDown', this.onDown)
-      this.$bus.$on('keyUpArrowUp', this.onUp)
-    }
-    this.$bus.$on('keyUpBackspace', this.onBackspace)
-  },
-  beforeDestroy () {
-    this.$bus.$off('keyUpArrowDown', this.onDown)
-    this.$bus.$off('keyUpArrowUp', this.onUp)
-    this.$bus.$off('keyUpBackspace', this.onBackspace)
   }
 }
 </script>

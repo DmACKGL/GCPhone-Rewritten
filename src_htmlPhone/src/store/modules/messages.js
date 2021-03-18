@@ -15,9 +15,11 @@ const actions = {
   setMessages ({ commit }, messages) {
     commit('SET_MESSAGES', messages)
   },
+  // eslint-disable-next-line no-unused-vars
   sendMessage ({ commit }, {phoneNumber, message}) {
     PhoneAPI.sendMessage(phoneNumber, message)
   },
+  // eslint-disable-next-line no-unused-vars
   deleteMessage ({ commit }, { id }) {
     PhoneAPI.deleteMessage(id)
   },

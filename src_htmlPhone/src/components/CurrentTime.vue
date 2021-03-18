@@ -1,5 +1,5 @@
 <template>
-  <span>{{time}}</span>
+  <span>{{ time }}</span>
 </template>
 
 <script>
@@ -9,6 +9,13 @@ export default {
       time: '',
       myInterval: 0
     }
+  },
+  created: function () {
+    this.updateTime()
+    this.myInterval = setInterval(this.updateTime, 1000)
+  },
+  beforeDestroy: function () {
+    clearInterval(this.myInterval)
   },
   methods: {
     updateTime: function () {
@@ -20,13 +27,6 @@ export default {
       var datestring = heure + ':' + minutes
       this.time = datestring
     }
-  },
-  created: function () {
-    this.updateTime()
-    this.myInterval = setInterval(this.updateTime, 1000)
-  },
-  beforeDestroy: function () {
-    clearInterval(this.myInterval)
   }
 }
 </script>

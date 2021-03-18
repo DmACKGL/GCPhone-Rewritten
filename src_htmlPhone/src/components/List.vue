@@ -1,42 +1,78 @@
 <template>
   <div class="phone_app">
-    <PhoneTitle :title="title" :showInfoBare="showInfoBare" v-if="showHeader" @back="back"/>
+    <PhoneTitle
+      v-if="showHeader"
+      :title="title"
+      :show-info-bare="showInfoBare"
+      @back="back"
+    />
     <!-- <InfoBare v-if="showInfoBare"/>
     <div v-if="title !== ''" class="phone_title" v-bind:style="styleTitle()">{{title}}</div>
     -->
-    <div style="width: 324px; height: 595px;" class="phone_content elements">
-        <div class="element" v-for='(elem, key) in list' 
-          v-bind:key="elem[keyDispay]"
-          v-bind:class="{ select: key === currentSelect}"
+    <div
+      style="width: 324px; height: 595px;"
+      class="phone_content elements"
+    >
+      <div
+        v-for="(elem, key) in list"
+        :key="elem[keyDispay]"
+        class="element"
+        :class="{ select: key === currentSelect}"
+        @click.stop="selectItem(elem)"
+        @contextmenu.prevent.stop="optionItem(elem)"
+      >
+        <div
+          class="elem-pic"
+          :style="stylePuce(elem)"
+          @click.stop="selectItem(elem)"
+        >
+          {{ elem.letter || elem[keyDispay][0] }}
+        </div>
+        <div
+          v-if="elem.puce !== undefined && elem.puce !== 0"
+          class="elem-puce"
           @click.stop="selectItem(elem)"
           @contextmenu.prevent.stop="optionItem(elem)"
-          >
-            <div class="elem-pic" v-bind:style="stylePuce(elem)" @click.stop="selectItem(elem)">
-              {{elem.letter || elem[keyDispay][0]}}
-            </div>
-            <div @click.stop="selectItem(elem)" @contextmenu.prevent.stop="optionItem(elem)" v-if="elem.puce !== undefined && elem.puce !== 0" class="elem-puce">{{elem.puce}}</div>
-            <div @click.stop="selectItem(elem)" @contextmenu.prevent.stop="optionItem(elem)" v-if="elem.keyDesc === undefined || elem.keyDesc === ''" class="elem-title">{{elem[keyDispay]}}</div>
-            <div @click.stop="selectItem(elem)" @contextmenu.prevent.stop="optionItem(elem)" v-if="elem.keyDesc !== undefined && elem.keyDesc !== ''" class="elem-title-has-desc">{{elem[keyDispay]}}</div>
-            <div @click.stop="selectItem(elem)" @contextmenu.prevent.stop="optionItem(elem)" v-if="elem.keyDesc !== undefined && elem.keyDesc !== ''" class="elem-description">{{elem.keyDesc}}</div>
+        >
+          {{ elem.puce }}
         </div>
+        <div
+          v-if="elem.keyDesc === undefined || elem.keyDesc === ''"
+          class="elem-title"
+          @click.stop="selectItem(elem)"
+          @contextmenu.prevent.stop="optionItem(elem)"
+        >
+          {{ elem[keyDispay] }}
+        </div>
+        <div
+          v-if="elem.keyDesc !== undefined && elem.keyDesc !== ''"
+          class="elem-title-has-desc"
+          @click.stop="selectItem(elem)"
+          @contextmenu.prevent.stop="optionItem(elem)"
+        >
+          {{ elem[keyDispay] }}
+        </div>
+        <div
+          v-if="elem.keyDesc !== undefined && elem.keyDesc !== ''"
+          class="elem-description"
+          @click.stop="selectItem(elem)"
+          @contextmenu.prevent.stop="optionItem(elem)"
+        >
+          {{ elem.keyDesc }}
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import PhoneTitle from './PhoneTitle'
-import InfoBare from './InfoBare'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'hello',
+  name: 'Hello',
   components: {
-    PhoneTitle, InfoBare
-  },
-  data: function () {
-    return {
-      currentSelect: 0
-    }
+    PhoneTitle
   },
   props: {
     title: {
@@ -76,13 +112,34 @@ export default {
       default: '#FFFFFF'
     }
   },
+  data: function () {
+    return {
+      currentSelect: 0
+    }
+  },
+  computed: {
+    ...mapGetters(['useMouse'])
+  },
   watch: {
     list: function () {
       this.currentSelect = 0
     }
   },
-  computed: {
-    ...mapGetters(['useMouse'])
+  created: function () {
+    if (!this.useMouse) {
+      this.$bus.$on('keyUpArrowDown', this.onDown)
+      this.$bus.$on('keyUpArrowUp', this.onUp)
+      this.$bus.$on('keyUpArrowRight', this.onRight)
+      this.$bus.$on('keyUpEnter', this.onEnter)
+    } else {
+      this.currentSelect = -1
+    }
+  },
+  beforeDestroy: function () {
+    this.$bus.$off('keyUpArrowDown', this.onDown)
+    this.$bus.$off('keyUpArrowUp', this.onUp)
+    this.$bus.$off('keyUpArrowRight', this.onRight)
+    this.$bus.$off('keyUpEnter', this.onEnter)
   },
   methods: {
     styleTitle: function () {
@@ -138,22 +195,6 @@ export default {
       if (this.disable === true) return
       this.$emit('select', this.list[this.currentSelect])
     }
-  },
-  created: function () {
-    if (!this.useMouse) {
-      this.$bus.$on('keyUpArrowDown', this.onDown)
-      this.$bus.$on('keyUpArrowUp', this.onUp)
-      this.$bus.$on('keyUpArrowRight', this.onRight)
-      this.$bus.$on('keyUpEnter', this.onEnter)
-    } else {
-      this.currentSelect = -1
-    }
-  },
-  beforeDestroy: function () {
-    this.$bus.$off('keyUpArrowDown', this.onDown)
-    this.$bus.$off('keyUpArrowUp', this.onUp)
-    this.$bus.$off('keyUpArrowRight', this.onRight)
-    this.$bus.$off('keyUpEnter', this.onEnter)
   }
 }
 </script>

@@ -1,36 +1,75 @@
 <template>
-  <div style="width: 326px; height: 743px;" class="screen">
-    
-    
-    <div class='elements'>
-      <InfoBare style="width: 326px;top: -207px;margin-left: -17px;"/>
-      <img class="logo_maze" src="/html/static/img/app_bank/fleeca_tar.png">
-      <div class="num-tarj" >
-        <span  class="moneyTitle">{{ IntlString('APP_BANK_TITLE_BALANCE') }}</span>
+  <div
+    style="width: 326px; height: 743px;"
+    class="screen"
+  >
+    <div class="elements">
+      <InfoBare style="width: 326px;top: -207px;margin-left: -17px;" />
+      <img
+        class="logo_maze"
+        src="/html/static/img/app_bank/fleeca_tar.png"
+      >
+      <div class="num-tarj">
+        <span class="moneyTitle">{{ IntlString('APP_BANK_TITLE_BALANCE') }}</span>
         <span class="moneyTitle">{{ bankAmontFormat }}$</span>
       </div>
-      
-      <div class="hr"></div>
-      
-      <div class='element'>
+
+      <div class="hr" />
+
+      <div class="element">
+        <div class="element-content" />
+
+        <div
+          ref="form"
+          class="element-content"
+        >
+          <input
+            ref="form0"
+            v-model="id"
+            v-autofocus
+            style=" border-radius: 23px; font-size: 16px;"
+            :class="{ select: 0 === currentSelect}"
+            oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+            class="paragonder"
+            placeholder="ID"
+          >
+        </div>
+
         <div class="element-content">
-          
+          <input
+            ref="form1"
+            v-model="paratutar"
+            style=" border-radius: 23px; font-size: 16px;"
+            :class="{ select: 1 === currentSelect}"
+            oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+            class="paragonder"
+            placeholder="$"
+          >
+          <button
+            id="gonder"
+            ref="form2"
+            :class="{ select: 2 === currentSelect}"
+            class="buton-transfer"
+            @click.stop="paragonder"
+          >
+            {{ IntlString('APP_BANK_BUTTON_TRANSFER') }}
+          </button><br>
+          <button
+            id="iptal"
+            ref="form3"
+            :class="{ select: 3 === currentSelect}"
+            class="buton-cancel"
+            @click.stop="iptal"
+          >
+            {{ IntlString('APP_BANK_BUTTON_CANCEL') }}
+          </button>
         </div>
-
-        <div class="element-content" ref="form"> 
-          <input style=" border-radius: 23px; font-size: 16px;" v-bind:class="{ select: 0 === currentSelect}" v-autofocus oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" ref="form0" v-model="id" class="paragonder" placeholder="ID">
-        </div> 
-
-        <div class="element-content">           
-          <input  style=" border-radius: 23px; font-size: 16px;" v-bind:class="{ select: 1 === currentSelect}" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" ref="form1" v-model="paratutar" class="paragonder" placeholder="$">
-          <button  v-bind:class="{ select: 2 === currentSelect}" ref="form2" id="gonder" @click.stop="paragonder" class="buton-transfer">{{ IntlString('APP_BANK_BUTTON_TRANSFER') }}</button><br/>
-          <button  v-bind:class="{ select: 3 === currentSelect}" ref="form3" id="iptal" @click.stop="iptal" class="buton-cancel">{{ IntlString('APP_BANK_BUTTON_CANCEL') }}</button>
-        </div>
-        
       </div>
-      
     </div>
-    <img class="logo_tarj_end" src="/html/static/img/app_bank/tarjetas.png">
+    <img
+      class="logo_tarj_end"
+      src="/html/static/img/app_bank/tarjetas.png"
+    >
   </div>
 </template>
 
@@ -47,6 +86,27 @@ export default {
       paratutar: '',
       currentSelect: 0
     }
+  },
+  computed: {
+    ...mapGetters(['bankAmont', 'IntlString']),
+    bankAmontFormat () {
+      return Intl.NumberFormat().format(this.bankAmont)
+    }
+  },
+  created () {
+    this.display = this.$route.params.display
+    if (!this.useMouse) {
+      this.$bus.$on('keyUpArrowDown', this.onDown)
+      this.$bus.$on('keyUpArrowUp', this.onUp)
+      this.$bus.$on('keyUpEnter', this.onEnter)
+    }
+    this.$bus.$on('keyUpBackspace', this.onBackspace)
+  },
+  beforeDestroy () {
+    this.$bus.$off('keyUpArrowDown', this.onDown)
+    this.$bus.$off('keyUpArrowUp', this.onUp)
+    this.$bus.$off('keyUpEnter', this.onEnter)
+    this.$bus.$off('keyUpBackspace', this.onBackspace)
   },
   methods: {
     ...mapActions(['sendpara']),
@@ -104,27 +164,6 @@ export default {
       }
     }
   },
-  computed: {
-    ...mapGetters(['bankAmont', 'IntlString']),
-    bankAmontFormat () {
-      return Intl.NumberFormat().format(this.bankAmont)
-    }
-  },
-  created () {
-    this.display = this.$route.params.display
-    if (!this.useMouse) {
-      this.$bus.$on('keyUpArrowDown', this.onDown)
-      this.$bus.$on('keyUpArrowUp', this.onUp)
-      this.$bus.$on('keyUpEnter', this.onEnter)
-    }
-    this.$bus.$on('keyUpBackspace', this.onBackspace)
-  },
-  beforeDestroy () {
-    this.$bus.$off('keyUpArrowDown', this.onDown)
-    this.$bus.$off('keyUpArrowUp', this.onUp)
-    this.$bus.$off('keyUpEnter', this.onEnter)
-    this.$bus.$off('keyUpBackspace', this.onBackspace)
-  }
 }
 </script>
 
@@ -140,7 +179,7 @@ export default {
 }
 
 .num-tarj{
- margin-top: -88px; 
+ margin-top: -88px;
  margin-left: 50px
 }
 
@@ -173,23 +212,23 @@ export default {
   width: 100;
   height: 4px;
   margin-top: 73px;
-  background-image: linear-gradient(to right, #a9cc2e, #7cb732, #3a5d0d);  
+  background-image: linear-gradient(to right, #a9cc2e, #7cb732, #3a5d0d);
 }
 .logo_maze {
-  width: 100%; 
+  width: 100%;
   height: auto;
   flex-shrink: 0;
-  
+
   width: 113%;
   margin-left: -18px;
   margin-top: -207px
 }
 
 .logo_tarj_end {
-  width: 100%; 
+  width: 100%;
   height: auto;
   flex-shrink: 0;
-  
+
   width: 113%;
   margin-left: -18px;
   margin-top: -57px
@@ -197,17 +236,17 @@ export default {
 
 .element-content{
   margin-top: 24px;
-  display: block; 
+  display: block;
   width: 100%;
   text-align: center;
   font-weight: 700;
   font-size: 24px;
   color: black;
-  
+
 }
 .paragonder{
     display: block;
-       
+
     width: 100%;
     height: calc(1.5em + .75rem + 2px);
     padding: .375rem .75rem;
@@ -226,7 +265,7 @@ export default {
   border: none;
   width: 220px;
   color: #fff;
-   background-image: linear-gradient(to right, #a9cc2e, #7cb732, #3a5d0d); 
+   background-image: linear-gradient(to right, #a9cc2e, #7cb732, #3a5d0d);
     padding: .5rem 1rem;
     font-size: 17px;
     line-height: 1.5;
@@ -243,7 +282,7 @@ export default {
   border: none;
   width: 220px;
   color: #fff;
-  background-image: linear-gradient(to right, #D3D3D3, #C5C5C5 , #B6B6B6); 
+  background-image: linear-gradient(to right, #D3D3D3, #C5C5C5 , #B6B6B6);
   padding: .5rem 1rem;
   font-size: 17px;
   line-height: 1.5;

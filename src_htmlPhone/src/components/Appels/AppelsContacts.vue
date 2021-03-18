@@ -1,6 +1,10 @@
 <template>
   <div style="width: 326px; height: 743px;">
-    <list :list='contactsList' :showHeader="false" v-on:select="onSelect"></list>
+    <list
+      :list="contactsList"
+      :show-header="false"
+      @select="onSelect"
+    />
   </div>
 </template>
 
@@ -14,18 +18,6 @@ export default {
   components: { List },
   data () {
     return {
-    }
-  },
-  methods: {
-    ...mapActions(['startCall']),
-    onSelect (itemSelect) {
-      if (itemSelect !== undefined) {
-        if (itemSelect.custom === true) {
-          this.$router.push({name: 'appels.number'})
-        } else {
-          this.startCall({ numero: itemSelect.number })
-        }
-      }
     }
   },
   computed: {
@@ -46,6 +38,18 @@ export default {
 
   },
   beforeDestroy () {
+  },
+  methods: {
+    ...mapActions(['startCall']),
+    onSelect (itemSelect) {
+      if (itemSelect !== undefined) {
+        if (itemSelect.custom === true) {
+          this.$router.push({name: 'appels.number'})
+        } else {
+          this.startCall({ numero: itemSelect.number })
+        }
+      }
+    }
   }
 }
 </script>

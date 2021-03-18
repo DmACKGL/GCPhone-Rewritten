@@ -9,6 +9,7 @@ const getters = {
 }
 
 const actions = {
+  // eslint-disable-next-line no-unused-vars
   sendpara ({ state }, { id, amount }) {
     PhoneAPI.callEvent('gcphone:bankTransfer', {id, amount})
   }

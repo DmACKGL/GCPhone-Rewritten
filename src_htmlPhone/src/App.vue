@@ -1,12 +1,26 @@
 <template>
-  <div style="height: 100vh; width: 100vw;" @contextmenu="closePhone">
+  <div
+    style="height: 100vh; width: 100vw;"
+    @contextmenu="closePhone"
+  >
     <notification />
-    <div v-if="show === true && tempoHide === false" :style="{zoom: zoom}" @contextmenu.stop>
+    <div
+      v-if="show === true && tempoHide === false"
+      :style="{zoom: zoom}"
+      @contextmenu.stop
+    >
       <div class="phone_wrapper">
-        <div v-if="coque" class="phone_coque" :style="{backgroundImage: 'url(/html/static/img/coque/' + coque.value + ')'}"></div>
+        <div
+          v-if="coque"
+          class="phone_coque"
+          :style="{backgroundImage: 'url(/html/static/img/coque/' + coque.value + ')'}"
+        />
 
-        <div id="app" class="phone_screen">
-          <router-view></router-view>
+        <div
+          id="app"
+          class="phone_screen"
+        >
+          <router-view />
         </div>
       </div>
     </div>
@@ -20,23 +34,20 @@ import './assets/css/font-awesome.min.css'
 import { mapGetters, mapActions } from 'vuex'
 import {Howl} from 'howler'
 export default {
-  name: 'app',
+  name: 'App',
   components: {
   },
+
   data: function () {
     return {
       soundCall: null
     }
   },
-  methods: {
-    ...mapActions(['loadConfig', 'rejectCall']),
-    closePhone () {
-      this.$phoneAPI.closePhone()
-    }
-  },
+
   computed: {
     ...mapGetters(['show', 'zoom', 'coque', 'sonido', 'appelsInfo', 'myPhoneNumber', 'volume', 'tempoHide'])
   },
+
   watch: {
     appelsInfo (newValue, oldValue) {
       if (this.appelsInfo !== null && this.appelsInfo.is_accepts !== true) {
@@ -89,6 +100,7 @@ export default {
       }
     }
   },
+
   mounted () {
     this.loadConfig()
     window.addEventListener('message', (event) => {
@@ -105,6 +117,13 @@ export default {
         this.$phoneAPI.closePhone()
       }
     })
+  },
+
+  methods: {
+    ...mapActions(['loadConfig', 'rejectCall']),
+    closePhone () {
+      this.$phoneAPI.closePhone()
+    }
   }
 }
 </script>

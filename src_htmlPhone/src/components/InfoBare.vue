@@ -1,25 +1,28 @@
 <template>
-  <div style="width: 326px; top: 4px;" class='phone_infoBare barre-header'>
-    <span class='reseau'>{{config.reseau}}</span>
+  <div
+    style="width: 326px; top: 4px;"
+    class="phone_infoBare barre-header"
+  >
+    <span class="reseau">{{ config.reseau }}</span>
     <span class="time">
-      <current-time style="font-size: 12px; margin-right: 2px;"></current-time>
+      <current-time style="font-size: 12px; margin-right: 2px;" />
     </span>
-    <hr class = "batterie1">
-    <hr class = "batterie2">
-    <hr class = "barre1">
-    <hr class = "barre2">
-    <hr class = "barre3">
-    <hr class = "barre4">
+    <hr class="batterie1">
+    <hr class="batterie2">
+    <hr class="barre1">
+    <hr class="barre2">
+    <hr class="barre3">
+    <hr class="barre4">
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
 import CurrentTime from './CurrentTime'
 export default {
-  computed: mapGetters(['config']),
-  components: {
+    components: {
     CurrentTime
-  }
+  },
+  computed: mapGetters(['config']),
 }
 </script>
 <style scoped>
@@ -81,7 +84,7 @@ font-size: 12px;
     margin-right: -14px;
     font-size: 12px;
     padding-right: 12px;
-    
+
 }
 
 

@@ -3,11 +3,11 @@ import Notification from './Notification'
 import events from './events'
 
 const Notify = {
-  install: function (options) {
+  install: function () {
     if (this.installed) return
     this.installed = true
 
-    Vue.component('notification', Notification)
+    Vue.component('Notification', Notification)
     const notify = (params) => {
       events.$emit('add', params)
     }

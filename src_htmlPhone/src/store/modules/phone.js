@@ -129,7 +129,7 @@ const actions = {
     }
     commit('SET_CONFIG', config)
   },
-  setEnableApp ({ commit, state }, { appName, enable = true }) {
+  setEnableApp ({ commit }, { appName, enable = true }) {
     commit('SET_APP_ENABLE', { appName, enable })
   },
   setVisibility ({ commit }, show) {

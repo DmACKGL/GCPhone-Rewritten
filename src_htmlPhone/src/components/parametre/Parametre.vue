@@ -1,21 +1,39 @@
 <template>
   <div class="phone_app">
-    <PhoneTitle :title="IntlString('APP_CONFIG_TITLE')" @back="onBackspace"/>
-    <div class='phone_content elements'>
-      <div class='element'
-          v-for='(elem, key) in paramList' 
-          v-bind:class="{ select: key === currentSelect}"
-          v-bind:key="key"
-          @click.stop="onPressItem(key)"  
+    <PhoneTitle
+      :title="IntlString('APP_CONFIG_TITLE')"
+      @back="onBackspace"
+    />
+    <div class="phone_content elements">
+      <div
+        v-for="(elem, key) in paramList"
+        :key="key"
+        class="element"
+        :class="{ select: key === currentSelect}"
+        @click.stop="onPressItem(key)"
+      >
+        <i
+          class="fa"
+          :class="elem.icons"
+          :style="{color: elem.color}"
+          @click.stop="onPressItem(key)"
+        />
+        <div
+          class="element-content"
+          @click.stop="onPressItem(key)"
         >
-        <i class="fa" v-bind:class="elem.icons" v-bind:style="{color: elem.color}" @click.stop="onPressItem(key)"></i>
-        <div class="element-content" @click.stop="onPressItem(key)">
-          <span class="element-title" @click.stop="onPressItem(key)">{{elem.title}}</span>
-          <span v-if="elem.value" class="element-value" @click.stop="onPressItem(key)">{{elem.value}}</span>
+          <span
+            class="element-title"
+            @click.stop="onPressItem(key)"
+          >{{ elem.title }}</span>
+          <span
+            v-if="elem.value"
+            class="element-value"
+            @click.stop="onPressItem(key)"
+          >{{ elem.value }}</span>
         </div>
       </div>
     </div>
-    
   </div>
 </template>
 
@@ -136,6 +154,26 @@ export default {
     valumeDisplay () {
       return `${Math.floor(this.volume * 100)} %`
     }
+  },
+  created () {
+    if (!this.useMouse) {
+      this.$bus.$on('keyUpArrowRight', this.onRight)
+      this.$bus.$on('keyUpArrowLeft', this.onLeft)
+      this.$bus.$on('keyUpArrowDown', this.onDown)
+      this.$bus.$on('keyUpArrowUp', this.onUp)
+      this.$bus.$on('keyUpEnter', this.onEnter)
+    } else {
+      this.currentSelect = -1
+    }
+    this.$bus.$on('keyUpBackspace', this.onBackspace)
+  },
+  beforeDestroy () {
+    this.$bus.$off('keyUpArrowRight', this.onRight)
+    this.$bus.$off('keyUpArrowLeft', this.onLeft)
+    this.$bus.$off('keyUpArrowDown', this.onDown)
+    this.$bus.$off('keyUpArrowUp', this.onUp)
+    this.$bus.$off('keyUpEnter', this.onEnter)
+    this.$bus.$off('keyUpBackspace', this.onBackspace)
   },
   methods: {
     ...mapActions(['getIntlString', 'setZoon', 'setBackground', 'setCoque', 'setSonido', 'setVolume', 'setLanguage', 'setMouseSupport']),
@@ -273,27 +311,6 @@ export default {
       }
     }
   },
-
-  created () {
-    if (!this.useMouse) {
-      this.$bus.$on('keyUpArrowRight', this.onRight)
-      this.$bus.$on('keyUpArrowLeft', this.onLeft)
-      this.$bus.$on('keyUpArrowDown', this.onDown)
-      this.$bus.$on('keyUpArrowUp', this.onUp)
-      this.$bus.$on('keyUpEnter', this.onEnter)
-    } else {
-      this.currentSelect = -1
-    }
-    this.$bus.$on('keyUpBackspace', this.onBackspace)
-  },
-  beforeDestroy () {
-    this.$bus.$off('keyUpArrowRight', this.onRight)
-    this.$bus.$off('keyUpArrowLeft', this.onLeft)
-    this.$bus.$off('keyUpArrowDown', this.onDown)
-    this.$bus.$off('keyUpArrowUp', this.onUp)
-    this.$bus.$off('keyUpEnter', this.onEnter)
-    this.$bus.$off('keyUpBackspace', this.onBackspace)
-  }
 }
 </script>
 

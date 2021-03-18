@@ -235,7 +235,7 @@ class PhoneAPI {
   oncandidatesAvailable (data) {
     this.voiceRTC.addIceCandidates(data.candidates)
   }
-  onrejectCall (data) {
+  onrejectCall () {
     if (this.voiceRTC !== null) {
       this.voiceRTC.close()
     }

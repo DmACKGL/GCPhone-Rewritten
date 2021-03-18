@@ -1,34 +1,38 @@
 <template>
-<transition name="modal">
+  <transition name="modal">
     <div
       class="modal-mask"
+    >
+      <div
+        class="modal-container"
+        @click.stop
       >
-        <div class="modal-container" @click.stop >
-          <h2 :style="{color}">{{ title }}</h2>
-          <textarea 
-            class="modal-textarea"
-            :class="{oneline: limit <= 18}"
-            ref="textarea"
-            :style="{borderColor: color}"
-            v-model="inputText"
-            :maxlength="limit"
-          ></textarea>
-          <div class="botton-container">
-            <button
-              :style="{color}"
-              @click="cancel"
-            >
-              {{ IntlString('CANCEL') }}
-            </button>
-            <button
-              :style="{color}"
-              @click="valide"
-            >
-              {{ IntlString('OK') }}
-            </button>
-          </div>
-
+        <h2 :style="{color}">
+          {{ title }}
+        </h2>
+        <textarea 
+          ref="textarea"
+          v-model="inputText"
+          class="modal-textarea"
+          :class="{oneline: limit <= 18}"
+          :style="{borderColor: color}"
+          :maxlength="limit"
+        />
+        <div class="botton-container">
+          <button
+            :style="{color}"
+            @click="cancel"
+          >
+            {{ IntlString('CANCEL') }}
+          </button>
+          <button
+            :style="{color}"
+            @click="valide"
+          >
+            {{ IntlString('OK') }}
+          </button>
         </div>
+      </div>
     </div>
   </transition>
 </template>
@@ -40,11 +44,6 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'TextModal',
   store: store,
-  data () {
-    return {
-      inputText: ''
-    }
-  },
   props: {
     title: {
       type: String,
@@ -59,11 +58,26 @@ export default {
       default: 255
     }
   },
+  data () {
+    return {
+      inputText: ''
+    }
+  },
   computed: {
     ...mapGetters(['IntlString', 'themeColor']),
     color () {
       return this.themeColor || '#2A56C6'
     }
+  },
+  created () {
+    this.inputText = this.text
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.$refs.textarea.focus()
+    })
+  },
+  beforeDestroy () {
   },
   methods: {
     scrollIntoViewIfNeeded () {
@@ -93,16 +107,6 @@ export default {
         text: this.inputText
       })
     }
-  },
-  created () {
-    this.inputText = this.text
-  },
-  mounted () {
-    this.$nextTick(() => {
-      this.$refs.textarea.focus()
-    })
-  },
-  beforeDestroy () {
   }
 }
 </script>

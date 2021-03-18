@@ -1,6 +1,16 @@
 <template>
-  <div style="width: 326px; height: 743px; backgroundColor: white" class="contact">
-    <list :list='lcontacts' :disable="disableList" :title="IntlString('APP_CONTACT_TITLE')" @back="back" @select='onSelect' @option='onOption'></list>
+  <div
+    style="width: 326px; height: 743px; backgroundColor: white"
+    class="contact"
+  >
+    <list
+      :list="lcontacts"
+      :disable="disableList"
+      :title="IntlString('APP_CONTACT_TITLE')"
+      @back="back"
+      @select="onSelect"
+      @option="onOption"
+    />
   </div>
 </template>
 
@@ -29,6 +39,15 @@ export default {
       })]
     }
   },
+  created () {
+    if (!this.useMouse) {
+      this.$bus.$on('keyUpBackspace', this.back)
+    }
+  },
+
+  beforeDestroy () {
+    this.$bus.$off('keyUpBackspace', this.back)
+  },
   methods: {
     onSelect (contact) {
       if (contact.id === -1) {
@@ -56,15 +75,6 @@ export default {
       if (this.disableList === true) return
       this.$router.push({ name: 'home' })
     }
-  },
-  created () {
-    if (!this.useMouse) {
-      this.$bus.$on('keyUpBackspace', this.back)
-    }
-  },
-
-  beforeDestroy () {
-    this.$bus.$off('keyUpBackspace', this.back)
   }
 }
 </script>

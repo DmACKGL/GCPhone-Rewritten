@@ -1,26 +1,38 @@
 <template>
-  <div style="width: 326px; height: 743px;" class="phone_app">
-    <div style="width: 342px;
-    height: 756px;" class="backblur" v-bind:style="{background: 'url(' + backgroundURL +')'}"></div>
-    <InfoBare class="infobare"/>
-    <div class="menu" @click="onBack">
-      
+  <div
+    style="width: 326px; height: 743px;"
+    class="phone_app"
+  >
+    <div
+      style="width: 342px;
+    height: 756px;"
+      class="backblur"
+      :style="{background: 'url(' + backgroundURL +')'}"
+    />
+    <InfoBare class="infobare" />
+    <div
+      class="menu"
+      @click="onBack"
+    >
       <div class="menu_content">
-      
-          <div class='menu_buttons'>
-            <button class="letra"  
-                v-for="(but, key) of Apps" 
-                v-bind:key="but.name" 
+        <div class="menu_buttons">
+          <button
+            v-for="(but, key) of Apps"
+            :key="but.name"
+            class="letra"
 
-                v-bind:class="{ select: key === currentSelect}"
-                v-bind:style="{backgroundImage: 'url(' + but.icons +')'}"
-                @click.stop="openApp(but)"
-              >
-                {{but.intlName}}
-                <span class="puce" v-if="but.puce !== undefined && but.puce !== 0">{{but.puce}}</span>
-            </button>
-          </div>
-      </div> 
+            :class="{ select: key === currentSelect}"
+            :style="{backgroundImage: 'url(' + but.icons +')'}"
+            @click.stop="openApp(but)"
+          >
+            {{ but.intlName }}
+            <span
+              v-if="but.puce !== undefined && but.puce !== 0"
+              class="puce"
+            >{{ but.puce }}</span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -41,6 +53,26 @@ export default {
   },
   computed: {
     ...mapGetters(['nbMessagesUnread', 'backgroundURL', 'Apps', 'useMouse'])
+  },
+  created () {
+    if (!this.useMouse) {
+      this.$bus.$on('keyUpArrowLeft', this.onLeft)
+      this.$bus.$on('keyUpArrowRight', this.onRight)
+      this.$bus.$on('keyUpArrowDown', this.onDown)
+      this.$bus.$on('keyUpArrowUp', this.onUp)
+      this.$bus.$on('keyUpEnter', this.onEnter)
+    } else {
+      this.currentSelect = -1
+    }
+    this.$bus.$on('keyUpBackspace', this.onBack)
+  },
+  beforeDestroy () {
+    this.$bus.$off('keyUpArrowLeft', this.onLeft)
+    this.$bus.$off('keyUpArrowRight', this.onRight)
+    this.$bus.$off('keyUpArrowDown', this.onDown)
+    this.$bus.$off('keyUpArrowUp', this.onUp)
+    this.$bus.$off('keyUpEnter', this.onEnter)
+    this.$bus.$off('keyUpBackspace', this.onBack)
   },
   methods: {
     ...mapGetters(['closePhone']),
@@ -84,28 +116,6 @@ export default {
     onBack: function () {
       this.$router.push({ name: 'home' })
     }
-  },
-  mounted () {
-  },
-  created () {
-    if (!this.useMouse) {
-      this.$bus.$on('keyUpArrowLeft', this.onLeft)
-      this.$bus.$on('keyUpArrowRight', this.onRight)
-      this.$bus.$on('keyUpArrowDown', this.onDown)
-      this.$bus.$on('keyUpArrowUp', this.onUp)
-      this.$bus.$on('keyUpEnter', this.onEnter)
-    } else {
-      this.currentSelect = -1
-    }
-    this.$bus.$on('keyUpBackspace', this.onBack)
-  },
-  beforeDestroy () {
-    this.$bus.$off('keyUpArrowLeft', this.onLeft)
-    this.$bus.$off('keyUpArrowRight', this.onRight)
-    this.$bus.$off('keyUpArrowDown', this.onDown)
-    this.$bus.$off('keyUpArrowUp', this.onUp)
-    this.$bus.$off('keyUpEnter', this.onEnter)
-    this.$bus.$off('keyUpBackspace', this.onBack)
   }
 }
 </script>
@@ -175,7 +185,7 @@ button{
   font-size: 14px;
   padding-top: 72px;
   font-weight: 700;
-  text-shadow: -1px 0 0 rgba(0,0,0, 0.8), 
+  text-shadow: -1px 0 0 rgba(0,0,0, 0.8),
              1px 0 0 rgba(0,0,0, 0.8),
              0 -1px 0 rgba(0,0,0, 0.8),
              0 1px 0 rgba(0,0,0, 0.8);
@@ -198,7 +208,7 @@ button .puce{
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   bottom: 32px;
   right: 12px;
-  
+
   bottom: 32px;
   right: 12px;
 }

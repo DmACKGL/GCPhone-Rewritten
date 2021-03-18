@@ -1,5 +1,8 @@
 <template>
-  <div style="width: 326px; height: 743px;" class="splash">
+  <div
+    style="width: 326px; height: 743px;"
+    class="splash"
+  >
     <img src="/html/static/img/twitter/bird.png">
   </div>
 </template>

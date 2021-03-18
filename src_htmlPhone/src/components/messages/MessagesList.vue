@@ -1,6 +1,17 @@
 <template>
-  <div style="width: 326px; height: 743px;" class="screen">
-    <list style="color: black" :list='messagesData' :disable="disableList" :title="IntlString('APP_MESSAGE_TITLE')" @back="back" @select="onSelect" @option='onOption'></list>
+  <div
+    style="width: 326px; height: 743px;"
+    class="screen"
+  >
+    <list
+      style="color: black"
+      :list="messagesData"
+      :disable="disableList"
+      :title="IntlString('APP_MESSAGE_TITLE')"
+      @back="back"
+      @select="onSelect"
+      @option="onOption"
+    />
   </div>
 </template>
 
@@ -17,52 +28,6 @@ export default {
   data () {
     return {
       disableList: false
-    }
-  },
-  methods: {
-    ...mapActions(['deleteMessagesNumber', 'deleteAllMessages', 'startCall']),
-    onSelect: function (data) {
-      if (data.id === -1) {
-        this.$router.push({name: 'messages.selectcontact'})
-      } else {
-        this.$router.push({name: 'messages.view', params: data})
-      }
-    },
-    onOption: function (data) {
-      if (data.number === undefined) return
-      this.disableList = true
-      Modal.CreateModal({
-        choix: [
-          {id: 4, title: this.IntlString('APP_PHONE_CALL'), icons: 'fa-phone'},
-          {id: 5, title: this.IntlString('APP_PHONE_CALL_ANONYMOUS'), icons: 'fa-mask'},
-          {id: 6, title: this.IntlString('APP_MESSAGE_NEW_MESSAGE'), icons: 'fa-sms'},
-          {id: 1, title: this.IntlString('APP_MESSAGE_ERASE_CONVERSATION'), icons: 'fa-trash', color: 'orange'},
-          /* {id: 2, title: this.IntlString('APP_MESSAGE_ERASE_ALL_CONVERSATIONS'), icons: 'fa-trash', color: 'red'},
-          {id: 3, title: this.IntlString('CANCEL'), icons: 'fa-undo'} */
-           {id: 2, title: this.IntlString('APP_MESSAGE_ERASE_ALL_CONVERSATIONS'), icons: 'fa-trash', color: 'red'}
-        ]
-        .concat(data.unknowContact ? [{id: 7, title: this.IntlString('APP_MESSAGE_SAVE_CONTACT'), icons: 'fa-save'}] : [])
-        .concat([{id: 3, title: this.IntlString('CANCEL'), icons: 'fa-undo'}])
-      }).then(rep => {
-        if (rep.id === 1) {
-          this.deleteMessagesNumber({num: data.number})
-        } else if (rep.id === 2) {
-          this.deleteAllMessages()
-        } else if (rep.id === 4) {
-          this.startCall({ numero: data.number })
-        } else if (rep.id === 5) {
-          this.startCall({ numero: '#' + data.number })
-        } else if (rep.id === 6) {
-          this.$router.push({name: 'messages.view', params: data})
-        } else if (rep.id === 7) {
-          this.$router.push({name: 'contacts.view', params: {id: 0, number: data.number}})
-        }
-        this.disableList = false
-      })
-    },
-    back: function () {
-      if (this.disableList === true) return
-      this.$router.push({ name: 'home' })
     }
   },
   computed: {
@@ -129,6 +94,52 @@ export default {
   },
   beforeDestroy () {
     this.$bus.$off('keyUpBackspace', this.back)
+  },
+  methods: {
+    ...mapActions(['deleteMessagesNumber', 'deleteAllMessages', 'startCall']),
+    onSelect: function (data) {
+      if (data.id === -1) {
+        this.$router.push({name: 'messages.selectcontact'})
+      } else {
+        this.$router.push({name: 'messages.view', params: data})
+      }
+    },
+    onOption: function (data) {
+      if (data.number === undefined) return
+      this.disableList = true
+      Modal.CreateModal({
+        choix: [
+          {id: 4, title: this.IntlString('APP_PHONE_CALL'), icons: 'fa-phone'},
+          {id: 5, title: this.IntlString('APP_PHONE_CALL_ANONYMOUS'), icons: 'fa-mask'},
+          {id: 6, title: this.IntlString('APP_MESSAGE_NEW_MESSAGE'), icons: 'fa-sms'},
+          {id: 1, title: this.IntlString('APP_MESSAGE_ERASE_CONVERSATION'), icons: 'fa-trash', color: 'orange'},
+          /* {id: 2, title: this.IntlString('APP_MESSAGE_ERASE_ALL_CONVERSATIONS'), icons: 'fa-trash', color: 'red'},
+          {id: 3, title: this.IntlString('CANCEL'), icons: 'fa-undo'} */
+           {id: 2, title: this.IntlString('APP_MESSAGE_ERASE_ALL_CONVERSATIONS'), icons: 'fa-trash', color: 'red'}
+        ]
+        .concat(data.unknowContact ? [{id: 7, title: this.IntlString('APP_MESSAGE_SAVE_CONTACT'), icons: 'fa-save'}] : [])
+        .concat([{id: 3, title: this.IntlString('CANCEL'), icons: 'fa-undo'}])
+      }).then(rep => {
+        if (rep.id === 1) {
+          this.deleteMessagesNumber({num: data.number})
+        } else if (rep.id === 2) {
+          this.deleteAllMessages()
+        } else if (rep.id === 4) {
+          this.startCall({ numero: data.number })
+        } else if (rep.id === 5) {
+          this.startCall({ numero: '#' + data.number })
+        } else if (rep.id === 6) {
+          this.$router.push({name: 'messages.view', params: data})
+        } else if (rep.id === 7) {
+          this.$router.push({name: 'contacts.view', params: {id: 0, number: data.number}})
+        }
+        this.disableList = false
+      })
+    },
+    back: function () {
+      if (this.disableList === true) return
+      this.$router.push({ name: 'home' })
+    }
   }
 }
 </script>

@@ -1,48 +1,114 @@
 <template>
-<!--ESTE HTML ES ACOPLADO DEL VIEJO--> 
-  <div style="width: 330px; height: 743px; backgroundColor: white"  class="phone_app messages">
-    <PhoneTitle :title="displayContact" style="backgroundColor: #F1F1F1; color: black" @back="quit"/> <!--:title="displayContact" :backgroundColor="color" -->
-    <div class="img-fullscreen" v-if="imgZoom !== undefined" @click.stop="imgZoom = undefined">
-      <img :src="imgZoom" />
+  <!--ESTE HTML ES ACOPLADO DEL VIEJO-->
+  <div
+    style="width: 330px; height: 743px; backgroundColor: white"
+    class="phone_app messages"
+  >
+    <PhoneTitle
+      :title="displayContact"
+      style="backgroundColor: #F1F1F1; color: black"
+      @back="quit"
+    /> <!--:title="displayContact" :backgroundColor="color" -->
+    <div
+      v-if="imgZoom !== undefined"
+      class="img-fullscreen"
+      @click.stop="imgZoom = undefined"
+    >
+      <img :src="imgZoom">
     </div>
 
-    <textarea ref="copyTextarea" class="copyTextarea"/>
-    
-    
-    <div style="width: 326px; height: 678px; backgroundColor: white"  id='sms_list' @contextmenu.prevent.stop="showOptions">
-        <div class="sms" v-bind:class="{ select: key === selectMessage}" v-for='(mess, key) in messagesList' v-bind:key="mess.id" @click.stop="onActionMessage(mess)" @contextmenu.prevent.stop="showOptions"
-        >
-          <div class="sms_message_time">
-              <h6  v-bind:class="{ sms_me : mess.owner === 1}"  class="name_other_sms_me">{{displayContact}}</h6>
-              <h6   v-bind:class="{ sms_me : mess.owner === 1}"  class="name_other_sms_other" @click.stop="onActionMessage(mess)"><timeago style="font-weight: 500" class="sms_time" :since='mess.time' :auto-update="20"></timeago></h6>
-          </div>
-            <span class='sms_message sms_me' 
-              @click.stop="onActionMessage(mess)"
-              
-              v-bind:class="{ sms_other : mess.owner === 0}" >
-              
-              <img v-if="isSMSImage(mess)" @click.stop="onActionMessage(mess)" class="sms-img" :src="mess.message">
-              <span v-else @click.stop="onActionMessage(mess)" >{{mess.message}}</span>
-                
-                <!--<span style="color: white; font-size: 17px; margin: 24px;" @click.stop="onActionMessage(mess)" ><timeago class="sms_time" :since='mess.time' :auto-update="20"></timeago></span>-->
-            </span>
+    <textarea
+      ref="copyTextarea"
+      class="copyTextarea"
+    />
+
+
+    <div
+      id="sms_list"
+      style="width: 326px; height: 678px; backgroundColor: white"
+      @contextmenu.prevent.stop="showOptions"
+    >
+      <div
+        v-for="(mess, key) in messagesList"
+        :key="mess.id"
+        class="sms"
+        :class="{ select: key === selectMessage}"
+        @click.stop="onActionMessage(mess)"
+        @contextmenu.prevent.stop="showOptions"
+      >
+        <div class="sms_message_time">
+          <h6
+            :class="{ sms_me : mess.owner === 1}"
+            class="name_other_sms_me"
+          >
+            {{ displayContact }}
+          </h6>
+          <h6
+            :class="{ sms_me : mess.owner === 1}"
+            class="name_other_sms_other"
+            @click.stop="onActionMessage(mess)"
+          >
+            <timeago
+              style="font-weight: 500"
+              class="sms_time"
+              :since="mess.time"
+              :auto-update="20"
+            />
+          </h6>
         </div>
+        <span
+          class="sms_message sms_me"
+          :class="{ sms_other : mess.owner === 0}"
+
+          @click.stop="onActionMessage(mess)"
+        >
+
+          <img
+            v-if="isSMSImage(mess)"
+            class="sms-img"
+            :src="mess.message"
+            @click.stop="onActionMessage(mess)"
+          >
+          <span
+            v-else
+            @click.stop="onActionMessage(mess)"
+          >{{ mess.message }}</span>
+
+          <!--<span style="color: white; font-size: 17px; margin: 24px;" @click.stop="onActionMessage(mess)" ><timeago class="sms_time" :since='mess.time' :auto-update="20"></timeago></span>-->
+        </span>
+      </div>
     </div>
 
-    <div style="width: 306px;" id='sms_write' @contextmenu.prevent="showOptions">
-        <input 
-          type="text"
-          v-model="message"
-          :placeholder="IntlString('APP_MESSAGE_PLACEHOLDER_ENTER_MESSAGE')"
-          v-autofocus
-          @keyup.enter.prevent="send"
+    <div
+      id="sms_write"
+      style="width: 306px;"
+      @contextmenu.prevent="showOptions"
+    >
+      <input
+        v-model="message"
+        v-autofocus
+        type="text"
+        :placeholder="IntlString('APP_MESSAGE_PLACEHOLDER_ENTER_MESSAGE')"
+        @keyup.enter.prevent="send"
+      >
+      <div
+        style="    font-size: 10px;"
+        class="sms_send"
+        @click.stop="send"
+      >
+        <svg
+          height="24"
+          viewBox="0 0 24 24"
+          width="24"
+          @click.stop="send"
         >
-        <div style="    font-size: 10px;"  class="sms_send" @click.stop="send">
-          <svg height="24" viewBox="0 0 24 24" width="24" @click.stop="send">
-              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-              <path d="M0 0h24v24H0z" fill="none"/>
-          </svg>
-        </div>
+          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+        </svg>
+      </div>
     </div>
   </div>
 </template>
@@ -54,6 +120,9 @@ import PhoneTitle from './../PhoneTitle'
 import Modal from '@/components/Modal/index.js'
 
 export default {
+  components: {
+    PhoneTitle
+  },
   data () {
     return {
       ignoreControls: false,
@@ -63,9 +132,58 @@ export default {
       imgZoom: undefined,
       message: ''
     }
+
   },
-  components: {
-    PhoneTitle
+  computed: {
+    ...mapGetters(['IntlString', 'messages', 'contacts', 'useMouse', 'enableTakePhoto']),
+    messagesList () {
+      return this.messages.filter(e => e.transmitter === this.phoneNumber).sort((a, b) => a.time - b.time)
+    },
+    displayContact () {
+      if (this.display !== undefined) {
+        return this.display
+      }
+      const c = this.contacts.find(c => c.number === this.phoneNumber)
+      if (c !== undefined) {
+        return c.display
+      }
+      return this.phoneNumber
+    },
+    color () {
+      return generateColorForStr(this.phoneNumber)
+    },
+    colorSmsOwner () {
+      return [
+        {
+          backgroundColor: this.color,
+          color: getBestFontColor(this.color)
+        }, {}
+      ]
+    }
+  },
+  watch: {
+    messagesList () {
+      this.setMessageRead(this.phoneNumber)
+      this.resetScroll()
+    }
+  },
+  created () {
+    this.display = this.$route.params.display
+    this.phoneNumber = this.$route.params.number
+    if (!this.useMouse) {
+      this.$bus.$on('keyUpArrowDown', this.onDown)
+      this.$bus.$on('keyUpArrowUp', this.onUp)
+      this.$bus.$on('keyUpEnter', this.onEnter)
+      this.$bus.$on('keyUpArrowRight', this.onRight)
+    }
+    this.$bus.$on('keyUpBackspace', this.onBackspace)
+  },
+  beforeDestroy () {
+    this.$bus.$off('keyUpArrowDown', this.onDown)
+    this.$bus.$off('keyUpArrowUp', this.onUp)
+    this.$bus.$off('keyUpEnter', this.onEnter)
+    this.$bus.$off('keyUpArrowRight', this.onRight)
+    this.$bus.$off('keyUpBackspace', this.onBackspace)
   },
   methods: {
     ...mapActions(['setMessageRead', 'sendMessage', 'deleteMessage', 'startCall']),
@@ -186,7 +304,7 @@ export default {
         } else if (data.id === 'zoom') {
           this.imgZoom = message.message
         }
-      } catch (e) {
+
       } finally {
         this.ignoreControls = false
         this.selectMessage = -1
@@ -235,9 +353,10 @@ export default {
             await document.execCommand('copy')
             $copyTextarea.style.height = '0'
           } catch (error) {
+            console.log("ERROR")
           }
         }
-      } catch (e) {
+
       } finally {
         this.ignoreControls = false
         this.selectMessage = -1
@@ -287,7 +406,7 @@ export default {
           }
         }
         this.ignoreControls = false
-      } catch (e) {
+
       } finally {
         this.ignoreControls = false
       }
@@ -298,57 +417,7 @@ export default {
         this.showOptions()
       }
     }
-  },
-  computed: {
-    ...mapGetters(['IntlString', 'messages', 'contacts', 'useMouse', 'enableTakePhoto']),
-    messagesList () {
-      return this.messages.filter(e => e.transmitter === this.phoneNumber).sort((a, b) => a.time - b.time)
-    },
-    displayContact () {
-      if (this.display !== undefined) {
-        return this.display
-      }
-      const c = this.contacts.find(c => c.number === this.phoneNumber)
-      if (c !== undefined) {
-        return c.display
-      }
-      return this.phoneNumber
-    },
-    color () {
-      return generateColorForStr(this.phoneNumber)
-    },
-    colorSmsOwner () {
-      return [
-        {
-          backgroundColor: this.color,
-          color: getBestFontColor(this.color)
-        }, {}
-      ]
-    }
-  },
-  watch: {
-    messagesList () {
-      this.setMessageRead(this.phoneNumber)
-      this.resetScroll()
-    }
-  },
-  created () {
-    this.display = this.$route.params.display
-    this.phoneNumber = this.$route.params.number
-    if (!this.useMouse) {
-      this.$bus.$on('keyUpArrowDown', this.onDown)
-      this.$bus.$on('keyUpArrowUp', this.onUp)
-      this.$bus.$on('keyUpEnter', this.onEnter)
-      this.$bus.$on('keyUpArrowRight', this.onRight)
-    }
-    this.$bus.$on('keyUpBackspace', this.onBackspace)
-  },
-  beforeDestroy () {
-    this.$bus.$off('keyUpArrowDown', this.onDown)
-    this.$bus.$off('keyUpArrowUp', this.onUp)
-    this.$bus.$off('keyUpEnter', this.onEnter)
-    this.$bus.$off('keyUpArrowRight', this.onRight)
-    this.$bus.$off('keyUpBackspace', this.onBackspace)
+
   }
 }
 </script>
@@ -362,7 +431,7 @@ export default {
     height: 678px;
     right: 0;
     height: calc(100% - 20px);
-    background-color: #DDD;    
+    background-color: #DDD;
 }
 #sms_contact{
     background-color: #4CAF50;
@@ -456,7 +525,7 @@ export default {
     margin-top: -5px;
     display: none;
     font-size: 9px;
-    
+
 }
 .sms_other .sms_time{
     color: white;
@@ -513,7 +582,7 @@ export default {
     margin-right: 10px;
 }
 .sms_send svg{
-    margin: 8px; 
+    margin: 8px;
     width: 36px;
     height: 36px;
     fill: #C0C0C0;

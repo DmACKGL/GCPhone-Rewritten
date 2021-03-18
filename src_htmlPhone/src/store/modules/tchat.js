@@ -50,6 +50,7 @@ const actions = {
   tchatRemoveChannel ({ commit }, { channel }) {
     commit('TCHAT_REMOVES_CHANNELS', { channel })
   },
+  // eslint-disable-next-line no-unused-vars
   tchatGetMessagesChannel ({ commit }, { channel }) {
     PhoneAPI.tchatGetMessagesChannel(channel)
   },

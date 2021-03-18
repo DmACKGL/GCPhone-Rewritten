@@ -1,13 +1,19 @@
 <template>
-  <div style="width: 326px; height: 743px;" class="phone_content">
-    <div class='tweet_write'>
-        <textarea
-          class="textarea-input"
-          v-model.trim="message"
-          v-autofocus
-          :placeholder="IntlString('APP_TWITTER_PLACEHOLDER_MESSAGE')"
-        ></textarea>
-        <span class='tweet_send' @click="tweeter">{{ IntlString('APP_TWITTER_BUTTON_ACTION_TWEETER') }}</span>
+  <div
+    style="width: 326px; height: 743px;"
+    class="phone_content"
+  >
+    <div class="tweet_write">
+      <textarea
+        v-model.trim="message"
+        v-autofocus
+        class="textarea-input"
+        :placeholder="IntlString('APP_TWITTER_PLACEHOLDER_MESSAGE')"
+      />
+      <span
+        class="tweet_send"
+        @click="tweeter"
+      >{{ IntlString('APP_TWITTER_BUTTON_ACTION_TWEETER') }}</span>
     </div>
   </div>
 </template>
@@ -27,6 +33,18 @@ export default {
   },
   watch: {
   },
+  created () {
+    if (!this.useMouse) {
+      this.$bus.$on('keyUpEnter', this.onEnter)
+    }
+    this.$bus.$on('keyUpBackspace', this.onBack)
+  },
+  async mounted () {
+  },
+  beforeDestroy () {
+    this.$bus.$off('keyUpBackspace', this.onBack)
+    this.$bus.$off('keyUpEnter', this.onEnter)
+  },
   methods: {
     ...mapActions(['twitterPostTweet']),
     async onEnter () {
@@ -40,7 +58,9 @@ export default {
             this.twitterPostTweet({ message })
           }
         }
-      } catch (e) {}
+      } catch (e) {
+        console.log("ERROR")
+      }
     },
     async tweeter () {
       if (this.message === '') return
@@ -51,18 +71,6 @@ export default {
       if (this.useMouse === true && document.activeElement.tagName !== 'BODY') return
       this.$bus.$emit('twitterHome')
     }
-  },
-  created () {
-    if (!this.useMouse) {
-      this.$bus.$on('keyUpEnter', this.onEnter)
-    }
-    this.$bus.$on('keyUpBackspace', this.onBack)
-  },
-  async mounted () {
-  },
-  beforeDestroy () {
-    this.$bus.$off('keyUpBackspace', this.onBack)
-    this.$bus.$off('keyUpEnter', this.onEnter)
   }
 }
 </script>
@@ -70,7 +78,7 @@ export default {
 <style scoped>
 .phone_content {
   background: #DBF0F4;
-      
+
 }
 
 .tweet_write{

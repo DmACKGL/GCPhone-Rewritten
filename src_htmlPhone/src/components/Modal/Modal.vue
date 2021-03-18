@@ -1,21 +1,25 @@
 <template>
-<transition name="modal">
+  <transition name="modal">
     <div
       class="modal-mask"
-      @click.stop="cancel">
-
-        <div class="modal-container">
-            <div class="modal-choix" 
-              v-bind:class="{ select: index === currentSelect}" 
-              v-for="(val, index) in choix" :key='index'
-              v-bind:style="{color: val.color}"
-              @click.stop="selectItem(val)"
-            >
-                <i @click.stop="selectItem(val)" class="fas" :class="val.icons" ></i>{{val.title}}
-            </div>
-          
-
+      @click.stop="cancel"
+    >
+      <div class="modal-container">
+        <div
+          v-for="(val, index) in choix" 
+          :key="index" 
+          class="modal-choix"
+          :class="{ select: index === currentSelect}"
+          :style="{color: val.color}"
+          @click.stop="selectItem(val)"
+        >
+          <i
+            class="fas"
+            :class="val.icons"
+            @click.stop="selectItem(val)"
+          />{{ val.title }}
         </div>
+      </div>
     </div>
   </transition>
 </template>
@@ -27,19 +31,35 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'Modal',
   store: store,
-  data () {
-    return {
-      currentSelect: 0
-    }
-  },
   props: {
     choix: {
       type: Array,
       default: () => []
     }
   },
+  data () {
+    return {
+      currentSelect: 0
+    }
+  },
   computed: {
     ...mapGetters(['useMouse'])
+  },
+  created () {
+    if (!this.useMouse) {
+      this.$bus.$on('keyUpArrowDown', this.onDown)
+      this.$bus.$on('keyUpArrowUp', this.onUp)
+      this.$bus.$on('keyUpEnter', this.onEnter)
+    } else {
+      this.currentSelect = -1
+    }
+    this.$bus.$on('keyUpBackspace', this.cancel)
+  },
+  beforeDestroy () {
+    this.$bus.$off('keyUpArrowDown', this.onDown)
+    this.$bus.$off('keyUpArrowUp', this.onUp)
+    this.$bus.$off('keyUpEnter', this.onEnter)
+    this.$bus.$off('keyUpBackspace', this.cancel)
   },
   methods: {
     scrollIntoViewIfNeeded () {
@@ -64,22 +84,6 @@ export default {
     cancel () {
       this.$emit('cancel')
     }
-  },
-  created () {
-    if (!this.useMouse) {
-      this.$bus.$on('keyUpArrowDown', this.onDown)
-      this.$bus.$on('keyUpArrowUp', this.onUp)
-      this.$bus.$on('keyUpEnter', this.onEnter)
-    } else {
-      this.currentSelect = -1
-    }
-    this.$bus.$on('keyUpBackspace', this.cancel)
-  },
-  beforeDestroy () {
-    this.$bus.$off('keyUpArrowDown', this.onDown)
-    this.$bus.$off('keyUpArrowUp', this.onUp)
-    this.$bus.$off('keyUpEnter', this.onEnter)
-    this.$bus.$off('keyUpBackspace', this.cancel)
   }
 }
 </script>

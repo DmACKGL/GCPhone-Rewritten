@@ -1,8 +1,15 @@
 <template>
-  <div style="width: 326px; height: 743px;" class="phone_app">
-    <PhoneTitle :title="currentScreen.title" backgroundColor="white" v-on:back="quit"/>
+  <div
+    style="width: 326px; height: 743px;"
+    class="phone_app"
+  >
+    <PhoneTitle
+      :title="currentScreen.title"
+      background-color="white"
+      @back="quit"
+    />
     <div class="phone_content">
-      <component v-bind:is="currentScreen.component"/>
+      <component :is="currentScreen.component" />
     </div>
     <div class="twitter_menu">
       <div
@@ -10,8 +17,13 @@
         :key="i"
         class="twitter_menu-item"
         :class="{select: i === currentScreenIndex}"
-        @click.stop="openMenu(i)">
-        <i class="fa" :class="s.icon" @click.stop="openMenu(i)"></i>
+        @click.stop="openMenu(i)"
+      >
+        <i
+          class="fa"
+          :class="s.icon"
+          @click.stop="openMenu(i)"
+        />
       </div>
     </div>
   </div>
@@ -66,6 +78,20 @@ export default {
   },
   watch: {
   },
+  created () {
+    if (!this.useMouse) {
+      this.$bus.$on('keyUpArrowLeft', this.onLeft)
+      this.$bus.$on('keyUpArrowRight', this.onRight)
+    }
+    this.$bus.$on('twitterHome', this.home)
+  },
+  mounted () {
+  },
+  beforeDestroy () {
+    this.$bus.$off('keyUpArrowLeft', this.onLeft)
+    this.$bus.$off('keyUpArrowRight', this.onRight)
+    this.$bus.$off('twitterHome', this.home)
+  },
   methods: {
     onLeft () {
       this.currentScreenIndex = Math.max(0, this.currentScreenIndex - 1)
@@ -86,20 +112,6 @@ export default {
         this.currentScreenIndex = 0
       }
     }
-  },
-  created () {
-    if (!this.useMouse) {
-      this.$bus.$on('keyUpArrowLeft', this.onLeft)
-      this.$bus.$on('keyUpArrowRight', this.onRight)
-    }
-    this.$bus.$on('twitterHome', this.home)
-  },
-  mounted () {
-  },
-  beforeDestroy () {
-    this.$bus.$off('keyUpArrowLeft', this.onLeft)
-    this.$bus.$off('keyUpArrowRight', this.onRight)
-    this.$bus.$off('twitterHome', this.home)
   }
 }
 </script>

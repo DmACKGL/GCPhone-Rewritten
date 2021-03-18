@@ -50,6 +50,7 @@ const actions = {
   notesRemoveChannel ({ commit }, { channel }) {
     commit('NOTES_REMOVES_CHANNELS', { channel })
   },
+  // eslint-disable-next-line no-unused-vars
   notesGetMessagesChannel ({ commit }, { channel }) {
     PhoneAPI.notesGetMessagesChannel(channel)
   },
