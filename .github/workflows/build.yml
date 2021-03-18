@@ -27,9 +27,16 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '12'
-
-      - run: cd ./src_htmlPhone && npm install && npm run build
-
+      - name: Install modules
+          working-directory: ./src_htmlPhone
+          run: yarn
+      - name: Run Lint
+          working-directory: ./src_htmlPhone
+          run: yarn lint
+      - name: Run Lint
+          working-directory: ./src_htmlPhone
+          run: yarn build
+          
       - uses: actions/upload-artifact@master
         with:
           name: build

@@ -1,8 +1,15 @@
 {
   "name": "src_htmlphone",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "GCPhone Rewritten",
   "author": "Jonathan <gannon.hlw@gmail.com>",
+  "maintainers": [
+    {
+      "name": "Franco Sanllehi",
+      "email": "francosanllehi@gmail.com",
+      "url": "https://github.com/DmACKGL/"
+    }
+  ],
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
@@ -14,6 +21,7 @@
     "@sentry/browser": "^5.19.2",
     "@sentry/integrations": "^5.19.2",
     "babel-preset-es2017": "^6.24.1",
+    "cross-env": "^7.0.3",
     "howler": "^2.2.0",
     "node-sass": "^4.9.0",
     "sass-loader": "^6.0.7",
