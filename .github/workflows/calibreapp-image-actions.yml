@@ -1,5 +1,13 @@
 name: Compress Images
 on:
+  push:
+    # Run Image Actions when JPG, JPEG, PNG or WebP files are added or changed.
+    # See https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#onpushpull_requestpaths for reference.
+    paths:
+      - '**.jpg'
+      - '**.jpeg'
+      - '**.png'
+      - '**.webp'
   pull_request:
     # Run Image Actions when JPG, JPEG, PNG or WebP files are added or changed.
     # See https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#onpushpull_requestpaths for reference.
@@ -20,3 +28,12 @@ jobs:
 
       - name: Compress Images
         uses: calibreapp/image-actions@main
+
+      - name: Create New Pull Request If Needed
+        if: steps.calibre.outputs.markdown != ''
+        uses: peter-evans/create-pull-request@v3
+        with:
+          title: Compressed Images Nightly
+          branch-suffix: timestamp
+          commit-message: Compressed Images
+          body: ${{ steps.calibre.outputs.markdown }}
