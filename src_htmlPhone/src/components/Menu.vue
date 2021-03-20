@@ -113,7 +113,8 @@ export default {
     onEnter() {
       this.openApp(this.Apps[this.currentSelect])
     },
-    onBack: function () {
+    onBack: function (event) {
+      console.log(event)
       this.$router.push({name: 'home'})
     }
   }
@@ -175,6 +176,15 @@ export default {
   }
 }
 
+@keyframes down {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100vh);
+  }
+}
+
 
 button {
   position: relative;
@@ -222,7 +232,7 @@ button.select, button:hover {
 }
 
 .letra {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, sans-serif;
   font-weight: 400;
 }
 

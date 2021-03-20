@@ -474,6 +474,7 @@ export default {
   width: 100%;
   height: auto;
   border-radius: 19px;
+  margin-top: 2%;
 }
 
 .img-fullscreen {

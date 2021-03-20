@@ -77,8 +77,6 @@ library.add(
   faArrowUp,
   faArrowDown
 )
-// eslint-disable-next-line no-unused-vars
-import $ from "expose-loader?exposes[]=$&exposes[]=jQuery!jquery";
 
 Vue.component('FontAwesomeIcon', FontAwesomeIcon)
 

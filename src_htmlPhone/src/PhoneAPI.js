@@ -2,8 +2,8 @@ import store from '@/store'
 import VoiceRTC from './VoiceRCT'
 import Vue from 'vue'
 import {Howl} from 'howler'
-
 import emoji from './emoji.json'
+import axios from 'axios';
 
 const keyEmoji = Object.keys(emoji)
 
@@ -28,8 +28,13 @@ class PhoneAPI {
 
   async post(method, data) {
     const ndata = data === undefined ? '{}' : JSON.stringify(data)
-    const response = await window.jQuery.post(BASE_URL + method, ndata)
-    return JSON.parse(response)
+    return await axios.post(BASE_URL + method, ndata)
+      .then(response => response.data)
+      .catch(function () {
+        // TODO: Use Vue Errors
+        console.log("ERROR");
+        return false
+      })
   }
 
   async log(...data) {
@@ -143,7 +148,8 @@ class PhoneAPI {
 
   async getConfig() {
     if (this.config === null) {
-      const response = await window.jQuery.get('/html/static/config/config.json')
+      const response = await axios.get('/html/static/config/config.json')
+        .then(response => response.data)
       if (process.env.NODE_ENV === 'production') {
         this.config = JSON.parse(response)
       } else {
