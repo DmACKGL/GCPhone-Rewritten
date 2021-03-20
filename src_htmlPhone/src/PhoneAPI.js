@@ -152,9 +152,8 @@ class PhoneAPI {
       if (this.config.useWebRTCVocal === true) {
         this.voiceRTC = new VoiceRTC(this.config.RTCConfig)
         USE_VOICE_RTC = true
+        await this.notififyUseRTC(this.config.useWebRTCVocal)
       }
-      // console.log('JS USE RTC', this.config.useWebRTCVocal)
-      await this.notififyUseRTC(this.config.useWebRTCVocal)
     }
     return this.config
   }
