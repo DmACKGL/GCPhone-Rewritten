@@ -6,13 +6,11 @@ ui_page 'html/index.html'
 
 files {
 	'html/index.html',
-	'html/static/css/app.css',
-	'html/static/js/app.js',
-	'html/static/js/manifest.js',
-	'html/static/js/vendor.js',
+	'html/static/css/*css',
+	'html/static/js/*.js',
 
 	'html/static/config/config.json',
-	
+
 	-- Coque
 	'html/static/img/coque/blue.png',
 	'html/static/img/coque/s8.png',
@@ -21,7 +19,7 @@ files {
 	'html/static/img/coque/pink.png',
 	'html/static/img/coque/no_cover.png',
 
-	
+
 	-- Background
 	'html/static/img/background/back001.jpg',
 	'html/static/img/background/back002.jpg',
@@ -34,7 +32,7 @@ files {
 	'html/static/img/background/paisajes.jpg',
 	'html/static/img/background/playa.jpg',
 	'html/static/img/background/tokio.jpg',
-	
+
 	'html/static/img/icons_app/call.png',
 	'html/static/img/icons_app/contacts.png',
 	'html/static/img/icons_app/ff.png',
@@ -54,7 +52,7 @@ files {
 	'html/static/img/icons_app/9gag.png',
 	'html/static/img/icons_app/twitter.png',
 	'html/static/img/icons_app/borrado.png',
-	
+
 	'html/static/img/app_bank/fleeca_tar.png',
 	'html/static/img/app_bank/tarjetas.png',
 
