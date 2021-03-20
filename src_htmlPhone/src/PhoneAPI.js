@@ -18,6 +18,7 @@ class PhoneAPI {
       if (eventType !== undefined && typeof this['on' + eventType] === 'function') {
         this['on' + eventType](event.data)
       } else if (event.data.show !== undefined) {
+        // Toggle phone
         store.commit('SET_PHONE_VISIBILITY', event.data.show)
       }
     })
@@ -150,11 +151,7 @@ class PhoneAPI {
     if (this.config === null) {
       const response = await axios.get('/html/static/config/config.json')
         .then(response => response.data)
-      if (process.env.NODE_ENV === 'production') {
-        this.config = JSON.parse(response)
-      } else {
-        this.config = response
-      }
+      this.config = response
       if (this.config.useWebRTCVocal === true) {
         this.voiceRTC = new VoiceRTC(this.config.RTCConfig)
         USE_VOICE_RTC = true
