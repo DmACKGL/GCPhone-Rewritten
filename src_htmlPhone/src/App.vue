@@ -53,28 +53,17 @@ export default {
         if (this.soundCall !== null) {
           this.soundCall.pause()
         }
-        let path = null;
-        if (this.appelsInfo.initiator === true) {
-          path = '/html/static/sound/Phone_Call_Sound_Effect.ogg'
-          this.soundCall = new Howl({
-            src: path,
-            volume: this.volume,
-            loop: true,
-            onend: function () {
-              console.log('Finished!')
-            }
-          })
-        } else {
-          path = '/html/static/sound/' + this.sonido.value
-          this.soundCall = new Howl({
-            src: path,
-            volume: this.volume,
-            loop: true,
-            onend: function () {
-              console.log('Finished!')
-            }
-          })
-        }
+
+        let path = '/html/static/sound/Phone_Call_Sound_Effect.ogg';
+
+        if (!this.appelsInfo.initiator) path = '/html/static/sound/' + this.sonido.value
+
+        this.soundCall = new Howl({
+          src: path,
+          volume: this.volume,
+          loop: true,
+        })
+
         this.soundCall.play()
       } else if (this.soundCall !== null) {
         this.soundCall.pause()
