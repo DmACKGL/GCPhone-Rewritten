@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Run Dev Serevr" type="js.build_tools.npm">
+  <configuration default="false" name="Run Dev Server" type="js.build_tools.npm">
     <package-json value="$PROJECT_DIR$/src_htmlPhone/package.json" />
     <command value="run" />
     <scripts>
