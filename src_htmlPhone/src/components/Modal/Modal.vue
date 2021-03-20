@@ -108,16 +108,15 @@ export default {
     }
 
     .modal-container {
-        width: 100%;
-        margin: 0;
-        padding: 0;
-        background-color: #fff;
-        border-radius: 2px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
-        transition: all .3s ease;
-        padding-bottom: 16px;
-        max-height: 100%;
-        overflow-y: auto;
+      width: 100%;
+      margin: 0;
+      background-color: #fff;
+      border-radius: 2px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+      transition: all .3s ease;
+      padding: 0 0 16px;
+      max-height: 100%;
+      overflow-y: auto;
     }
 
     .modal-title {
@@ -150,8 +149,8 @@ export default {
         height: 42px;
     }
     .modal-choix.select, .modal-choix:hover {
-        background-color: #E3E3E3;
-        color: #0079d3
+      background-color: #E3E3E3;
+      color: #0079d3
     }
 
 

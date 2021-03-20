@@ -13,7 +13,7 @@ const state = {
   mouse: window.localStorage['gc_mouse'] === 'true',
   lang: window.localStorage['gc_language'],
   config: {
-    reseau: 'ElBichop',
+    reseau: 'Rewritten',
     useFormatNumberFrance: false,
     apps: [],
     themeColor: '#2A56C6',
