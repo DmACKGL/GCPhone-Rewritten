@@ -12,9 +12,9 @@
         :class="{ select: key === currentSelect}"
       >
         <div class="elem-evo">
-          <i
-            class="fa"
-            :class="classInfo(elem)"
+          <FontAwesomeIcon
+            :icon="['fas', classInfo(elem)[0]]"
+            @click.stop="openMenu(i)"
           />
         </div>
         <div class="elem-libelle">
@@ -22,13 +22,13 @@
         </div>
         <div
           class="elem-price"
-          :style="{color: colorBourse(elem)}"
+          :style="{color: colorBourse(elem)[1]}"
         >
           {{ elem.price }} $
         </div>
         <div
           class="elem-difference"
-          :style="{color: colorBourse(elem)}"
+          :style="{color: colorBourse(elem)[1]}"
         >
           <span v-if="elem.difference > 0">+</span>{{ elem.difference }}
         </div>
@@ -82,11 +82,11 @@ export default {
     },
     classInfo (bouseItem) {
       if (bouseItem.difference === 0) {
-        return ['fa-arrow-right', 'iblue']
+        return ['arrow-right', 'iblue']
       } else if (bouseItem.difference < 0) {
-        return ['fa-arrow-up', 'ired']
+        return ['arrow-up', 'ired']
       } else {
-        return ['fa-arrow-down', 'igreen']
+        return ['arrow-down', 'igreen']
       }
     },
     onBackspace () {
@@ -135,7 +135,7 @@ export default {
    background-color: #DDD;
 }
 
-.element .fa{
+.element .elem-evo{
   color: #2e7d32;
   font-size: 18px;
   margin-left: 6px;

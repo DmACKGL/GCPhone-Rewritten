@@ -37,6 +37,9 @@ import {
   faClock,
   faStar,
   faUser,
+  faArrowRight,
+  faArrowUp,
+  faArrowDown,
 } from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 
@@ -70,6 +73,9 @@ library.add(
   faClock,
   faStar,
   faUser,
+  faArrowRight,
+  faArrowUp,
+  faArrowDown
 )
 // eslint-disable-next-line no-unused-vars
 import $ from "expose-loader?exposes[]=$&exposes[]=jQuery!jquery";
