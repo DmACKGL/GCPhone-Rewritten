@@ -12,27 +12,27 @@ const state = {
 }
 
 const getters = {
-  twitterUsername: ({ twitterUsername }) => twitterUsername,
-  twitterPassword: ({ twitterPassword }) => twitterPassword,
-  twitterAvatarUrl: ({ twitterAvatarUrl }) => twitterAvatarUrl,
-  twitterNotification: ({ twitterNotification }) => twitterNotification,
-  twitterNotificationSound: ({ twitterNotificationSound }) => twitterNotificationSound,
-  tweets: ({ tweets }) => tweets,
-  favoriteTweets: ({ favoriteTweets }) => favoriteTweets
+  twitterUsername: ({twitterUsername}) => twitterUsername,
+  twitterPassword: ({twitterPassword}) => twitterPassword,
+  twitterAvatarUrl: ({twitterAvatarUrl}) => twitterAvatarUrl,
+  twitterNotification: ({twitterNotification}) => twitterNotification,
+  twitterNotificationSound: ({twitterNotificationSound}) => twitterNotificationSound,
+  tweets: ({tweets}) => tweets,
+  favoriteTweets: ({favoriteTweets}) => favoriteTweets
 }
 
 const actions = {
-  twitterCreateNewAccount (_, {username, password, avatarUrl}) {
+  twitterCreateNewAccount(_, {username, password, avatarUrl}) {
     PhoneAPI.twitter_createAccount(username, password, avatarUrl)
   },
   // eslint-disable-next-line no-unused-vars
-  twitterLogin ({ commit }, { username, password }) {
+  twitterLogin({commit}, {username, password}) {
     PhoneAPI.twitter_login(username, password)
   },
-  twitterChangePassword ({ state }, newPassword) {
+  twitterChangePassword({state}, newPassword) {
     PhoneAPI.twitter_changePassword(state.twitterUsername, state.twitterPassword, newPassword)
   },
-  twitterLogout ({ commit }) {
+  twitterLogout({commit}) {
     localStorage.removeItem('gcphone_twitter_username')
     localStorage.removeItem('gcphone_twitter_password')
     localStorage.removeItem('gcphone_twitter_avatarUrl')
@@ -42,26 +42,26 @@ const actions = {
       avatarUrl: undefined
     })
   },
-  twitterSetAvatar ({ state }, { avatarUrl }) {
+  twitterSetAvatar({state}, {avatarUrl}) {
     PhoneAPI.twitter_setAvatar(state.twitterUsername, state.twitterPassword, avatarUrl)
   },
-  twitterPostTweet ({ state }, { message }) {
+  twitterPostTweet({state}, {message}) {
     if (/^https?:\/\/.*\.(png|jpg|jpeg|gif)$/.test(message)) {
       PhoneAPI.twitter_postTweetImg(state.twitterUsername, state.twitterPassword, message)
     } else {
       PhoneAPI.twitter_postTweet(state.twitterUsername, state.twitterPassword, PhoneAPI.convertEmoji(message))
     }
   },
-  twitterToogleLike ({ state }, { tweetId }) {
+  twitterToogleLike({state}, {tweetId}) {
     PhoneAPI.twitter_toggleLikeTweet(state.twitterUsername, state.twitterPassword, tweetId)
   },
-  setAccount ({ commit }, data) {
+  setAccount({commit}, data) {
     localStorage['gcphone_twitter_username'] = data.username
     localStorage['gcphone_twitter_password'] = data.password
     localStorage['gcphone_twitter_avatarUrl'] = data.avatarUrl
     commit('UPDATE_ACCOUNT', data)
   },
-  addTweet ({ commit, state }, tweet) {
+  addTweet({commit, state}, tweet) {
     let notif = state.twitterNotification === 2
     if (state.twitterNotification === 1) {
       notif = tweet.message && tweet.message.toLowerCase().indexOf(state.twitterUsername.toLowerCase()) !== -1
@@ -74,46 +74,46 @@ const actions = {
         sound: state.twitterNotificationSound ? 'Twitter_Sound_Effect.ogg' : undefined
       })
     }
-    commit('ADD_TWEET', { tweet })
+    commit('ADD_TWEET', {tweet})
   },
-  fetchTweets ({ state }) {
+  fetchTweets({state}) {
     PhoneAPI.twitter_getTweets(state.twitterUsername, state.twitterPassword)
   },
-  fetchFavoriteTweets ({ state }) {
+  fetchFavoriteTweets({state}) {
     PhoneAPI.twitter_getFavoriteTweets(state.twitterUsername, state.twitterPassword)
   },
-  setTwitterNotification ({ commit }, value) {
+  setTwitterNotification({commit}, value) {
     localStorage['gcphone_twitter_notif'] = value
-    commit('SET_TWITTER_NOTIFICATION', { notification: value })
+    commit('SET_TWITTER_NOTIFICATION', {notification: value})
   },
-  setTwitterNotificationSound ({ commit }, value) {
+  setTwitterNotificationSound({commit}, value) {
     localStorage['gcphone_twitter_notif_sound'] = value
-    commit('SET_TWITTER_NOTIFICATION_SOUND', { notificationSound: value })
+    commit('SET_TWITTER_NOTIFICATION_SOUND', {notificationSound: value})
   }
 }
 
 const mutations = {
-  SET_TWITTER_NOTIFICATION (state, { notification }) {
+  SET_TWITTER_NOTIFICATION(state, {notification}) {
     state.twitterNotification = notification
   },
-  SET_TWITTER_NOTIFICATION_SOUND (state, { notificationSound }) {
+  SET_TWITTER_NOTIFICATION_SOUND(state, {notificationSound}) {
     state.twitterNotificationSound = notificationSound
   },
-  UPDATE_ACCOUNT (state, { username, password, avatarUrl }) {
+  UPDATE_ACCOUNT(state, {username, password, avatarUrl}) {
     state.twitterUsername = username
     state.twitterPassword = password
     state.twitterAvatarUrl = avatarUrl
   },
-  SET_TWEETS (state, { tweets }) {
+  SET_TWEETS(state, {tweets}) {
     state.tweets = tweets
   },
-  SET_FAVORITE_TWEETS (state, { tweets }) {
+  SET_FAVORITE_TWEETS(state, {tweets}) {
     state.favoriteTweets = tweets
   },
-  ADD_TWEET (state, { tweet }) {
+  ADD_TWEET(state, {tweet}) {
     state.tweets = [tweet, ...state.tweets]
   },
-  UPDATE_TWEET_LIKE (state, { tweetId, likes }) {
+  UPDATE_TWEET_LIKE(state, {tweetId, likes}) {
     const tweetIndex = state.tweets.findIndex(t => t.id === tweetId)
     if (tweetIndex !== -1) {
       state.tweets[tweetIndex].likes = likes
@@ -123,7 +123,7 @@ const mutations = {
       state.favoriteTweets[tweetIndexFav].likes = likes
     }
   },
-  UPDATE_TWEET_ISLIKE (state, { tweetId, isLikes }) {
+  UPDATE_TWEET_ISLIKE(state, {tweetId, isLikes}) {
     const tweetIndex = state.tweets.findIndex(t => t.id === tweetId)
     if (tweetIndex !== -1) {
       Vue.set(state.tweets[tweetIndex], 'isLikes', isLikes)
@@ -171,36 +171,36 @@ if (process.env.NODE_ENV !== 'production') {
     likes: 0,
     time: new Date()
   },
-  {
-    id: 5,
-    message: 'Super Message de la mort.',
-    author: 'Gannon',
-    authorIcon: 'https://pbs.twimg.com/profile_images/986085090684960768/AcD9lOLw_bigger.jpg',
-    likes: 0,
-    time: new Date()
-  },
-  {
-    id: 6,
-    message: 'Super Message de la mort.',
-    author: 'Gannon',
-    authorIcon: 'https://pbs.twimg.com/profile_images/986085090684960768/AcD9lOLw_bigger.jpg',
-    likes: 0,
-    time: new Date()
-  },
-  {
-    id: 7,
-    message: 'Super Message de la mort.',
-    author: 'Gannon',
-    authorIcon: 'https://pbs.twimg.com/profile_images/986085090684960768/AcD9lOLw_bigger.jpg',
-    likes: 0,
-    time: new Date()
-  },
-  {
-    id: 8,
-    message: 'Super Message de la mort.',
-    author: 'Gannon',
-    authorIcon: 'https://pbs.twimg.com/profile_images/986085090684960768/AcD9lOLw_bigger.jpg',
-    likes: 0,
-    time: new Date()
-  }]
+    {
+      id: 5,
+      message: 'Super Message de la mort.',
+      author: 'Gannon',
+      authorIcon: 'https://pbs.twimg.com/profile_images/986085090684960768/AcD9lOLw_bigger.jpg',
+      likes: 0,
+      time: new Date()
+    },
+    {
+      id: 6,
+      message: 'Super Message de la mort.',
+      author: 'Gannon',
+      authorIcon: 'https://pbs.twimg.com/profile_images/986085090684960768/AcD9lOLw_bigger.jpg',
+      likes: 0,
+      time: new Date()
+    },
+    {
+      id: 7,
+      message: 'Super Message de la mort.',
+      author: 'Gannon',
+      authorIcon: 'https://pbs.twimg.com/profile_images/986085090684960768/AcD9lOLw_bigger.jpg',
+      likes: 0,
+      time: new Date()
+    },
+    {
+      id: 8,
+      message: 'Super Message de la mort.',
+      author: 'Gannon',
+      authorIcon: 'https://pbs.twimg.com/profile_images/986085090684960768/AcD9lOLw_bigger.jpg',
+      likes: 0,
+      time: new Date()
+    }]
 }

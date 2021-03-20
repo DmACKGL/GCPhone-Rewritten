@@ -182,10 +182,9 @@ export default {
   font-size: 26px;
   line-height: 52px;
   text-align: right;
-  padding-right: 8px;
   border-bottom: 1px solid #C0C0C0;
   margin-bottom: 8px;
-  box-shadow: 0px -6px 12px 0px rgba(189,189,189,0.4);
+  box-shadow: 0 -6px 12px 0 rgba(189,189,189,0.4);
   position: relative;
   padding-right: 60px;
 }

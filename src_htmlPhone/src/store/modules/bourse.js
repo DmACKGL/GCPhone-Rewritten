@@ -3,17 +3,17 @@ const state = {
 }
 
 const getters = {
-  bourseInfo: ({ bourseInfo }) => bourseInfo
+  bourseInfo: ({bourseInfo}) => bourseInfo
 }
 
 const actions = {
-  resetBourse ({ commit }) {
+  resetBourse({commit}) {
     commit('SET_BOURSE_INFO', [])
   }
 }
 
 const mutations = {
-  SET_BOURSE_INFO (state, bourseInfo) {
+  SET_BOURSE_INFO(state, bourseInfo) {
     state.bourseInfo = bourseInfo
   }
 }

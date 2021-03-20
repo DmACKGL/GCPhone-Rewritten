@@ -19,13 +19,12 @@ export default {
   },
   methods: {
     updateTime: function () {
-      var time = new Date()
-      var minutes = time.getMinutes()
+      const time = new Date();
+      let minutes = time.getMinutes();
       minutes = minutes > 9 ? minutes : '0' + minutes
-      var heure = time.getHours()
+      let heure = time.getHours();
       heure = heure > 9 ? heure : '0' + heure
-      var datestring = heure + ':' + minutes
-      this.time = datestring
+      this.time = heure + ':' + minutes
     }
   }
 }

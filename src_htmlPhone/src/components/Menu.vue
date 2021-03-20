@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 import InfoBare from './InfoBare'
 
 export default {
@@ -54,7 +54,7 @@ export default {
   computed: {
     ...mapGetters(['nbMessagesUnread', 'backgroundURL', 'Apps', 'useMouse'])
   },
-  created () {
+  created() {
     if (!this.useMouse) {
       this.$bus.$on('keyUpArrowLeft', this.onLeft)
       this.$bus.$on('keyUpArrowRight', this.onRight)
@@ -66,7 +66,7 @@ export default {
     }
     this.$bus.$on('keyUpBackspace', this.onBack)
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.$bus.$off('keyUpArrowLeft', this.onLeft)
     this.$bus.$off('keyUpArrowRight', this.onRight)
     this.$bus.$off('keyUpArrowDown', this.onDown)
@@ -107,21 +107,21 @@ export default {
       }
       this.currentSelect = newS
     },
-    openApp (app) {
-      this.$router.push({ name: app.routeName })
+    openApp(app) {
+      this.$router.push({name: app.routeName})
     },
-    onEnter () {
+    onEnter() {
       this.openApp(this.Apps[this.currentSelect])
     },
     onBack: function () {
-      this.$router.push({ name: 'home' })
+      this.$router.push({name: 'home'})
     }
   }
 }
 </script>
 
 <style scoped>
-.menu{
+.menu {
   position: relative;
   left: 0;
   top: 0;
@@ -129,29 +129,30 @@ export default {
   height: 100%;
   padding: 6px 8px;
 }
-.backblur{
+
+.backblur {
   top: -6px;
   left: -6px;
-  right:-6px;
+  right: -6px;
   bottom: -6px;
   position: absolute;
   background-size: cover !important;
   background-position: center !important;
   filter: blur(6px);
 }
+
 .menu_content {
   display: flex;
   flex-direction: column;
 }
 
-.menu_buttons{
+.menu_buttons {
   margin-top: 24px;
   display: flex;
   width: 100%;
   margin-left: 10px;
   align-items: flex-start;
   align-content: flex-start;
-  /* justify-content: space-around; */
   flex-flow: row;
   flex-wrap: wrap;
   margin-bottom: 0px;
@@ -164,15 +165,19 @@ export default {
   animation-duration: 0.6s;
   animation-fill-mode: forwards;
 }
+
 @keyframes up {
-  from {transform: translateY(100vh);}
-  to {transform: translateY(0);}
+  from {
+    transform: translateY(100vh);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 
 
-button{
+button {
   position: relative;
-  margin: 0px;
   border: none;
   width: 80px;
   height: 110px;
@@ -185,13 +190,14 @@ button{
   font-size: 14px;
   padding-top: 72px;
   font-weight: 700;
-  text-shadow: -1px 0 0 rgba(0,0,0, 0.8),
-             1px 0 0 rgba(0,0,0, 0.8),
-             0 -1px 0 rgba(0,0,0, 0.8),
-             0 1px 0 rgba(0,0,0, 0.8);
+  text-shadow: -1px 0 0 rgba(0, 0, 0, 0.8),
+  1px 0 0 rgba(0, 0, 0, 0.8),
+  0 -1px 0 rgba(0, 0, 0, 0.8),
+  0 1px 0 rgba(0, 0, 0, 0.8);
   text-align: center;
 }
-button .puce{
+
+button .puce {
   position: absolute;
   display: block;
   background-color: #EE3838;
@@ -199,26 +205,24 @@ button .puce{
   width: 26px;
   height: 26px;
   top: -5px;
-    left: 51px;
-  font-family: none;
+  left: 51px;
+  font-family: sans-serif;
   line-height: 28px;
   text-align: center;
   border-radius: 50%;
-      font-weight: 400;
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  bottom: 32px;
-  right: 12px;
-
+  font-weight: 400;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   bottom: 32px;
   right: 12px;
 }
-button.select, button:hover{
-  background-color: rgba(255,255,255, 0.2);
+
+button.select, button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
   border-radius: 12px;
 }
 
-.letra{
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica;
+.letra {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,sans-serif;
   font-weight: 400;
 }
 

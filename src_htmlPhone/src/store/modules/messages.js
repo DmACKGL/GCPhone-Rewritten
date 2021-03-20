@@ -5,51 +5,51 @@ const state = {
 }
 
 const getters = {
-  messages: ({ messages }) => messages,
-  nbMessagesUnread: ({ messages }) => {
+  messages: ({messages}) => messages,
+  nbMessagesUnread: ({messages}) => {
     return messages.filter(e => e.isRead !== 1).length
   }
 }
 
 const actions = {
-  setMessages ({ commit }, messages) {
+  setMessages({commit}, messages) {
     commit('SET_MESSAGES', messages)
   },
   // eslint-disable-next-line no-unused-vars
-  sendMessage ({ commit }, {phoneNumber, message}) {
+  sendMessage({commit}, {phoneNumber, message}) {
     PhoneAPI.sendMessage(phoneNumber, message)
   },
   // eslint-disable-next-line no-unused-vars
-  deleteMessage ({ commit }, { id }) {
+  deleteMessage({commit}, {id}) {
     PhoneAPI.deleteMessage(id)
   },
-  deleteMessagesNumber ({ commit, state }, { num }) {
+  deleteMessagesNumber({commit, state}, {num}) {
     PhoneAPI.deleteMessagesNumber(num)
     commit('SET_MESSAGES', state.messages.filter(mess => {
       return mess.transmitter !== num
     }))
   },
-  deleteAllMessages ({ commit }) {
+  deleteAllMessages({commit}) {
     PhoneAPI.deleteAllMessages()
     commit('SET_MESSAGES', [])
   },
-  setMessageRead ({ commit }, num) {
+  setMessageRead({commit}, num) {
     PhoneAPI.setMessageRead(num)
-    commit('SET_MESSAGES_READ', { num })
+    commit('SET_MESSAGES_READ', {num})
   },
-  resetMessage ({ commit }) {
+  resetMessage({commit}) {
     commit('SET_MESSAGES', [])
   }
 }
 
 const mutations = {
-  SET_MESSAGES (state, messages) {
+  SET_MESSAGES(state, messages) {
     state.messages = messages
   },
-  ADD_MESSAGE (state, message) {
+  ADD_MESSAGE(state, message) {
     state.messages.push(message)
   },
-  SET_MESSAGES_READ (state, { num }) {
+  SET_MESSAGES_READ(state, {num}) {
     for (let i = 0; i < state.messages.length; i += 1) {
       if (state.messages[i].transmitter === num && state.messages[i].isRead !== 1) {
         state.messages[i].isRead = 1
@@ -95,7 +95,14 @@ if (process.env.NODE_ENV !== 'production') {
     {id: 5, transmitter: 'police', time, message: 'Tu fait quoi?', isRead: 1, owner: 1},
     {id: 6, transmitter: 'ambulance', time, message: 'Oui est toi ?', isRead: 1, owner: 1},
     {id: 7, transmitter: '01', time, message: 'Salut sa va ?', isRead: 1, owner: 0},
-    {id: 8, transmitter: '01', time, message: 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', isRead: 0, owner: 1},
+    {
+      id: 8,
+      transmitter: '01',
+      time,
+      message: 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
+      isRead: 0,
+      owner: 1
+    },
     {id: 9, transmitter: '01', time, message: 'GPS: -1034.5810546875, -2734.1027832031', isRead: 1, owner: 0},
     {id: 44, transmitter: '01', time, message: 'https://i.imgur.com/gthahbs.png', isRead: 1, owner: 0},
     {id: 10, transmitter: '02', time, message: 'Salut sa va ?', isRead: 1, owner: 0},

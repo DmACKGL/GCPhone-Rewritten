@@ -6,7 +6,7 @@ const constraints = {
 /* eslint-disable */
 class VoiceRTC {
 
-  constructor (RTCConfig) {
+  constructor(RTCConfig) {
     this.myPeerConnection = null
     this.candidates = []
     this.listener = {}
@@ -18,13 +18,13 @@ class VoiceRTC {
     this.RTCConfig = RTCConfig
   }
 
-  async init () {
+  async init() {
     await this.close()
     this.myPeerConnection = new RTCPeerConnection(this.RTCConfig)
     this.stream = await navigator.mediaDevices.getUserMedia(constraints)
   }
 
-  newConnection () {
+  newConnection() {
     this.close()
     this.candidates = []
     this.myCandidates = []
@@ -36,26 +36,26 @@ class VoiceRTC {
     this.myPeerConnection.onaddstream = this.onaddstream.bind(this)
   }
 
-  close () {
+  close() {
     if (this.myPeerConnection !== null) {
       this.myPeerConnection.close()
     }
     this.myPeerConnection = null
   }
 
-  async prepareCall () {
+  async prepareCall() {
     await this.init()
     this.newConnection()
     this.initiator = true
     this.myPeerConnection.addStream(this.stream)
     this.myPeerConnection.onicecandidate = this.onicecandidate.bind(this)
     this.offer = await this.myPeerConnection.createOffer()
-    this.myPeerConnection.setLocalDescription(this.offer)
+    await this.myPeerConnection.setLocalDescription(this.offer)
     return btoa(JSON.stringify(this.offer))
   }
 
 
-  async acceptCall (infoCall) {
+  async acceptCall(infoCall) {
     const offer = JSON.parse(atob(infoCall.rtcOffer))
     this.newConnection()
     this.initiator = false
@@ -63,19 +63,19 @@ class VoiceRTC {
     this.myPeerConnection.onicecandidate = this.onicecandidate.bind(this)
     this.myPeerConnection.addStream(this.stream)
     this.offer = new RTCSessionDescription(offer)
-    this.myPeerConnection.setRemoteDescription(this.offer)
+    await this.myPeerConnection.setRemoteDescription(this.offer)
     this.answer = await this.myPeerConnection.createAnswer()
-    this.myPeerConnection.setLocalDescription(this.answer)
+    await this.myPeerConnection.setLocalDescription(this.answer)
     return btoa(JSON.stringify(this.answer))
   }
 
-  async onReceiveAnswer (answerData) {
+  async onReceiveAnswer(answerData) {
     const answerObj = JSON.parse(atob(answerData))
     this.answer = new RTCSessionDescription(answerObj)
-    this.myPeerConnection.setRemoteDescription(this.answer)
+    await this.myPeerConnection.setRemoteDescription(this.answer)
   }
 
-  onicecandidate (event) {
+  onicecandidate(event) {
     if (event.candidate !== undefined) {
       this.myCandidates.push(event.candidate)
       if (this.listener['onCandidate'] !== undefined) {
@@ -93,7 +93,7 @@ class VoiceRTC {
     return candidates
   }
 
-  addIceCandidates (candidatesRaw) {
+  addIceCandidates(candidatesRaw) {
     if (this.myPeerConnection !== null) {
       const candidates = JSON.parse(atob(candidatesRaw))
       candidates.forEach((candidate) => {
@@ -104,7 +104,7 @@ class VoiceRTC {
     }
   }
 
-  addEventListener (eventName, callBack) {
+  addEventListener(eventName, callBack) {
     if (eventName === 'onCandidate') {
       if (this.listener[eventName] === undefined) {
         this.listener[eventName] = []
@@ -116,7 +116,7 @@ class VoiceRTC {
 
   onaddstream(event) {
     this.audio.srcObject = event.stream
-    this.audio.play()
+    this.audio.play().then()
   }
 
 }

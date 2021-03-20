@@ -64,7 +64,6 @@
 </template>
 
 <script>
-// eslint-disable-next-line
 import { mapGetters, mapActions } from 'vuex'
 import InfoBare from './../InfoBare'
 

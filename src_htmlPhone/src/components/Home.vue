@@ -9,10 +9,14 @@
       v-if="messages.length >= warningMessageCount"
       class="warningMess"
     >
-      <div class="warningMess_icon"><FontAwesomeIcon :icon="['fas', 'exclamation-circle']" /></div>
+      <div class="warningMess_icon">
+        <FontAwesomeIcon :icon="['fas', 'exclamation-circle']" />
+      </div>
       <span class="warningMess_content">
         <span class="warningMess_title">{{ IntlString('PHONE_WARNING_MESSAGE') }}</span><br>
-        <span class="warningMess_mess">{{ messages.length }} / {{ warningMessageCount }} {{ IntlString('PHONE_WARNING_MESSAGE_MESS') }}</span>
+        <span class="warningMess_mess">{{ messages.length }} / {{
+          warningMessageCount
+        }} {{ IntlString('PHONE_WARNING_MESSAGE_MESS') }}</span>
       </span>
     </span>
 
@@ -52,14 +56,14 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 import InfoBare from './InfoBare'
 
 export default {
   components: {
     InfoBare
   },
-  data () {
+  data() {
     return {
       timeDisplay: null,
       currentSelect: 0
@@ -68,7 +72,7 @@ export default {
   computed: {
     ...mapGetters(['IntlString', 'useMouse', 'nbMessagesUnread', 'backgroundURL', 'messages', 'AppsHome', 'warningMessageCount'])
   },
-  created () {
+  created() {
     if (!this.useMouse) {
       this.$bus.$on('keyUpArrowLeft', this.onLeft)
       this.$bus.$on('keyUpArrowRight', this.onRight)
@@ -80,7 +84,7 @@ export default {
     }
     this.$bus.$on('keyUpBackspace', this.onBack)
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.$bus.$off('keyUpArrowLeft', this.onLeft)
     this.$bus.$off('keyUpArrowRight', this.onRight)
     this.$bus.$off('keyUpArrowDown', this.onDown)
@@ -90,25 +94,25 @@ export default {
   },
   methods: {
     ...mapActions(['closePhone', 'setMessages']),
-    onLeft () {
+    onLeft() {
       this.currentSelect = (this.currentSelect + 1) % (this.AppsHome.length + 1)
     },
-    onRight () {
+    onRight() {
       this.currentSelect = (this.currentSelect + this.AppsHome.length) % (this.AppsHome.length + 1)
     },
-    onUp () {
+    onUp() {
       this.currentSelect = Math.max(this.currentSelect - 4, 0)
     },
-    onDown () {
+    onDown() {
       this.currentSelect = Math.min(this.currentSelect + 4, this.AppsHome.length)
     },
-    openApp (app) {
-      this.$router.push({ name: app.routeName })
+    openApp(app) {
+      this.$router.push({name: app.routeName})
     },
-    onEnter () {
+    onEnter() {
       this.openApp(this.AppsHome[this.currentSelect] || {routeName: 'menu'})
     },
-    onBack () {
+    onBack() {
       this.closePhone()
     }
   },
@@ -116,7 +120,7 @@ export default {
 </script>
 
 <style scoped="true">
-.home{
+.home {
   background-size: cover !important;
   background-position: center !important;
 
@@ -130,7 +134,8 @@ export default {
   justify-content: center;
   color: gray;
 }
-.warningMess{
+
+.warningMess {
   background-color: white;
   position: absolute;
   left: 12px;
@@ -140,11 +145,11 @@ export default {
   display: flex;
   padding: 12px;
   border-radius: 4px;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
 }
-.warningMess .warningMess_icon{
+
+.warningMess .warningMess_icon {
   display: flex;
-  width: 16%;
   align-items: center;
   justify-content: center;
   font-size: 28px;
@@ -152,26 +157,30 @@ export default {
   width: 42px;
   border-radius: 50%;
 }
+
 .warningMess .warningMess_icon .fa {
   text-align: center;
   color: #F94B42;
 }
-.warningMess .warningMess_content{
+
+.warningMess .warningMess_content {
   padding-left: 12px;
-  background-color: rgba(255,255,255, 0.2);
+  background-color: rgba(255, 255, 255, 0.2);
 }
+
 .warningMess_title {
   font-size: 20px;
 }
+
 .warningMess_mess {
   font-size: 16px;
 }
 
-.home_buttons{
+.home_buttons {
   display: flex;
   padding: 6px;
   width: 100%;
-  bottom:1px;
+  bottom: 1px;
   position: absolute;
   align-items: flex-end;
   flex-flow: row;
@@ -180,9 +189,10 @@ export default {
   justify-content: space-between;
   transition: all 0.5s ease-in-out;
 }
-button{
+
+button {
   position: relative;
-  margin: 0px;
+  margin: 0;
   border: none;
   width: 80px;
   height: 76px;
@@ -194,54 +204,50 @@ button{
   font-size: 14px;
   padding-top: 72px;
   font-weight: 700;
-  text-shadow: -1px 0 0 rgba(0,0,0, 0.8),
-             1px 0 0 rgba(0,0,0, 0.8),
-             0 -1px 0 rgba(0,0,0, 0.8),
-             0 1px 0 rgba(0,0,0, 0.8);
+  text-shadow: -1px 0 0 rgba(0, 0, 0, 0.8),
+  1px 0 0 rgba(0, 0, 0, 0.8),
+  0 -1px 0 rgba(0, 0, 0, 0.8),
+  0 1px 0 rgba(0, 0, 0, 0.8);
   text-align: center;
 }
 
 
-button .puce{
-
- position: absolute;
+button .puce {
+  position: absolute;
   display: block;
   background-color: #EE3838;
   font-size: 14px;
   width: 26px;
   height: 26px;
   top: -5px;
-    left: 51px;
-  font-family: none;
+  left: 51px;
+  font-family: serif;
   line-height: 28px;
   text-align: center;
   border-radius: 50%;
   font-weight: 400;
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  bottom: 32px;
-  right: 12px;
-
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   bottom: 32px;
   right: 12px;
 }
-button.select, button:hover{
-  background-color: rgba(255,255,255, 0.2);
+
+button.select, button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
   border-radius: 22%;
 }
 
-.btn_menu_ctn{
+.btn_menu_ctn {
   width: 100%;
   display: flex;
   height: 70px;
   justify-content: center;
   align-content: center;
-    border-radius: 24px;
+  border-radius: 24px;
 }
+
 .btn_menu {
   height: 50px;
 }
-
-
 
 
 </style>

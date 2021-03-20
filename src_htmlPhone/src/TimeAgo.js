@@ -29,15 +29,15 @@ const defaultLocales = {
   'fr_FR': [
     "à l'instant",
     ["il y a %s seconde", "il y a %s secondes"],
-    ["il y a %s minute",  "il y a %s minutes"],
-    ["il y a %s heure",   "il y a %s heures"],
-    ["il y a %s jour",    "il y a %s jours"],
+    ["il y a %s minute", "il y a %s minutes"],
+    ["il y a %s heure", "il y a %s heures"],
+    ["il y a %s jour", "il y a %s jours"],
     ["il y a %s semaine", "il y a %s semaines"],
-    ["il y a %s mois",    "il y a %s mois"],
-    ["il y a %s an",      "il y a %s ans"]
+    ["il y a %s mois", "il y a %s mois"],
+    ["il y a %s an", "il y a %s ans"]
   ]
 }
-export default function install(Vue, { name = 'timeago', locale = 'fr_FR', locales = defaultLocales} = {} ) {
+export default function install(Vue, {name = 'timeago', locale = 'fr_FR', locales = defaultLocales} = {}) {
 
   if (!locales || Object.keys(locales).length === 0) {
     throw new TypeError('Expected locales to have at least one locale.')
@@ -95,24 +95,24 @@ export default function install(Vue, { name = 'timeago', locale = 'fr_FR', local
           seconds <= 5
             ? pluralOrSingular('just now', this.currentLocale[0])
             : seconds < MINUTE
-              ? pluralOrSingular(seconds, this.currentLocale[1])
-              : seconds < HOUR
-                ? pluralOrSingular(seconds / MINUTE, this.currentLocale[2])
-                : seconds < DAY
-                  ? pluralOrSingular(seconds / HOUR, this.currentLocale[3])
-                  : seconds < WEEK
-                    ? pluralOrSingular(seconds / DAY, this.currentLocale[4])
-                    : seconds < MONTH
-                      ? pluralOrSingular(seconds / WEEK, this.currentLocale[5])
-                      : seconds < YEAR
-                        ? pluralOrSingular(
-                            seconds / MONTH,
-                            this.currentLocale[6]
-                          )
-                        : pluralOrSingular(
-                            seconds / YEAR,
-                            this.currentLocale[7]
-                          )
+            ? pluralOrSingular(seconds, this.currentLocale[1])
+            : seconds < HOUR
+              ? pluralOrSingular(seconds / MINUTE, this.currentLocale[2])
+              : seconds < DAY
+                ? pluralOrSingular(seconds / HOUR, this.currentLocale[3])
+                : seconds < WEEK
+                  ? pluralOrSingular(seconds / DAY, this.currentLocale[4])
+                  : seconds < MONTH
+                    ? pluralOrSingular(seconds / WEEK, this.currentLocale[5])
+                    : seconds < YEAR
+                      ? pluralOrSingular(
+                        seconds / MONTH,
+                        this.currentLocale[6]
+                      )
+                      : pluralOrSingular(
+                        seconds / YEAR,
+                        this.currentLocale[7]
+                      )
 
         return ret
       }
@@ -163,12 +163,12 @@ export default function install(Vue, { name = 'timeago', locale = 'fr_FR', local
 
   VueTimeago.locale = 'fr_FR'
   VueTimeago.locales = {}
-  
+
   Vue.prototype.$timeago = {
-    setCurrentLocale (locale) {
+    setCurrentLocale(locale) {
       VueTimeago.locale = locale
     },
-    addLocale (locale, data) {
+    addLocale(locale, data) {
       VueTimeago.locales[locale] = data
     }
   }

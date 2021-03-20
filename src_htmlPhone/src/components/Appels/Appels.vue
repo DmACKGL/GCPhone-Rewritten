@@ -134,7 +134,6 @@ export default {
   height: 56px;
 }
 .subMenu-elem {
-  height: 100%;
   width: 100%;
   text-align: center;
   line-height: 56px;

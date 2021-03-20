@@ -67,7 +67,7 @@
 
 <script>
 import PhoneTitle from './PhoneTitle'
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 
 export default {
   name: 'Hello',
@@ -142,13 +142,7 @@ export default {
     this.$bus.$off('keyUpEnter', this.onEnter)
   },
   methods: {
-    styleTitle: function () {
-      return {
-        color: this.color,
-        backgroundColor: this.backgroundColor
-      }
-    },
-    stylePuce (data) {
+    stylePuce(data) {
       data = data || {}
       if (data.icon !== undefined) {
         return {
@@ -178,13 +172,13 @@ export default {
       this.currentSelect = this.currentSelect === this.list.length - 1 ? 0 : this.currentSelect + 1
       this.scrollIntoViewIfNeeded()
     },
-    selectItem (item) {
+    selectItem(item) {
       this.$emit('select', item)
     },
-    optionItem (item) {
+    optionItem(item) {
       this.$emit('option', item)
     },
-    back () {
+    back() {
       this.$emit('back')
     },
     onRight: function () {
@@ -200,30 +194,30 @@ export default {
 </script>
 
 <style scoped>
-.list{
+.list {
   height: 100%;
 }
 
 
-.elements{
+.elements {
   overflow-y: auto;
 }
 
-.element{
+.element {
   height: 58px;
   line-height: 58px;
   display: flex;
   align-items: center;
   position: relative;
   font-weight: 300;
-    font-size: 18px;
+  font-size: 18px;
 }
 
 .element.select, .element:hover {
-   background-color: #DDD;
+  background-color: #DDD;
 }
 
-.elem-pic{
+.elem-pic {
   margin-left: 12px;
   height: 48px;
   width: 48px;
@@ -231,44 +225,47 @@ export default {
   line-height: 48px;
   font-weight: 200;
 }
-.elem-puce{
+
+.elem-puce {
   background-color: #EE3838;
-  top: 0px;
-  color:white;
+  top: 0;
+  color: white;
   height: 18px;
   width: 18px;
   line-height: 18px;
   border-radius: 50%;
   text-align: center;
   font-size: 14px;
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
   position: absolute;
   left: 42px;
   z-index: 6;
 }
-.elem-title{
+
+.elem-title {
   margin-left: 12px;
   font-size: 20px;
-    font-weight: 400;
+  font-weight: 400;
 }
+
 .elem-title-has-desc {
-  margin-top:-15px;
+  margin-top: -15px;
   margin-left: 12px;
 }
-.elem-description{
-  text-align:left;
-  color:grey;
-  position:absolute;
-  display:block;
-  width:75%;
-  left:73px;
-  top:12px;
-  font-weight: 100px;
-  font-size:13.5px;
-  font-style:italic;
-  overflow:hidden;
-  text-overflow:ellipsis;
+
+.elem-description {
+  text-align: left;
+  color: grey;
+  position: absolute;
+  display: block;
+  width: 75%;
+  left: 73px;
+  top: 12px;
+  font-size: 14px;
+  font-style: italic;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 </style>

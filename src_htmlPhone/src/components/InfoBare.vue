@@ -16,10 +16,11 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 import CurrentTime from './CurrentTime'
+
 export default {
-    components: {
+  components: {
     CurrentTime
   },
   computed: mapGetters(['config']),
@@ -27,84 +28,90 @@ export default {
 </script>
 <style scoped>
 .barre-header {
-    height: 24px;
-    font-size: 17px;
-    line-height: 24px;
-    padding: 0px 20px 0px 24px;
-    width: 100%;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.3);
-    position: relative;
-}
-.barre-header hr {
-    position: absolute;
-    display: inline-block;
+  height: 24px;
+  font-size: 17px;
+  line-height: 24px;
+  padding: 0px 20px 0px 24px;
+  width: 100%;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: relative;
 }
 
-.reseau{
-font-size: 12px;
+.barre-header hr {
+  position: absolute;
+  display: inline-block;
+}
+
+.reseau {
+  font-size: 12px;
 }
 
 .barre1 {
-    height: 12px;
-    width: 3px;
-    right: 53px;
-    background-color: rgba(255, 255, 255, 0.6);
-    color: rgba(255, 255, 255, 0.6);
-    border: none;
-    bottom: -1px;
+  height: 12px;
+  width: 3px;
+  right: 53px;
+  background-color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.6);
+  border: none;
+  bottom: -1px;
 }
+
 .barre2 {
-    height: 9px;
-    width: 3px;
-    right: 58px;
-    background-color: white;
-    border: none;
-    bottom: -1px;
+  height: 9px;
+  width: 3px;
+  right: 58px;
+  background-color: white;
+  border: none;
+  bottom: -1px;
 }
+
 .barre3 {
-    height: 6px;
-    width: 3px;
-    right: 63px;
-    background-color: white;
-    border: none;
-    bottom: -1px;
+  height: 6px;
+  width: 3px;
+  right: 63px;
+  background-color: white;
+  border: none;
+  bottom: -1px;
 }
+
 .barre4 {
-    height: 3px;
-    width: 3px;
-    right: 68px;
-    background-color: white;
-    border: none;
-    bottom: -1px;
+  height: 3px;
+  width: 3px;
+  right: 68px;
+  background-color: white;
+  border: none;
+  bottom: -1px;
 }
-.time{
-    text-align: right;
-    float: right;
-    margin-right: -14px;
-    font-size: 12px;
-    padding-right: 12px;
+
+.time {
+  text-align: right;
+  float: right;
+  margin-right: -14px;
+  font-size: 12px;
+  padding-right: 12px;
 
 }
 
 
 .batterie1 {
-    height: 10px;
-    width: 7px;
-    right: 78px;
-    background-color: rgb(255, 255, 255);
-    color: rgb(255, 255, 255);
-    border-radius: 0.5px;
-    border: none;
-    bottom: -1px;
+  height: 10px;
+  width: 7px;
+  right: 78px;
+  background-color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
+  border-radius: 1px;
+  border: none;
+  bottom: -1px;
 }
+
 .batterie2 {
-    height: 13px;
-    width: 5px;
-    right: 79px;
-    bottom: 0px;
-    background-color: rgba(255, 255, 255, 0.6);
-    border: 0.5px solid white;
-    border-radius: 1px;
+  height: 13px;
+  width: 5px;
+  right: 79px;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.6);
+  border: 1px solid white;
+  border-radius: 1px;
 }
 </style>

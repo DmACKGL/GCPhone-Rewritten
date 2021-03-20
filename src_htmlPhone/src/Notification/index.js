@@ -8,11 +8,9 @@ const Notify = {
     this.installed = true
 
     Vue.component('Notification', Notification)
-    const notify = (params) => {
+    Vue.notify = (params) => {
       events.$emit('add', params)
     }
-
-    Vue.notify = notify
     Object.defineProperties(Vue.prototype, {
       $notify: {
         get: () => Vue.notify

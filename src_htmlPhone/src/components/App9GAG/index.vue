@@ -4,7 +4,7 @@
       :title="'9 GAG (' + currentSelectPost + ')'"
       background-color="#000"
       @back="quit"
-    />  
+    />
     <div
       class="phone_content"
       @click="onClick"
@@ -45,11 +45,12 @@
 
 <script>
 import PhoneTitle from './../PhoneTitle'
+
 export default {
   components: {
     PhoneTitle
   },
-  data () {
+  data() {
     return {
       nextCursor: 'c=10',
       currentSelectPost: 0,
@@ -57,7 +58,7 @@ export default {
     }
   },
   computed: {
-    currentPost () {
+    currentPost() {
       if (this.posts && this.posts.length > this.currentSelectPost) {
         return this.posts[this.currentSelectPost]
       }
@@ -76,14 +77,14 @@ export default {
     this.$bus.$off('keyUpBackspace', this.quit)
   },
   methods: {
-    async loadItems () {
+    async loadItems() {
       let url = 'https://9gag.com/v1/group-posts/group/default/type/hot?' + this.nextCursor
       const request = await fetch(url)
       const data = await request.json()
       this.posts.push(...data.data.posts)
       this.nextCursor = data.data.nextCursor
     },
-    previewPost () {
+    previewPost() {
       if (this.currentSelectPost === 0) {
         return 0
       }
@@ -94,7 +95,7 @@ export default {
         }
       }, 200)
     },
-    nextPost () {
+    nextPost() {
       this.currentSelectPost += 1
       setTimeout(() => {
         if (this.$refs.video !== undefined) {
@@ -102,7 +103,7 @@ export default {
         }
       }, 200)
     },
-    onClick ($event) {
+    onClick($event) {
       if ($event.offsetX < 200) {
         this.previewPost()
       } else {
@@ -110,19 +111,19 @@ export default {
       }
     },
     quit: function () {
-      this.$router.push({ name: 'home' })
+      this.$router.push({name: 'home'})
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-.post{
+.post {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  
+
   .post-title {
     padding-left: 12px;
     font-size: 18px;
@@ -130,13 +131,13 @@ export default {
     overflow: hidden;
   }
 
-  .post-content{
+  .post-content {
     display: flex;
     width: 390px;
     height: 670px;
   }
 
-  .post-video, .post-image{
+  .post-video, .post-image {
     object-fit: contain;
     max-width: 100%;
     max-height: 100%;
@@ -146,13 +147,14 @@ export default {
 }
 
 
-.loading{
+.loading {
   height: 100%;
   background-color: black;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
+
   div {
     text-align: center;
     margin-bottom: 36px;

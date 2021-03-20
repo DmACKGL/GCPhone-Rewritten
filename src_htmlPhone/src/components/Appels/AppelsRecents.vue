@@ -101,8 +101,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-import { groupBy, generateColorForStr } from '@/Utils'
+import {mapActions, mapGetters} from 'vuex'
+import {generateColorForStr, groupBy} from '@/Utils'
 import Modal from '@/components/Modal/index.js'
 
 export default {
@@ -128,7 +128,7 @@ export default {
         }).sort((a, b) => {
           return b.date - a.date
         }).slice(0, 6)
-        const contact = this.getContact(key) || { letter: '#' }
+        const contact = this.getContact(key) || {letter: '#'}
         hist.push({
           num: key,
           display: contact.display || key,
@@ -161,8 +161,7 @@ export default {
   methods: {
     ...mapActions(['startCall', 'appelsDeleteHistorique', 'appelsDeleteAllHistorique', 'addContact']),
     getContact (num) {
-      const find = this.contacts.find(e => e.number === num)
-      return find
+      return this.contacts.find(e => e.number === num)
     },
     scrollIntoViewIfNeeded: function () {
       this.$nextTick(() => {
@@ -210,7 +209,7 @@ export default {
     },
     async onEnter () {
       if (this.ignoreControls === true) return
-      this.selectItem(this.historique[this.selectIndex])
+      await this.selectItem(this.historique[this.selectIndex])
     },
     save (numero) {
       if (this.id !== -1) {

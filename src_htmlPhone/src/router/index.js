@@ -31,6 +31,7 @@ import Bourse from '@/components/Bourse/Bourse'
 import Photo from '@/components/Photo/Photo'
 
 import App9GAG from '@/components/App9GAG'
+
 Vue.use(Router)
 
 export default new Router({

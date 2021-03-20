@@ -52,6 +52,7 @@
           height="128"
           width="128"
           style="align-self: center;"
+          alt=""
         >
 
         <div
@@ -102,11 +103,13 @@
         data-maxlength="64"
         :data-defaultValue="localAccount.username"
       >
-        <input
-          type="text"
-          :value="localAccount.username"
-          @change="setLocalAccount($event, 'username')"
-        >
+        <label>
+          <input
+            type="text"
+            :value="localAccount.username"
+            @change="setLocalAccount($event, 'username')"
+          >
+        </label>
         <span class="highlight" />
         <span class="bar" />
         <label>{{ IntlString('APP_TWITTER_ACCOUNT_USERNAME') }}</label>
@@ -118,12 +121,14 @@
         data-model="password"
         data-maxlength="30"
       >
-        <input
-          autocomplete="new-password"
-          type="password"
-          :value="localAccount.password"
-          @change="setLocalAccount($event, 'password')"
-        >
+        <label>
+          <input
+            autocomplete="new-password"
+            type="password"
+            :value="localAccount.password"
+            @change="setLocalAccount($event, 'password')"
+          >
+        </label>
         <span class="highlight" />
         <span class="bar" />
         <label>{{ IntlString('APP_TWITTER_ACCOUNT_PASSWORD') }}</label>
@@ -224,6 +229,7 @@
         height="128"
         width="128"
         style="align-self: center;"
+        alt=""
       >
 
       <div
@@ -273,6 +279,7 @@
         <img
           style="margin-bottom:10px"
           src="/html/static/img/twitter/bird.png"
+          alt=""
         >
       </div>
       <div
@@ -281,11 +288,13 @@
         data-maxlength="64"
         data-defaultValue=""
       >
-        <input
-          type="text"
-          :value="localAccount.username"
-          @change="setLocalAccount($event, 'username')"
-        >
+        <label>
+          <input
+            type="text"
+            :value="localAccount.username"
+            @change="setLocalAccount($event, 'username')"
+          >
+        </label>
         <span class="highlight" />
         <span class="bar" />
         <label>{{ IntlString('APP_TWITTER_NEW_ACCOUNT_USERNAME') }}</label>
@@ -297,12 +306,14 @@
         data-model="password"
         data-maxlength="30"
       >
-        <input
-          autocomplete="new-password"
-          type="password"
-          :value="localAccount.password"
-          @change="setLocalAccount($event, 'password')"
-        >
+        <label>
+          <input
+            autocomplete="new-password"
+            type="password"
+            :value="localAccount.password"
+            @change="setLocalAccount($event, 'password')"
+          >
+        </label>
         <span class="highlight" />
         <span class="bar" />
         <label>{{ IntlString('APP_TWITTER_NEW_ACCOUNT_PASSWORD') }}</label>
@@ -315,12 +326,14 @@
         data-model="password"
         data-maxlength="30"
       >
-        <input
-          autocomplete="new-password"
-          type="password"
-          :value="localAccount.passwordConfirm"
-          @change="setLocalAccount($event, 'passwordConfirm')"
-        >
+        <label>
+          <input
+            autocomplete="new-password"
+            type="password"
+            :value="localAccount.passwordConfirm"
+            @change="setLocalAccount($event, 'passwordConfirm')"
+          >
+        </label>
         <span class="highlight" />
         <span class="bar" />
         <label>{{ IntlString('APP_TWITTER_NEW_ACCOUNT_PASSWORD_CONFIRM') }}</label>
@@ -345,7 +358,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 import Modal from '@/components/Modal'
 
 const STATES = Object.freeze({
@@ -356,9 +369,8 @@ const STATES = Object.freeze({
   NOTIFICATION: 4
 })
 export default {
-  components: {
-  },
-  data () {
+  components: {},
+  data() {
     return {
       STATES,
       state: STATES.MENU,
@@ -374,10 +386,10 @@ export default {
   },
   computed: {
     ...mapGetters(['IntlString', 'useMouse', 'twitterUsername', 'twitterPassword', 'twitterAvatarUrl', 'twitterNotification', 'twitterNotificationSound']),
-    isLogin () {
+    isLogin() {
       return this.twitterUsername !== undefined && this.twitterUsername !== ''
     },
-    validAccount () {
+    validAccount() {
       return this.localAccount.username.length >= 4 && this.localAccount.password.length >= 6 && this.localAccount.password === this.localAccount.passwordConfirm
     }
   },
@@ -455,19 +467,19 @@ export default {
         }
       }
     },
-    onBack () {
+    onBack() {
       if (this.state !== this.STATES.MENU) {
         this.state = this.STATES.MENU
       } else {
         this.$bus.$emit('twitterHome')
       }
     },
-    setLocalAccount ($event, key) {
+    setLocalAccount($event, key) {
       this.localAccount[key] = $event.target.value
     },
-    async setLocalAccountAvartarTake () {
+    async setLocalAccountAvartarTake() {
       try {
-        const { url } = await this.$phoneAPI.takePhoto()
+        const {url} = await this.$phoneAPI.takePhoto()
         if (url !== null && url !== undefined) {
           this.localAccount.avatarUrl = url
         }
@@ -475,7 +487,7 @@ export default {
         console.log("ERROR")
       }
     },
-    async setLocalAccountAvartar () {
+    async setLocalAccountAvartar() {
       try {
         const data = await Modal.CreateTextModal({
           text: this.twitterAvatarUrl || 'https://i.imgur.com/'
@@ -485,9 +497,9 @@ export default {
         console.log("ERROR")
       }
     },
-    async onPressChangeAvartartake () {
+    async onPressChangeAvartartake() {
       try {
-        const { url } = await this.$phoneAPI.takePhoto()
+        const {url} = await this.$phoneAPI.takePhoto()
         if (url !== null && url !== undefined) {
           this.twitterSetAvatar({avatarUrl: url})
         }
@@ -495,7 +507,7 @@ export default {
         console.log("ERROR")
       }
     },
-    async onPressChangeAvartar () {
+    async onPressChangeAvartar() {
       try {
         const data = await Modal.CreateTextModal({
           text: this.twitterAvatarUrl || 'https://i.imgur.com/'
@@ -505,17 +517,17 @@ export default {
         console.log("ERROR")
       }
     },
-    login () {
+    login() {
       this.twitterLogin({
         username: this.localAccount.username,
         password: this.localAccount.password
       })
       this.state = STATES.MENU
     },
-    logout () {
+    logout() {
       this.twitterLogout()
     },
-    createAccount () {
+    createAccount() {
       if (this.validAccount === true) {
         this.twitterCreateNewAccount(this.localAccount)
         this.localAccount = {
@@ -527,16 +539,16 @@ export default {
         this.state = this.STATES.MENU
       }
     },
-    cancel () {
+    cancel() {
       this.state = STATES.MENU
     },
-    setNotification (value) {
+    setNotification(value) {
       this.setTwitterNotification(value)
     },
-    setNotificationSound (value) {
+    setNotificationSound(value) {
       this.setTwitterNotificationSound(value)
     },
-    async changePassword () {
+    async changePassword() {
       try {
         const password1 = await Modal.CreateTextModal({limit: 30})
         if (password1.text === '') return
@@ -570,20 +582,21 @@ export default {
 </script>
 
 <style scoped>
-.content{
-  margin: 6px 10px;
-  margin-top: 28px;
+.content {
+  margin: 28px 10px 6px;
   height: calc(100% - 48px);
   display: flex;
   flex-direction: column;
 }
+
 .group {
-  position:relative;
-  margin-top:24px;
+  position: relative;
+  margin-top: 24px;
 }
+
 .group.inputText {
-  position:relative;
-  margin-top:45px;
+  position: relative;
+  margin-top: 45px;
 }
 
 .group.bottom {
@@ -595,36 +608,39 @@ export default {
   flex-direction: row;
   align-items: center;
 }
-.group.img img{
+
+.group.img img {
   display: flex;
   flex-direction: row;
-  flex-grow: 0;
   flex: 0 0 128px;
   height: 128px;
   margin-right: 24px;
 }
 
-input 				{
-  font-size:24px;
-  display:block;
+input {
+  font-size: 24px;
+  display: block;
   width: 314px;
-  border:none;
-  border-bottom:1px solid #757575;
+  border: none;
+  border-bottom: 1px solid #757575;
 }
-input:focus 		{ outline:none; }
+
+input:focus {
+  outline: none;
+}
 
 /* LABEL ======================================= */
-.group.inputText label 				 {
-  color:#999;
-  font-size:18px;
-  font-weight:normal;
-  position:absolute;
-  pointer-events:none;
-  left:5px;
-  top:10px;
-  transition:0.2s ease all;
-  -moz-transition:0.2s ease all;
-  -webkit-transition:0.2s ease all;
+.group.inputText label {
+  color: #999;
+  font-size: 18px;
+  font-weight: normal;
+  position: absolute;
+  pointer-events: none;
+  left: 5px;
+  top: 10px;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
 }
 
 .checkbox {
@@ -675,114 +691,121 @@ input:focus 		{ outline:none; }
 }
 
 /* active state */
-.group.inputText input:focus ~ label, .group.inputText input:valid ~ label 		{
-  top:-24px;
-  font-size:18px;
-  color:#007aff;
+.group.inputText input:focus ~ label, .group.inputText input:valid ~ label {
+  top: -24px;
+  font-size: 18px;
+  color: #007aff;
 }
 
 /* BOTTOM BARS ================================= */
-.bar 	{ position:relative; display:block; width:100%; }
-.bar:before, .bar:after 	{
-  content:'';
-  height:2px;
-  width:0;
-  bottom:1px;
-  position:absolute;
-  background:#007aff;
-  transition:0.2s ease all;
-  -moz-transition:0.2s ease all;
-  -webkit-transition:0.2s ease all;
+.bar {
+  position: relative;
+  display: block;
+  width: 100%;
 }
+
+.bar:before, .bar:after {
+  content: '';
+  height: 2px;
+  width: 0;
+  bottom: 1px;
+  position: absolute;
+  background: #007aff;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
 .bar:before {
-  left:50%;
+  left: 50%;
 }
+
 .bar:after {
-  right:50%;
+  right: 50%;
 }
 
 /* active state */
 input:focus ~ .bar:before, input:focus ~ .bar:after,
-.group.select input ~ .bar:before, .group.select input ~ .bar:after{
-  width:50%;
+.group.select input ~ .bar:before, .group.select input ~ .bar:after {
+  width: 50%;
 }
 
 /* HIGHLIGHTER ================================== */
 .highlight {
-  position:absolute;
-  height:60%;
-  width:100px;
-  top:25%;
-  left:0;
-  pointer-events:none;
-  opacity:0.5;
+  position: absolute;
+  height: 60%;
+  width: 100px;
+  top: 25%;
+  left: 0;
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 /* active state */
 input:focus ~ .highlight {
-  -webkit-animation:inputHighlighter 0.3s ease;
-  -moz-animation:inputHighlighter 0.3s ease;
-  animation:inputHighlighter 0.3s ease;
+  -webkit-animation: inputHighlighter 0.3s ease;
+  -moz-animation: inputHighlighter 0.3s ease;
+  animation: inputHighlighter 0.3s ease;
 }
 
-.group .btn{
-    width: 100%;
-    padding: 0px 0px;
-    height: 48px;
-    color: #fff;
-    border: 0 none;
-    font-size: 22px;
-    font-weight: 500;
-    line-height: 34px;
-    color: #202129;
-    background-color: #edeeee;
-}
-.group.select .btn{
-    /* border: 6px solid #C0C0C0; */
-    line-height: 18px;
+.group .btn {
+  width: 100%;
+  padding: 0px 0px;
+  height: 48px;
+  border: 0 none;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 34px;
+  color: #202129;
+  background-color: #edeeee;
 }
 
-.group .btn.btn-blue{
+.group.select .btn {
+  line-height: 18px;
+}
+
+.group .btn.btn-blue {
   width: 293px;
   margin-left: 6px;
   border: 1px solid #007aff;
   color: #007aff;
   background-color: white;
-  font-weight: 500;
   border-radius: 10px;
   font-weight: 300;
   font-size: 19px;
 }
-.group.select .btn.btn-blue, .group:hover .btn.btn-blue{
+
+.group.select .btn.btn-blue, .group:hover .btn.btn-blue {
   background-color: #007aff;
   color: white;
   border: none;
 }
 
-.group .btn.btn-red{
+.group .btn.btn-red {
   border: 1px solid #ee3838;
   color: #ee3838;
   background-color: white;
   font-weight: 200;
   border-radius: 10px;
   width: 193px;
-  margin: 0 auto;
-  margin-bottom: 11px;
+  margin: 0 auto 11px;
 }
-.group.select .btn.btn-red, .group:hover .btn.btn-red{
+
+.group.select .btn.btn-red, .group:hover .btn.btn-red {
   background-color: #ee3838;
   color: white;
   border: none;
 }
 
-.group .btn.btn-gray{
+.group .btn.btn-gray {
   border: none;
   color: #222;
   background-color: #AAA;
   font-weight: 500;
   border-radius: 10px;
 }
-.group.select .btn.btn-gray, .group:hover .btn.btn-gray{
+
+.group.select .btn.btn-gray, .group:hover .btn.btn-gray {
   background-color: #757575;
   color: white;
   border: none;
@@ -790,15 +813,32 @@ input:focus ~ .highlight {
 
 /* ANIMATIONS ================ */
 @-webkit-keyframes inputHighlighter {
-	from { background:#007aff; }
-  to 	{ width:0; background:transparent; }
+  from {
+    background: #007aff;
+  }
+  to {
+    width: 0;
+    background: transparent;
+  }
 }
+
 @-moz-keyframes inputHighlighter {
-	from { background:#007aff; }
-  to 	{ width:0; background:transparent; }
+  from {
+    background: #007aff;
+  }
+  to {
+    width: 0;
+    background: transparent;
+  }
 }
+
 @keyframes inputHighlighter {
-	from { background:#007aff; }
-  to 	{ width:0; background:transparent; }
+  from {
+    background: #007aff;
+  }
+  to {
+    width: 0;
+    background: transparent;
+  }
 }
 </style>

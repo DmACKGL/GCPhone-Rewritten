@@ -1,6 +1,6 @@
 import store from '@/store'
 
-function getRGB (colorStr) {
+function getRGB(colorStr) {
   let match = colorStr.match(/rgba?\((\d{1,3}), ?(\d{1,3}), ?(\d{1,3})\)?(?:, ?(\d(?:\.\d?))\))?/)
   if (match !== null) {
     return {
@@ -20,24 +20,24 @@ function getRGB (colorStr) {
   return undefined
 }
 
-export function groupBy (xs, key) {
+export function groupBy(xs, key) {
   return xs.reduce(function (rv, x) {
     (rv[x[key]] = rv[x[key]] || []).push(x)
     return rv
   }, {})
 }
 
-export function generateColorForStr (str) {
+export function generateColorForStr(str) {
   if (str.length === 0 || str[0] === '#') {
     return '#D32F2F'
   }
   const h = str.split('').reduce((prevHash, currVal) =>
     (((prevHash << 5) - prevHash) + currVal.charCodeAt(0)) | 0
-  , 0)
+    , 0)
   return store.getters.colors[Math.abs(h) % store.getters.colors.length]
 }
 
-export function getBestFontColor (color) {
+export function getBestFontColor(color) {
   const rgb = getRGB(color)
   if (rgb === undefined) {
     return '#000000'

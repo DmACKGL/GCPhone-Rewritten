@@ -33,12 +33,12 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 import Modal from '@/components/Modal/index.js'
 import PhoneTitle from './../PhoneTitle'
 
 export default {
-  components: { PhoneTitle },
+  components: {PhoneTitle},
   data: function () {
     return {
       currentSelect: 0,
@@ -53,7 +53,7 @@ export default {
       this.currentSelect = 0
     }
   },
-  created () {
+  created() {
     if (!this.useMouse) {
       this.$bus.$on('keyUpArrowDown', this.onDown)
       this.$bus.$on('keyUpArrowUp', this.onUp)
@@ -64,7 +64,7 @@ export default {
       this.currentSelect = -1
     }
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.$bus.$off('keyUpArrowDown', this.onDown)
     this.$bus.$off('keyUpArrowUp', this.onUp)
     this.$bus.$off('keyUpArrowRight', this.onRight)
@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     ...mapActions(['tchatAddChannel', 'tchatRemoveChannel']),
-    scrollIntoViewIfNeeded () {
+    scrollIntoViewIfNeeded() {
       this.$nextTick(() => {
         const $select = this.$el.querySelector('.select')
         if ($select !== null) {
@@ -81,17 +81,17 @@ export default {
         }
       })
     },
-    onUp () {
+    onUp() {
       if (this.ignoreControls === true) return
       this.currentSelect = this.currentSelect === 0 ? 0 : this.currentSelect - 1
       this.scrollIntoViewIfNeeded()
     },
-    onDown () {
+    onDown() {
       if (this.ignoreControls === true) return
       this.currentSelect = this.currentSelect === this.tchatChannels.length - 1 ? this.currentSelect : this.currentSelect + 1
       this.scrollIntoViewIfNeeded()
     },
-    async onRight () {
+    async onRight() {
       if (this.ignoreControls === true) return
       this.ignoreControls = true
       let choix = [
@@ -102,19 +102,19 @@ export default {
       if (this.tchatChannels.length === 0) {
         choix.splice(1, 1)
       }
-      const rep = await Modal.CreateModal({ choix })
+      const rep = await Modal.CreateModal({choix})
       this.ignoreControls = false
       switch (rep.id) {
         case 1:
-          this.addChannelOption()
+          await this.addChannelOption()
           break
         case 2:
-          this.removeChannelOption()
+          await this.removeChannelOption()
           break
         case 3 :
       }
     },
-    async onEnter () {
+    async onEnter() {
       if (this.ignoreControls === true) return
       if (this.tchatChannels.length === 0) {
         this.ignoreControls = true
@@ -122,40 +122,40 @@ export default {
           {id: 1, title: this.IntlString('APP_DARKTCHAT_NEW_CHANNEL'), icons: 'plus', color: 'green'},
           {id: 3, title: this.IntlString('APP_DARKTCHAT_CANCEL'), icons: 'undo'}
         ]
-        const rep = await Modal.CreateModal({ choix })
+        const rep = await Modal.CreateModal({choix})
         this.ignoreControls = false
         if (rep.id === 1) {
-          this.addChannelOption()
+          await this.addChannelOption()
         }
       } else {
         const channel = this.tchatChannels[this.currentSelect].channel
         this.showChannel(channel)
       }
     },
-    showChannel (channel) {
-      this.$router.push({ name: 'tchat.channel.show', params: { channel } })
+    showChannel(channel) {
+      this.$router.push({name: 'tchat.channel.show', params: {channel}})
     },
-    onBack () {
+    onBack() {
       if (this.ignoreControls === true) return
-      this.$router.push({ name: 'home' })
+      this.$router.push({name: 'home'})
     },
-    async addChannelOption () {
+    async addChannelOption() {
       try {
         const rep = await Modal.CreateTextModal({limit: 20, title: this.IntlString('APP_DARKTCHAT_NEW_CHANNEL')})
         let channel = (rep || {}).text || ''
         channel = channel.toLowerCase().replace(/[^a-z]/g, '')
         if (channel.length > 0) {
           this.currentSelect = 0
-          this.tchatAddChannel({ channel })
+          this.tchatAddChannel({channel})
         }
       } catch (e) {
         console.log("ERROR")
       }
     },
-    async removeChannelOption () {
+    async removeChannelOption() {
       const channel = this.tchatChannels[this.currentSelect].channel
       this.currentSelect = 0
-      this.tchatRemoveChannel({ channel })
+      this.tchatRemoveChannel({channel})
     }
 
   }
@@ -163,10 +163,11 @@ export default {
 </script>
 
 <style scoped>
-.list{
+.list {
   height: 100%;
 }
-.title{
+
+.title {
   padding-top: 22px;
   padding-left: 16px;
   height: 54px;
@@ -175,13 +176,14 @@ export default {
   color: white;
 }
 
-.elements{
+.elements {
   height: calc(100% - 54px);
   overflow-y: auto;
   background-color: #20201d;
   color: #a6a28c
 }
-.element{
+
+.element {
   height: 42px;
   line-height: 42px;
   display: flex;
@@ -189,13 +191,14 @@ export default {
   position: relative;
 }
 
-.elem-title{
+.elem-title {
   margin-left: 6px;
   font-size: 20px;
   text-transform: capitalize;
   transition: .15s;
   font-weight: 400;
 }
+
 .elem-title .diese {
   color: #0079d3;
   font-size: 22px;
@@ -203,29 +206,31 @@ export default {
   line-height: 40px;
 }
 
-.element.select, .element:hover{
-   background-color: white;
-   color: #0079d3;
+.element.select, .element:hover {
+  background-color: white;
+  color: #0079d3;
 
 }
+
 .element.select .elem-title, .element:hover .elem-title {
-   margin-left: 12px;
+  margin-left: 12px;
 }
+
 .element.select .elem-title .diese, .element:hover .elem-title .diese {
-   color:#0079d3;
+  color: #0079d3;
 }
- .elements::-webkit-scrollbar-track
-    {
-        box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-        background-color: #F5F5F5;
-    }
-  .elements::-webkit-scrollbar
-    {
-        width: 3px;
-        background-color: transparent;
-    }
-  .elements::-webkit-scrollbar-thumb
-    {
-        background-color: #0079d3;
-    }
+
+.elements::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #F5F5F5;
+}
+
+.elements::-webkit-scrollbar {
+  width: 3px;
+  background-color: transparent;
+}
+
+.elements::-webkit-scrollbar-thumb {
+  background-color: #0079d3;
+}
 </style>

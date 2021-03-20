@@ -31,12 +31,12 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 import Modal from '@/components/Modal/index.js'
 import PhoneTitle from './../PhoneTitle'
 
 export default {
-  components: { PhoneTitle },
+  components: {PhoneTitle},
   data: function () {
     return {
       currentSelect: 0,
@@ -51,7 +51,7 @@ export default {
       this.currentSelect = 0
     }
   },
-  created () {
+  created() {
     if (!this.useMouse) {
       this.$bus.$on('keyUpArrowDown', this.onDown)
       this.$bus.$on('keyUpArrowUp', this.onUp)
@@ -62,7 +62,7 @@ export default {
       this.currentSelect = -1
     }
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.$bus.$off('keyUpArrowDown', this.onDown)
     this.$bus.$off('keyUpArrowUp', this.onUp)
     this.$bus.$off('keyUpArrowRight', this.onRight)
@@ -71,7 +71,7 @@ export default {
   },
   methods: {
     ...mapActions(['notesAddChannel', 'notesRemoveChannel']),
-    scrollIntoViewIfNeeded () {
+    scrollIntoViewIfNeeded() {
       this.$nextTick(() => {
         const $select = this.$el.querySelector('.select')
         if ($select !== null) {
@@ -79,17 +79,17 @@ export default {
         }
       })
     },
-    onUp () {
+    onUp() {
       if (this.ignoreControls === true) return
       this.currentSelect = this.currentSelect === 0 ? 0 : this.currentSelect - 1
       this.scrollIntoViewIfNeeded()
     },
-    onDown () {
+    onDown() {
       if (this.ignoreControls === true) return
       this.currentSelect = this.currentSelect === this.notesChannels.length - 1 ? this.currentSelect : this.currentSelect + 1
       this.scrollIntoViewIfNeeded()
     },
-    async onRight () {
+    async onRight() {
       if (this.ignoreControls === true) return
       this.ignoreControls = true
       let choix = [
@@ -100,19 +100,19 @@ export default {
       if (this.notesChannels.length === 0) {
         choix.splice(1, 1)
       }
-      const rep = await Modal.CreateModal({ choix })
+      const rep = await Modal.CreateModal({choix})
       this.ignoreControls = false
       switch (rep.id) {
         case 1:
-          this.addChannelOption()
+          await this.addChannelOption()
           break
         case 2:
-          this.removeChannelOption()
+          await this.removeChannelOption()
           break
         case 3 :
       }
     },
-    async onEnter () {
+    async onEnter() {
       if (this.ignoreControls === true) return
       if (this.notesChannels.length === 0) {
         this.ignoreControls = true
@@ -120,38 +120,37 @@ export default {
           {id: 1, title: this.IntlString('APP_DARKTCHAT_NEW_CHANNEL'), icons: 'plus', color: 'green'},
           {id: 3, title: this.IntlString('APP_DARKTCHAT_CANCEL'), icons: 'undo'}
         ]
-        const rep = await Modal.CreateModal({ choix })
+        const rep = await Modal.CreateModal({choix})
         this.ignoreControls = false
         if (rep.id === 1) {
-          this.addChannelOption()
+          await this.addChannelOption()
         }
 
       }
     },
-    showChannel (channel) {
-      this.$router.push({ name: 'notes.channel.show', params: { channel } })
+    showChannel(channel) {
+      this.$router.push({name: 'notes.channel.show', params: {channel}})
     },
-    onBack () {
+    onBack() {
       if (this.ignoreControls === true) return
-      this.$router.push({ name: 'home' })
+      this.$router.push({name: 'home'})
     },
-    async addChannelOption () {
+    async addChannelOption() {
       try {
         const rep = await Modal.CreateTextModal({limit: 280, title: this.IntlString('APP_DARKTCHAT_NEW_CHANNEL')})
         let channel = (rep || {}).text || ' '
-        channel
         if (channel.length > 0) {
           this.currentSelect = 0
-          this.notesAddChannel({ channel })
+          this.notesAddChannel({channel})
         }
       } catch (e) {
         console.log("ERROR");
       }
     },
-    async removeChannelOption () {
+    async removeChannelOption() {
       const channel = this.notesChannels[this.currentSelect].channel
       this.currentSelect = 0
-      this.notesRemoveChannel({ channel })
+      this.notesRemoveChannel({channel})
     }
 
   }
@@ -159,10 +158,11 @@ export default {
 </script>
 
 <style scoped>
-.list{
+.list {
   height: 100%;
 }
-.title{
+
+.title {
   padding-top: 22px;
   padding-left: 16px;
   height: 54px;
@@ -171,13 +171,14 @@ export default {
   color: white;
 }
 
-.elements{
+.elements {
   height: calc(100% - 54px);
   overflow-y: auto;
   background-color: #20201d;
   color: #34302f
 }
-.element{
+
+.element {
   margin-top: 50px;
   height: 42px;
   line-height: 42px;
@@ -186,8 +187,7 @@ export default {
   position: relative;
 }
 
-.elem-title{
-  margin-left: 6px;
+.elem-title {
   width: 300px;
   font-size: 20px;
   transition: .15s;
@@ -197,6 +197,7 @@ export default {
   border-radius: 13px;
 
 }
+
 .elem-title .diese {
   color: #34302f;
   font-size: 22px;
@@ -204,29 +205,31 @@ export default {
   line-height: 40px;
 }
 
-.elem-title.select, .elem-title:hover{
-   background-color:rgba(112, 108, 108, 0.1);
-   color: #34302f;
+.elem-title.select, .elem-title:hover {
+  background-color: rgba(112, 108, 108, 0.1);
+  color: #34302f;
 
 }
+
 .element.select .elem-title, .element:hover .elem-title {
-   margin-left: 12px;
+  margin-left: 12px;
 }
+
 .element.select .elem-title .diese, .element:hover .elem-title .diese {
-   color:#f8d344;
+  color: #f8d344;
 }
- .elements::-webkit-scrollbar-track
-    {
-        box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-        background-color: #F5F5F5;
-    }
-  .elements::-webkit-scrollbar
-    {
-        width: 3px;
-        background-color: transparent;
-    }
-  .elements::-webkit-scrollbar-thumb
-    {
-        background-color: white;
-    }
+
+.elements::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #F5F5F5;
+}
+
+.elements::-webkit-scrollbar {
+  width: 3px;
+  background-color: transparent;
+}
+
+.elements::-webkit-scrollbar-thumb {
+  background-color: white;
+}
 </style>

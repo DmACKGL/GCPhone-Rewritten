@@ -7,7 +7,7 @@
     <div class="elements">
       <div
         v-for="(elem, key) in bourseInfo"
-        :key="key" 
+        :key="key"
         class="element"
         :class="{ select: key === currentSelect}"
       >
@@ -36,6 +36,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import { mapGetters } from 'vuex'
 import PhoneTitle from './../PhoneTitle'
@@ -133,7 +134,7 @@ export default {
 .element.select{
    background-color: #DDD;
 }
-    
+
 .element .fa{
   color: #2e7d32;
   font-size: 18px;
@@ -141,7 +142,7 @@ export default {
 }
 .element .fa-arrow-down{
   color: #c62828;
-}   
+}
 .element .fa-arrow-right{
   color: #1565c0;
 }
@@ -149,7 +150,6 @@ export default {
 .elem-libelle{
    padding-left: 6px;
   flex: 1;
-  font-size: 22px;
   white-space: nowrap;
   font-weight: 100;
   font-size: 15px;
@@ -158,8 +158,6 @@ export default {
 .elem-price{
  text-align: center;
   width: 90px;
-  font-size: 18px;
-  font-weight: 700;
   font-weight: 100;
   font-size: 15px;
 }

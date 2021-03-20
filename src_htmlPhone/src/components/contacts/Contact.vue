@@ -14,12 +14,14 @@
         data-model="display"
         data-maxlength="64"
       >
-        <input
-          v-model="contact.display"
-          v-autofocus
-          type="text"
-          maxlength="64"
-        >
+        <label>
+          <input
+            v-model="contact.display"
+            v-autofocus
+            type="text"
+            maxlength="64"
+          >
+        </label>
         <span class="highlight" />
         <span class="bar" />
         <label>{{ IntlString('APP_CONTACT_LABEL_NAME') }}</label>
@@ -31,11 +33,13 @@
         data-model="number"
         data-maxlength="10"
       >
-        <input
-          v-model="contact.number"
-          type="text"
-          maxlength="10"
-        >
+        <label>
+          <input
+            v-model="contact.number"
+            type="text"
+            maxlength="10"
+          >
+        </label>
         <span class="highlight" />
         <span class="bar" />
         <label>{{ IntlString('APP_CONTACT_LABEL_NUMBER') }}</label>
@@ -247,8 +251,7 @@ export default {
     color: white;
 }
 .content{
-    margin: 6px 10px;
-    margin-top: 28px;
+  margin: 28px 10px 6px;
 }
 .group {
   position:relative;
@@ -258,8 +261,7 @@ export default {
   position:relative;
   margin-top:45px;
 }
-input 				{
-  font-size:24px;
+input {
   display:block;
   width:100%;
   border:none;
@@ -337,7 +339,6 @@ input:focus ~ .highlight {
     width: 100%;
     padding: 0px 0px;
     height: 48px;
-    color: #fff;
     border: 0 none;
     font-size: 22px;
     font-weight: 500;

@@ -1,5 +1,4 @@
 <template>
-  <!--ESTE HTML ES ACOPLADO DEL VIEJO-->
   <div
     style="width: 330px; height: 743px; backgroundColor: white"
     class="phone_app messages"
@@ -59,7 +58,6 @@
         <span
           class="sms_message sms_me"
           :class="{ sms_other : mess.owner === 0}"
-
           @click.stop="onActionMessage(mess)"
         >
 
@@ -67,6 +65,7 @@
             v-if="isSMSImage(mess)"
             class="sms-img"
             :src="mess.message"
+            alt=""
             @click.stop="onActionMessage(mess)"
           >
           <span
@@ -84,13 +83,15 @@
       style="width: 306px;"
       @contextmenu.prevent="showOptions"
     >
-      <input
-        v-model="message"
-        v-autofocus
-        type="text"
-        :placeholder="IntlString('APP_MESSAGE_PLACEHOLDER_ENTER_MESSAGE')"
-        @keyup.enter.prevent="send"
-      >
+      <label>
+        <input
+          v-model="message"
+          v-autofocus
+          type="text"
+          :placeholder="IntlString('APP_MESSAGE_PLACEHOLDER_ENTER_MESSAGE')"
+          @keyup.enter.prevent="send"
+        >
+      </label>
       <div
         style="    font-size: 10px;"
         class="sms_send"
@@ -114,8 +115,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-import { generateColorForStr, getBestFontColor } from './../../Utils'
+import {mapGetters, mapActions} from 'vuex'
+import {generateColorForStr, getBestFontColor} from './../../Utils'
 import PhoneTitle from './../PhoneTitle'
 import Modal from '@/components/Modal/index.js'
 
@@ -123,7 +124,7 @@ export default {
   components: {
     PhoneTitle
   },
-  data () {
+  data() {
     return {
       ignoreControls: false,
       selectMessage: -1,
@@ -136,10 +137,10 @@ export default {
   },
   computed: {
     ...mapGetters(['IntlString', 'messages', 'contacts', 'useMouse', 'enableTakePhoto']),
-    messagesList () {
+    messagesList() {
       return this.messages.filter(e => e.transmitter === this.phoneNumber).sort((a, b) => a.time - b.time)
     },
-    displayContact () {
+    displayContact() {
       if (this.display !== undefined) {
         return this.display
       }
@@ -149,10 +150,10 @@ export default {
       }
       return this.phoneNumber
     },
-    color () {
+    color() {
       return generateColorForStr(this.phoneNumber)
     },
-    colorSmsOwner () {
+    colorSmsOwner() {
       return [
         {
           backgroundColor: this.color,
@@ -162,12 +163,12 @@ export default {
     }
   },
   watch: {
-    messagesList () {
+    messagesList() {
       this.setMessageRead(this.phoneNumber)
       this.resetScroll()
     }
   },
-  created () {
+  created() {
     this.display = this.$route.params.display
     this.phoneNumber = this.$route.params.number
     if (!this.useMouse) {
@@ -178,7 +179,7 @@ export default {
     }
     this.$bus.$on('keyUpBackspace', this.onBackspace)
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.$bus.$off('keyUpArrowDown', this.onDown)
     this.$bus.$off('keyUpArrowUp', this.onUp)
     this.$bus.$off('keyUpEnter', this.onEnter)
@@ -187,14 +188,14 @@ export default {
   },
   methods: {
     ...mapActions(['setMessageRead', 'sendMessage', 'deleteMessage', 'startCall']),
-    resetScroll () {
+    resetScroll() {
       this.$nextTick(() => {
         let elem = document.querySelector('#sms_list')
         elem.scrollTop = elem.scrollHeight
         this.selectMessage = -1
       })
     },
-    scrollIntoViewIfNeeded () {
+    scrollIntoViewIfNeeded() {
       this.$nextTick(() => {
         const elem = this.$el.querySelector('.select')
         if (elem !== null) {
@@ -202,7 +203,7 @@ export default {
         }
       })
     },
-    quit () {
+    quit() {
       // this.$router.push({path: '/messages'})
       this.$router.go(-1)
     },
@@ -215,7 +216,7 @@ export default {
       }
       this.scrollIntoViewIfNeeded()
     },
-    onDown () {
+    onDown() {
       if (this.ignoreControls === true) return
       if (this.selectMessage === -1) {
         this.selectMessage = this.messagesList.length - 1
@@ -224,7 +225,7 @@ export default {
       }
       this.scrollIntoViewIfNeeded()
     },
-    onEnter () {
+    onEnter() {
       if (this.ignoreControls === true) return
       if (this.selectMessage !== -1) {
         this.onActionMessage(this.messagesList[this.selectMessage])
@@ -240,7 +241,7 @@ export default {
         })
       }
     },
-    send () {
+    send() {
       const message = this.message.trim()
       if (message === '') return
       this.message = ''
@@ -249,10 +250,10 @@ export default {
         message
       })
     },
-    isSMSImage (mess) {
+    isSMSImage(mess) {
       return /^https?:\/\/.*\.(png|jpg|jpeg|gif)/.test(mess.message)
     },
-    async onActionMessage (message) {
+    async onActionMessage(message) {
       try {
         // let message = this.messagesList[this.selectMessage]
         let isGPS = /(-?\d+(\.\d+)?), (-?\d+(\.\d+)?)/.test(message.message)
@@ -293,10 +294,10 @@ export default {
         this.ignoreControls = true
         const data = await Modal.CreateModal({choix})
         if (data.id === 'delete') {
-          this.deleteMessage({ id: message.id })
+          this.deleteMessage({id: message.id})
         } else if (data.id === 'gps') {
           let val = message.message.match(/(-?\d+(\.\d+)?), (-?\d+(\.\d+)?)/)
-          this.$phoneAPI.setGPS(val[1], val[3])
+          await this.$phoneAPI.setGPS(val[1], val[3])
         } else if (data.id === 'num') {
           this.$nextTick(() => {
             this.onSelectPhoneNumber(data.number)
@@ -310,7 +311,7 @@ export default {
         this.selectMessage = -1
       }
     },
-    async onSelectPhoneNumber (number) {
+    async onSelectPhoneNumber(number) {
       try {
         this.ignoreControls = true
         let choix = [
@@ -337,12 +338,12 @@ export default {
           title: this.IntlString('CANCEL'),
           icons: 'undo'
         })
-        const data = await Modal.CreateModal({ choix })
+        const data = await Modal.CreateModal({choix})
         if (data.id === 'sms') {
           this.phoneNumber = number
           this.display = undefined
         } else if (data.id === 'call') {
-          this.startCall({ numero: number })
+          this.startCall({numero: number})
         } else if (data.id === 'copy') {
           try {
             const $copyTextarea = this.$refs.copyTextarea
@@ -362,7 +363,7 @@ export default {
         this.selectMessage = -1
       }
     },
-    onBackspace () {
+    onBackspace() {
       if (this.imgZoom !== undefined) {
         this.imgZoom = undefined
         return
@@ -375,7 +376,7 @@ export default {
         this.quit()
       }
     },
-    async showOptions () {
+    async showOptions() {
       try {
         this.ignoreControls = true
         let choix = [
@@ -389,7 +390,7 @@ export default {
             {id: -1, title: this.IntlString('CANCEL'), icons: 'undo'}
           ]
         }
-        const data = await Modal.CreateModal({ choix })
+        const data = await Modal.CreateModal({choix})
         if (data.id === 1) {
           this.sendMessage({
             phoneNumber: this.phoneNumber,
@@ -397,7 +398,7 @@ export default {
           })
         }
         if (data.id === 2) {
-          const { url } = await this.$phoneAPI.takePhoto()
+          const {url} = await this.$phoneAPI.takePhoto()
           if (url !== null && url !== undefined) {
             this.sendMessage({
               phoneNumber: this.phoneNumber,
@@ -423,56 +424,58 @@ export default {
 </script>
 
 <style scoped>
-.messages{
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 326px;
-    height: 678px;
-    right: 0;
-    height: calc(100% - 20px);
-    background-color: #DDD;
-}
-#sms_contact{
-    background-color: #4CAF50;
-    color: white;
-    height: 34px;
-    line-height: 34px;
-    padding-left: 5px;
-}
-#sms_list{
-    height: calc(100% - 34px - 26px);
-    overflow-y: auto;
-    padding-bottom: 8px;
+.messages {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 326px;
+  right: 0;
+  height: calc(100% - 20px);
+  background-color: #DDD;
 }
 
-  .name_other_sms_other{
-    margin-bottom: -9px;
-    margin-left: 42px;
-    font-size: 14px;
-    font-weight: 500;
-    color: lightgrey;
-  }
+#sms_contact {
+  background-color: #4CAF50;
+  color: white;
+  height: 34px;
+  line-height: 34px;
+  padding-left: 5px;
+}
 
- .name_other_sms_me{
+#sms_list {
+  height: calc(100% - 34px - 26px);
+  overflow-y: auto;
+  padding-bottom: 8px;
+}
+
+.name_other_sms_other {
+  margin-bottom: -9px;
+  margin-left: 42px;
+  font-size: 14px;
+  font-weight: 500;
+  color: lightgrey;
+}
+
+.name_other_sms_me {
   display: none;
 }
 
-.name_other_sms_other.sms_me{
+.name_other_sms_other.sms_me {
   display: none;
 
 }
 
-.sms{
+.sms {
   overflow: auto;
   zoom: 1;
 }
 
-.sms-img{
+.sms-img {
   width: 100%;
   height: auto;
   border-radius: 19px;
 }
+
 .img-fullscreen {
   position: fixed;
   z-index: 999999;
@@ -485,13 +488,14 @@ export default {
   justify-content: center;
   align-items: center;
 }
+
 .img-fullscreen img {
   display: flex;
   max-width: 90vw;
   max-height: 95vh;
 }
 
-.sms_me{
+.sms_me {
   float: right;
   background-color: #e9e9eb;
   border-radius: 17px;
@@ -501,92 +505,97 @@ export default {
   margin-top: 10px;
 }
 
-.sms_other{
-    background-color: #0b81ff;
-    border-radius: 17px;
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    color:white;
-    float: left;
-    padding: 5px 10px;
-    max-width: 90%;
-    margin-left: 5%;
-    margin-top: 10px;
+.sms_other {
+  background-color: #0b81ff;
+  border-radius: 17px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: white;
+  float: left;
+  padding: 5px 10px;
+  max-width: 90%;
+  margin-left: 5%;
+  margin-top: 10px;
 }
 
 
-.sms_time{
-    display: block;
-    font-size: 12px;
+.sms_time {
+  display: block;
+  font-size: 12px;
 }
 
-.sms_me .sms_time{
-    color: #AAA;
-    margin-left: 4px;
-    margin-top: -5px;
-    display: none;
-    font-size: 9px;
+.sms_me .sms_time {
+  color: #AAA;
+  margin-left: 4px;
+  margin-top: -5px;
+  display: none;
+  font-size: 9px;
 
 }
-.sms_other .sms_time{
-    color: white;
-    display: none;
-    margin-left: 4px;
-    margin-top: -5px;
-    font-size: 9px;
+
+.sms_other .sms_time {
+  color: white;
+  display: none;
+  margin-left: 4px;
+  margin-top: -5px;
+  font-size: 9px;
 }
 
 
-.messages{
+.messages {
   position: relative;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
 }
-.sms.select .sms_message, .sms_message:hover{
-  background-color:  #373B3C !important;
 
-  color: #E4E3E2  !important;
+.sms.select .sms_message, .sms_message:hover {
+  background-color: #373B3C !important;
+
+  color: #E4E3E2 !important;
 }
 
-.sms.select .sms_message, .sms_message:hover{
+.sms.select .sms_message, .sms_message:hover {
   background-color: #373B3C !important;
   color: white !important;
 }
 
-.sms_message{
+.sms_message {
   word-wrap: break-word;
   max-width: 80%;
   font-size: 24px;
 }
 
-#sms_write{
-    height: 56px;
-    margin: 10px;
-    width: 380px;
-    background-color: #e9e9eb;
-    border-radius: 56px;
-}
-#sms_write input{
-    height: 56px;
-    border: none;
-    outline: none;
-    font-size: 16px;
-    margin-left: 14px;
-    padding: 12px 5px;
-    background-color: rgba(236, 236, 241, 0)
+#sms_write {
+  height: 56px;
+  margin: 10px;
+  width: 380px;
+  background-color: #e9e9eb;
+  border-radius: 56px;
 }
 
-.sms_send{
-    float: right;
-    margin-right: 10px;
+#sms_write input {
+  height: 56px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  margin-left: 14px;
+  padding: 12px 5px;
+  background-color: rgba(236, 236, 241, 0)
 }
-.sms_send svg{
-    margin: 8px;
-    width: 36px;
-    height: 36px;
-    fill: #C0C0C0;
+
+.sms_send {
+  float: right;
+  margin-right: 10px;
 }
+
+.sms_send svg {
+  margin: 8px;
+  width: 36px;
+  height: 36px;
+  fill: #C0C0C0;
+}
+
 .copyTextarea {
   height: 0;
   border: 0;

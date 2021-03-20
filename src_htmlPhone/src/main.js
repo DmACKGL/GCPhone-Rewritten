@@ -6,7 +6,7 @@ import VueTimeago from './TimeAgo'
 import PhoneAPI from './PhoneAPI'
 import Notification from './Notification'
 import AutoFocus from './directives/autofocus'
-import { library } from '@fortawesome/fontawesome-svg-core'
+import {library} from '@fortawesome/fontawesome-svg-core'
 import {
   faAngleLeft,
   faComment,
@@ -38,7 +38,8 @@ import {
   faStar,
   faUser,
 } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+
 library.add(
   faAngleLeft,
   faComment,

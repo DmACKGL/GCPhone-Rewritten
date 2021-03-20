@@ -34,20 +34,20 @@ import TwitterView from './TwitterView'
 import TwitterPostTweet from './TwitterPostTweet'
 import TwitterAccount from './TwitterAccount'
 import TwitterTopTweet from './TwitterTopTweet'
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 
 export default {
   components: {
     PhoneTitle
   },
-  data () {
+  data() {
     return {
       currentScreenIndex: 0
     }
   },
   computed: {
     ...mapGetters(['IntlString', 'useMouse']),
-    screen () {
+    screen() {
       return [
         {
           title: this.IntlString('APP_TWITTER_VIEW_TWITTER'),
@@ -71,42 +71,41 @@ export default {
         }
       ]
     },
-    currentScreen () {
+    currentScreen() {
       return this.screen[this.currentScreenIndex]
     }
   },
-  watch: {
-  },
-  created () {
+  watch: {},
+  created() {
     if (!this.useMouse) {
       this.$bus.$on('keyUpArrowLeft', this.onLeft)
       this.$bus.$on('keyUpArrowRight', this.onRight)
     }
     this.$bus.$on('twitterHome', this.home)
   },
-  mounted () {
+  mounted() {
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.$bus.$off('keyUpArrowLeft', this.onLeft)
     this.$bus.$off('keyUpArrowRight', this.onRight)
     this.$bus.$off('twitterHome', this.home)
   },
   methods: {
-    onLeft () {
+    onLeft() {
       this.currentScreenIndex = Math.max(0, this.currentScreenIndex - 1)
     },
-    onRight () {
+    onRight() {
       this.currentScreenIndex = Math.min(this.screen.length - 1, this.currentScreenIndex + 1)
     },
-    home () {
+    home() {
       this.currentScreenIndex = 0
     },
-    openMenu (index) {
+    openMenu(index) {
       this.currentScreenIndex = index
     },
-    quit () {
+    quit() {
       if (this.currentScreenIndex === 0) {
-        this.$router.push({ name: 'home' })
+        this.$router.push({name: 'home'})
       } else {
         this.currentScreenIndex = 0
       }
@@ -122,6 +121,7 @@ export default {
   display: flex;
   width: 100%;
 }
+
 .twitter_menu-item {
   flex-grow: 1;
   flex-basis: 0;
@@ -130,9 +130,11 @@ export default {
   align-items: center;
   color: #959595;
 }
+
 .twitter_menu-item.select {
   color: #1da1f2;
 }
+
 .twitter_menu-item:hover {
   color: #1da1f2;
 }

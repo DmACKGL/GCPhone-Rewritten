@@ -44,7 +44,7 @@ export default {
     }
   },
   computed: {
-    style () {
+    style() {
       return {
         backgroundColor: this.backgroundColor,
         color: this.color || '#FFF'
@@ -52,7 +52,7 @@ export default {
     }
   },
   methods: {
-    back () {
+    back() {
       this.$emit('back')
     }
   },

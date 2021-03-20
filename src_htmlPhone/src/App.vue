@@ -53,7 +53,7 @@ export default {
         if (this.soundCall !== null) {
           this.soundCall.pause()
         }
-        var path = null
+        let path = null;
         if (this.appelsInfo.initiator === true) {
           path = '/html/static/sound/Phone_Call_Sound_Effect.ogg'
           this.soundCall = new Howl({
