@@ -41,7 +41,7 @@ body {
   position: absolute;
   left: 16px;
   top: 35px;
- 
+
   outline: none;
   text-shadow: none;
   text-align: center;
@@ -70,9 +70,9 @@ body {
   position: absolute;
   z-index: 999;
   width: 394px;
-    height: 800px;
-    top: 71px;
-    left: 15px;
+  height: 800px;
+  top: 20%;
+  left: 20%;
   pointer-events:none;
   background-size: cover;
   background-repeat: no-repeat;
@@ -85,9 +85,9 @@ body {
   width: 326px;
   height: 742px;
   bottom: 100px;
-  left: 50px;
+  left: 27%;
   right: 50px;
-  top: 100px;
+  top: 23%;
   display: flex;
 }
 

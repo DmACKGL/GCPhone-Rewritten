@@ -13,10 +13,12 @@
           :style="{color: val.color}"
           @click.stop="selectItem(val)"
         >
-          <FontAwesomeIcon
-            :icon="['fas', val.icons]"
-            @click.stop="selectItem(val)"
-          /> {{ val.title }}
+          <div class="fa-icon">
+            <FontAwesomeIcon
+              :icon="['fas', val.icons]"
+              @click.stop="selectItem(val)"
+            /> {{ val.title }}
+          </div>
         </div>
       </div>
     </div>
@@ -88,6 +90,10 @@ export default {
 </script>
 
 <style scoped>
+    .fa-icon {
+      margin-left: 3%;
+    }
+
     .modal-mask {
         position: absolute;
         z-index: 99;

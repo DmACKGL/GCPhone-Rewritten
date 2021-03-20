@@ -12,12 +12,12 @@
         :class="{ select: key === currentSelect}"
         @click.stop="onPressItem(key)"
       >
-        <i
-          class="fa"
-          :class="elem.icons"
-          :style="{color: elem.color}"
-          @click.stop="onPressItem(key)"
-        />
+        <div class="fa">
+          <FontAwesomeIcon
+            :icon="['fas', elem.icons]"
+            @click.stop="onPressItem(key)"
+          />
+        </div>
         <div
           class="element-content"
           @click.stop="onPressItem(key)"
@@ -328,7 +328,7 @@ export default {
   height: 52px;
   width: 52px;
   text-align: center;
-  line-height: 52px;
+  line-height: 52px
 }
 .element-content{
   height: 58px;
