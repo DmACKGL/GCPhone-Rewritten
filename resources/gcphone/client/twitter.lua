@@ -164,6 +164,7 @@ end)
 
 RegisterNUICallback('twitter_getTweets', function(data, cb)
     TriggerServerEvent('gcPhone:twitter_getTweets', data.username, data.password)
+    cb(true)
 end)
 
 RegisterNUICallback('twitter_getFavoriteTweets', function(data, cb)

@@ -49,10 +49,10 @@
       <template v-if="isLogin">
         <img
           :src="twitterAvatarUrl"
+          alt=""
           height="128"
           width="128"
           style="align-self: center;"
-          alt=""
         >
 
         <div
@@ -103,16 +103,15 @@
         data-maxlength="64"
         :data-defaultValue="localAccount.username"
       >
-        <label>
-          <input
-            type="text"
-            :value="localAccount.username"
-            @change="setLocalAccount($event, 'username')"
-          >
-        </label>
+        <input
+          id="username"
+          type="text"
+          :value="localAccount.username"
+          @change="setLocalAccount($event, 'username')"
+        >
         <span class="highlight" />
         <span class="bar" />
-        <label>{{ IntlString('APP_TWITTER_ACCOUNT_USERNAME') }}</label>
+        <label for="username">{{ IntlString('APP_TWITTER_ACCOUNT_USERNAME') }}</label>
       </div>
 
       <div
@@ -121,17 +120,16 @@
         data-model="password"
         data-maxlength="30"
       >
-        <label>
-          <input
-            autocomplete="new-password"
-            type="password"
-            :value="localAccount.password"
-            @change="setLocalAccount($event, 'password')"
-          >
-        </label>
+        <input
+          id="password"
+          autocomplete="new-password"
+          type="password"
+          :value="localAccount.password"
+          @change="setLocalAccount($event, 'password')"
+        >
         <span class="highlight" />
         <span class="bar" />
-        <label>{{ IntlString('APP_TWITTER_ACCOUNT_PASSWORD') }}</label>
+        <label for="password">{{ IntlString('APP_TWITTER_ACCOUNT_PASSWORD') }}</label>
       </div>
 
       <div
@@ -226,10 +224,10 @@
     <template v-else-if="state === STATES.ACCOUNT">
       <img
         :src="twitterAvatarUrl"
+        alt=""
         height="128"
         width="128"
         style="align-self: center;"
-        alt=""
       >
 
       <div
@@ -277,9 +275,9 @@
         data-type="button"
       >
         <img
+          alt=""
           style="margin-bottom:10px"
           src="/html/static/img/twitter/bird.png"
-          alt=""
         >
       </div>
       <div
@@ -288,16 +286,15 @@
         data-maxlength="64"
         data-defaultValue=""
       >
-        <label>
-          <input
-            type="text"
-            :value="localAccount.username"
-            @change="setLocalAccount($event, 'username')"
-          >
-        </label>
+        <input
+          id="new_account_username"
+          type="text"
+          :value="localAccount.username"
+          @change="setLocalAccount($event, 'username')"
+        >
         <span class="highlight" />
         <span class="bar" />
-        <label>{{ IntlString('APP_TWITTER_NEW_ACCOUNT_USERNAME') }}</label>
+        <label for="new_account_username">{{ IntlString('APP_TWITTER_NEW_ACCOUNT_USERNAME') }}</label>
       </div>
 
       <div
@@ -306,17 +303,16 @@
         data-model="password"
         data-maxlength="30"
       >
-        <label>
-          <input
-            autocomplete="new-password"
-            type="password"
-            :value="localAccount.password"
-            @change="setLocalAccount($event, 'password')"
-          >
-        </label>
+        <input
+          id="confirm"
+          autocomplete="new-password"
+          type="password"
+          :value="localAccount.password"
+          @change="setLocalAccount($event, 'password')"
+        >
         <span class="highlight" />
         <span class="bar" />
-        <label>{{ IntlString('APP_TWITTER_NEW_ACCOUNT_PASSWORD') }}</label>
+        <label for="confirm">{{ IntlString('APP_TWITTER_NEW_ACCOUNT_PASSWORD') }}</label>
       </div>
 
 
@@ -326,17 +322,16 @@
         data-model="password"
         data-maxlength="30"
       >
-        <label>
-          <input
-            autocomplete="new-password"
-            type="password"
-            :value="localAccount.passwordConfirm"
-            @change="setLocalAccount($event, 'passwordConfirm')"
-          >
-        </label>
+        <input
+          id="new_password"
+          autocomplete="new-password"
+          type="password"
+          :value="localAccount.passwordConfirm"
+          @change="setLocalAccount($event, 'passwordConfirm')"
+        >
         <span class="highlight" />
         <span class="bar" />
-        <label>{{ IntlString('APP_TWITTER_NEW_ACCOUNT_PASSWORD_CONFIRM') }}</label>
+        <label for="new_password">{{ IntlString('APP_TWITTER_NEW_ACCOUNT_PASSWORD_CONFIRM') }}</label>
       </div>
 
       <div
@@ -392,6 +387,20 @@ export default {
     validAccount() {
       return this.localAccount.username.length >= 4 && this.localAccount.password.length >= 6 && this.localAccount.password === this.localAccount.passwordConfirm
     }
+  },
+  created() {
+    if (!this.useMouse) {
+      this.$bus.$on('keyUpArrowDown', this.onDown)
+      this.$bus.$on('keyUpArrowUp', this.onUp)
+      this.$bus.$on('keyUpEnter', this.onEnter)
+      this.$bus.$on('keyUpBackspace', this.onBack)
+    }
+  },
+  beforeDestroy() {
+    this.$bus.$off('keyUpArrowDown', this.onDown)
+    this.$bus.$off('keyUpArrowUp', this.onUp)
+    this.$bus.$off('keyUpEnter', this.onEnter)
+    this.$bus.$off('keyUpBackspace', this.onBack)
   },
   methods: {
     ...mapActions(['twitterLogin', 'twitterChangePassword', 'twitterLogout', 'twitterSetAvatar', 'twitterCreateNewAccount', 'setTwitterNotification', 'setTwitterNotificationSound']),
@@ -576,14 +585,14 @@ export default {
         console.error(e)
       }
     }
-
   }
 }
 </script>
 
 <style scoped>
 .content {
-  margin: 28px 10px 6px;
+  margin: 6px 10px;
+  margin-top: 28px;
   height: calc(100% - 48px);
   display: flex;
   flex-direction: column;
@@ -612,6 +621,7 @@ export default {
 .group.img img {
   display: flex;
   flex-direction: row;
+  flex-grow: 0;
   flex: 0 0 128px;
   height: 128px;
   margin-right: 24px;
@@ -752,6 +762,7 @@ input:focus ~ .highlight {
   width: 100%;
   padding: 0px 0px;
   height: 48px;
+  color: #fff;
   border: 0 none;
   font-size: 22px;
   font-weight: 500;
@@ -761,6 +772,7 @@ input:focus ~ .highlight {
 }
 
 .group.select .btn {
+  /* border: 6px solid #C0C0C0; */
   line-height: 18px;
 }
 
@@ -770,6 +782,7 @@ input:focus ~ .highlight {
   border: 1px solid #007aff;
   color: #007aff;
   background-color: white;
+  font-weight: 500;
   border-radius: 10px;
   font-weight: 300;
   font-size: 19px;
@@ -788,7 +801,8 @@ input:focus ~ .highlight {
   font-weight: 200;
   border-radius: 10px;
   width: 193px;
-  margin: 0 auto 11px;
+  margin: 0 auto;
+  margin-bottom: 11px;
 }
 
 .group.select .btn.btn-red, .group:hover .btn.btn-red {
