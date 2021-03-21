@@ -78,6 +78,7 @@ AddEventHandler('esx:onPlayerDeath', function()
   end
 end)
 
+RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function()
   TriggerServerEvent('gcPhone:allUpdate')
 end)
@@ -306,7 +307,7 @@ RegisterNetEvent("gcPhone:myPhoneNumber")
 AddEventHandler("gcPhone:myPhoneNumber", function(_myPhoneNumber)
   myPhoneNumber = _myPhoneNumber
   SendNUIMessage({event = 'updateMyPhoneNumber', myPhoneNumber = myPhoneNumber})
-  SendNUIMessage({event = 'updatePlayerID', id = GetPlayerServerId(PlayerPedId())})
+  SendNUIMessage({event = 'updatePlayerID', id = GetPlayerServerId(PlayerId())})
 end)
 
 RegisterNetEvent("gcPhone:contactList")
@@ -733,18 +734,29 @@ end)
 
 
 ----------------------------------
----------- GESTION VIA WEBRTC ----
+---------- Force Update ----------
 ----------------------------------
+local phoneReady = false
+RegisterNetEvent('gcphone:phoneReady')
+AddEventHandler('gcphone:phoneReady', function()
+  phoneReady = true
+end)
+
 AddEventHandler('onClientResourceStart', function(res)
   DoScreenFadeIn(300)
   if res == "gcphone" then
-    TriggerServerEvent('gcPhone:allUpdate')
-    -- Try again in 2 minutes (Recovers bugged phone numbers)
-    Citizen.Wait(120000)
-    TriggerServerEvent('gcPhone:allUpdate')
+    while not phoneReady do
+      TriggerServerEvent('gcPhone:allUpdate')
+      -- Try every 5 Seconds
+      Citizen.Wait(50000)
+    end
   end
 end)
 
+
+----------------------------------
+---------- GESTION VIA WEBRTC ----
+----------------------------------
 
 RegisterNUICallback('setIgnoreFocus', function (data, cb)
   ignoreFocus = data.ignoreFocus

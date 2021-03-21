@@ -590,6 +590,7 @@ end)
 --====================================================================================
 --  OnLoad
 --====================================================================================
+RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded',function(playerId, xPlayer)
     local sourcePlayer = playerId
     local identifier = xPlayer.identifier
@@ -609,10 +610,9 @@ AddEventHandler('gcPhone:allUpdate', function()
     local _source = source
     local sourcePlayer = tonumber(_source)
     local xPlayer = ESX.GetPlayerFromId(_source)
-    local tries = 0
-    while xPlayer == nil or tries <= 5 do
+    while xPlayer == nil do
+        print("WHILE!")
         xPlayer = ESX.GetPlayerFromId(_source)
-        tries = tries +1
         Citizen.Wait(10000)
     end
     if xPlayer then
@@ -621,7 +621,8 @@ AddEventHandler('gcPhone:allUpdate', function()
         TriggerClientEvent("gcPhone:myPhoneNumber", sourcePlayer, num)
         TriggerClientEvent("gcPhone:contactList", sourcePlayer, getContacts(identifier))
         TriggerClientEvent("gcPhone:allMessage", sourcePlayer, getMessages(identifier))
-        TriggerClientEvent('gcPhone:getBourse', sourcePlayer, getBourse())
+        TriggerClientEvent("gcPhone:getBourse", sourcePlayer, getBourse())
+        TriggerClientEvent("gcphone:phoneReady", sourcePlayer)
         sendHistoriqueCall(sourcePlayer, num)
     end
 end)
