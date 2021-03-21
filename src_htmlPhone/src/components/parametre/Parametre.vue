@@ -345,7 +345,6 @@ export default {
   line-height: 22px;
   font-size: 20px;
   font-weight: 300;
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
 }
 .element-value{
   display: block;

@@ -39,7 +39,12 @@ client_script {
 	"client/photo.lua",
 	"client/app_tchat.lua",
 	"client/bank.lua",
-	"client/twitter.lua"
+	"client/twitter.lua",
+
+	-- ADDONS
+
+	-- Service calls
+	"addons/pscall/client.lua"
 }
 
 server_script {
@@ -51,4 +56,9 @@ server_script {
 	"server/server.lua",
 	"server/app_tchat.lua",
 	"server/twitter.lua",
+
+	-- ADDONS
+	
+	-- Service calls
+	"addons/pscall/server.lua"
 }

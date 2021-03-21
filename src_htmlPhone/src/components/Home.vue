@@ -9,24 +9,29 @@
   >
     <InfoBare />
     <span
-      v-if="notification.active"
+      v-if="notification"
       class="notificationMess"
     >
       <div
         class="notificationMess_icon"
-        :style="{ color : this.notification.icon.color }"
+        :style="{ color : notificationInfo.color }"
       >
-        <FontAwesomeIcon :icon="[notification.icon.prefix, notification.icon.icon]" />
+        <FontAwesomeIcon :icon="[notificationInfo.prefix, notificationInfo.icon]" />
       </div>
       <span class="notificationMess_content">
         <span
           class="notificationMess_title"
           style="font-weight:bold"
         >
-          {{ notification.app }}
+          {{ notificationInfo.app }}
         </span>
         <br>
-        <span class="notificationMess_mess">{{ notification.message.substring(0,30) }}...</span>
+        <span
+          v-if="notificationInfo.message"
+          class="notificationMess_mess"
+        >
+          {{ notificationInfo.message.substring(0,30) }}...
+        </span>
       </span>
     </span>
 
@@ -98,34 +103,10 @@ export default {
       timeDisplay: null,
       currentSelect: 0,
       prevRoute: '/',
-      notification: {
-        active: false,
-        app: null,
-        icon: {
-          prefix: null,
-          icon: null,
-          color: null
-        },
-        message: null
-      }
     }
   },
   computed: {
-    ...mapGetters(['IntlString', 'useMouse', 'nbMessagesUnread', 'backgroundURL', 'messages', 'AppsHome', 'warningMessageCount'])
-  },
-  mounted() {
-    window.addEventListener('message', (event) => {
-      if (event.data.event === 'notification') {
-        let data = event.data.data
-        this.notification.active = true
-        this.notification.app = data.app
-        this.notification.icon.prefix = data.icon.prefix
-        this.notification.icon.icon = data.icon.icon
-        this.notification.icon.color = data.icon.color
-        this.notification.message = data.message
-        this.resetNotifications(7);
-      }
-    })
+    ...mapGetters(['notification', 'notificationInfo', 'IntlString', 'useMouse', 'nbMessagesUnread', 'backgroundURL', 'messages', 'AppsHome', 'warningMessageCount'])
   },
   created() {
     if (!this.useMouse) {

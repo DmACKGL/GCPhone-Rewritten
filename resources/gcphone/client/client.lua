@@ -288,22 +288,25 @@ end)
 -- TEST NOTIFICATIONS
 RegisterNetEvent("gcPhone:testNotifications")
 AddEventHandler("gcPhone:testNotifications", function()
-  SendNUIMessage({show = true})
-  SendNUIMessage({event = 'notification', data = {
-    app = 'twitter',
-    icon = { 
-      prefix = 'fab',
+  SendNUIMessage({event = 'updateNotification', active = true })
+  SendNUIMessage({
+    event = 'updateNotificationInfo', 
+    info = {
+      app = 'twitter',
       icon = 'twitter',
-      color = 'dodgerblue'
+      prefix = 'fab',
+      color = 'dodgerblue',
+      message = 'Hola esta es una prueba de notificaciones ekisde jajaja'
     },
-    message = 'Hola esta es una prueba de notificaciones ekisde jajaja'
-  }})
+  })
+  
 end)
 
 RegisterNetEvent("gcPhone:myPhoneNumber")
 AddEventHandler("gcPhone:myPhoneNumber", function(_myPhoneNumber)
   myPhoneNumber = _myPhoneNumber
   SendNUIMessage({event = 'updateMyPhoneNumber', myPhoneNumber = myPhoneNumber})
+  SendNUIMessage({event = 'updatePlayerID', id = GetPlayerServerId(PlayerPedId())})
 end)
 
 RegisterNetEvent("gcPhone:contactList")
@@ -329,19 +332,28 @@ AddEventHandler("gcPhone:receiveMessage", function(message)
   SendNUIMessage({event = 'newMessage', message = message})
   table.insert(messages, message)
   if message.owner == 0 then
-    local text = _U('new_message')
+    local app = _U('new_message')
     if Config.ShowNumberNotification == true then
-      text = _U('new_message_from', message.transmitter)
+      app = _U('new_message_from', message.transmitter)
       for _,contact in pairs(contacts) do
         if contact.number == message.transmitter then
-          text = _U('new_message_transmitter', contact.display)
+          app = _U('new_message_transmitter', contact.display)
           break
         end
       end
     end
-    SetNotificationTextEntry("STRING")
-    AddTextComponentString(text)
-    DrawNotification(false, false)
+
+    SendNUIMessage({event = 'updateNotification', active = true})
+    SendNUIMessage({
+      event = 'updateNotificationInfo', 
+      info = {
+        app = app,
+        icon = 'sms',
+        prefix = 'fas',
+        color = '#87fc6a',
+        message = message
+      }
+    })
     PlaySound(-1, "Menu_Accept", "Phone_SoundSet_Default", 0, 0, 1)
     Citizen.Wait(300)
     PlaySound(-1, "Menu_Accept", "Phone_SoundSet_Default", 0, 0, 1)

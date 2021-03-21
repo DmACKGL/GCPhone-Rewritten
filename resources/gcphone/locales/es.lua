@@ -5,6 +5,7 @@ Locales['es'] = {
     ["new_message"] = "~o~Nuevo Mensaje",
     ["new_message_from"] = "~o~Nuevo Mensaje de ~y~%s",
     ["new_message_transmitter"] = "~o~Nuevo mensaje de ~g~%s",
+    ["service_call_prefix"] = "De #%s: %s",
     ["use_fixed"] = "~g~Telefono fijo %s ~o~(%s) ~n~~INPUT_PICKUP~~w~ para utilizar el telefono",
 
     -- Social

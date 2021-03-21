@@ -3,8 +3,11 @@ import PhoneAPI from './../../PhoneAPI'
 
 const state = {
   show: process.env.NODE_ENV !== 'production',
+  notification: false,
+  notificationInfo: [],
   tempoHide: false,
   myPhoneNumber: '###-####',
+  myID: 0,
   background: JSON.parse(window.localStorage['gc_background'] || null),
   coque: JSON.parse(window.localStorage['gc_coque'] || null),
   sonido: JSON.parse(window.localStorage['gc_sonido'] || null),
@@ -26,8 +29,11 @@ PhoneAPI.setUseMouse(state.mouse)
 
 const getters = {
   show: ({ show }) => show,
+  notification: ({ notification }) => notification,
+  notificationInfo: ({ notificationInfo }) => notificationInfo,
   tempoHide: ({ tempoHide }) => tempoHide,
   myPhoneNumber: ({ myPhoneNumber }) => myPhoneNumber,
+  myID: ({ myID }) => myID,
   volume: ({ volume }) => volume,
   enableTakePhoto: ({ config }) => config.enableTakePhoto === true,
   background: ({ background, config }) => {
@@ -36,8 +42,8 @@ const getters = {
         return config.background_default
       }
       return {
-        label: 'Default',
-        value: 'default.jpg'
+        label: 'Oscuridad',
+        value: 'oscuridad.jpg'
       }
     }
     return background
@@ -55,8 +61,8 @@ const getters = {
         return config.coque_default
       }
       return {
-        label: 'base',
-        value: 'base.jpg'
+        label: 'iPhone 12',
+        value: '12.png'
       }
     }
     return coque
@@ -218,6 +224,15 @@ const mutations = {
   },
   SET_MOUSE_SUPPORT (state, value) {
     state.mouse = value
+  },
+  SET_NOTIFICATION_SHOW (state, status) {
+    state.notification = status
+  },
+  SET_NOTIFICATION_INFO (state, data) {
+    state.notificationInfo = data
+  },
+  SET_PLAYER_ID (state, id) {
+    state.myID = id
   }
 }
 

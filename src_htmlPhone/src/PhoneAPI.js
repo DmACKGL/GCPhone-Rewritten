@@ -219,6 +219,18 @@ class PhoneAPI {
     store.commit('SET_BOURSE_INFO', data.bourse)
   }
 
+  onupdateNotification(data) {
+    store.commit('SET_NOTIFICATION_SHOW', data.active)
+  }
+
+  onupdateNotificationInfo(data) {
+    store.commit('SET_NOTIFICATION_INFO', data.info)
+  }
+
+  onupdatePlayerID(data) {
+    store.commit('SET_PLAYER_ID', data.id)
+  }
+
   // Call
   async startCall(numero, extraData = undefined) {
     if (USE_VOICE_RTC === true) {

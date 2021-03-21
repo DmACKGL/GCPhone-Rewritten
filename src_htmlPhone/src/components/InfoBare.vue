@@ -1,18 +1,19 @@
 <template>
   <div
-    style="width: 326px; top: 4px;"
+    style="width: 326px; top: 3px;"
     class="phone_infoBare barre-header"
   >
-    <span class="reseau">{{ config.reseau }}</span>
+    <!-- <span class="reseau">{{ config.reseau }}</span>-->
     <span class="time">
       <current-time style="font-size: 12px; margin-right: 2px;" />
+      #{{ myID }}
     </span>
-    <hr class="batterie1">
-    <hr class="batterie2">
-    <hr class="barre1">
-    <hr class="barre2">
-    <hr class="barre3">
-    <hr class="barre4">
+    <div class="signal">
+      <hr class="barre1">
+      <hr class="barre2">
+      <hr class="barre3">
+      <hr class="barre4 nosignal">
+    </div>
   </div>
 </template>
 <script>
@@ -23,18 +24,19 @@ export default {
   components: {
     CurrentTime
   },
-  computed: mapGetters(['config']),
+  computed: mapGetters(['myID', 'config']),
 }
 </script>
 <style scoped>
+
 .barre-header {
   height: 24px;
   font-size: 17px;
   line-height: 24px;
-  padding: 0px 20px 0px 24px;
+  padding: 1px 20px 0 24px;
   width: 100%;
   color: white;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.2);
   position: relative;
 }
 
@@ -47,71 +49,61 @@ export default {
   font-size: 12px;
 }
 
+
+.nosignal {
+  background-color: rgba(255, 255, 255, 0.6) !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
 .barre1 {
-  height: 12px;
+  height: 3px;
   width: 3px;
-  right: 53px;
-  background-color: rgba(255, 255, 255, 0.6);
-  color: rgba(255, 255, 255, 0.6);
+  right: 12.5%;
+  background-color: white;
   border: none;
-  bottom: -1px;
+  bottom: -3px;
 }
 
 .barre2 {
-  height: 9px;
+  height: 6px;
   width: 3px;
-  right: 58px;
+  right: 11.5%;
   background-color: white;
   border: none;
-  bottom: -1px;
+  bottom: -3px;
 }
 
 .barre3 {
-  height: 6px;
+  height: 9px;
   width: 3px;
-  right: 63px;
+  right: 10%;
   background-color: white;
   border: none;
-  bottom: -1px;
+  bottom: -3px;
 }
-
 .barre4 {
-  height: 3px;
+  height: 12px;
   width: 3px;
-  right: 68px;
+  right: 9%;
   background-color: white;
   border: none;
-  bottom: -1px;
+  bottom: -3px;
 }
 
 .time {
   text-align: right;
-  float: right;
+  float: left;
   margin-right: -14px;
   font-size: 12px;
   padding-right: 12px;
-
 }
 
-
-.batterie1 {
-  height: 10px;
-  width: 7px;
-  right: 78px;
-  background-color: rgb(255, 255, 255);
-  color: rgb(255, 255, 255);
-  border-radius: 1px;
-  border: none;
-  bottom: -1px;
-}
-
-.batterie2 {
-  height: 13px;
-  width: 5px;
-  right: 79px;
-  bottom: 0;
-  background-color: rgba(255, 255, 255, 0.6);
-  border: 1px solid white;
-  border-radius: 1px;
+.playerID {
+  text-align: center;
+  float: left;
+  margin: auto;
+  width: 88%;
+  font-size: 12px;
+  padding-right: 12px;
 }
 </style>

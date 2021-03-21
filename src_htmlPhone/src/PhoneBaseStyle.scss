@@ -1,3 +1,5 @@
+@import url('https://cdn.jsdelivr.net/gh/mailtoharshit/San-Francisco-Font-/sanfrancisco.css');
+
 body {
   font-size: 20px;
   margin: 0;
@@ -18,7 +20,6 @@ body {
 
 .phone_title {
   font-weight: 300;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   margin-top: 4px;
   color: black;
   background-color: #e9e9eb;
@@ -93,9 +94,7 @@ body {
 }
 
 * {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   box-sizing: border-box;
-  font-weight: 100;
   font-size: 19px;
 }
 

@@ -199,11 +199,6 @@ button {
   background-color: transparent;
   font-size: 14px;
   padding-top: 72px;
-  font-weight: 700;
-  text-shadow: -1px 0 0 rgba(0, 0, 0, 0.8),
-  1px 0 0 rgba(0, 0, 0, 0.8),
-  0 -1px 0 rgba(0, 0, 0, 0.8),
-  0 1px 0 rgba(0, 0, 0, 0.8);
   text-align: center;
 }
 
@@ -216,12 +211,9 @@ button .puce {
   height: 26px;
   top: -5px;
   left: 51px;
-  font-family: sans-serif;
   line-height: 28px;
   text-align: center;
   border-radius: 50%;
-  font-weight: 400;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   bottom: 32px;
   right: 12px;
 }
@@ -232,7 +224,6 @@ button.select, button:hover {
 }
 
 .letra {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, sans-serif;
   font-weight: 400;
 }
 

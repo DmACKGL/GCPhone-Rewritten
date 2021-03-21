@@ -9,7 +9,7 @@
       :style="{zoom: zoom}"
       :class="{
         'getin-phone': !notification && showPhone,
-        'getout-phone': fadeout,
+        'getout-phone': !notification && fadeout,
         'notin-phone': notification,
       }"
       @contextmenu.stop
@@ -48,13 +48,11 @@ export default {
       showPhone: false,
       fadeout: false,
       soundCall: null,
-      notification: false,
-
     }
   },
 
   computed: {
-    ...mapGetters(['show', 'zoom', 'coque', 'sonido', 'appelsInfo', 'myPhoneNumber', 'volume', 'tempoHide'])
+    ...mapGetters(['notification', 'notificationInfo', 'show', 'zoom', 'coque', 'sonido', 'appelsInfo', 'myPhoneNumber', 'volume', 'tempoHide'])
   },
 
   watch: {
@@ -101,7 +99,14 @@ export default {
         this.showPhone = true
       } else {
         this.fadeout = true
-        this.removePhone(2000);
+        this.removePhone(1000);
+      }
+      store.commit('SET_NOTIFICATION_SHOW', false)
+    },
+    notification () {
+      if (this.notification) {
+        this.showPhone = true
+        this.removePhone(6000)
       }
     },
   },
@@ -109,12 +114,6 @@ export default {
   mounted () {
     this.loadConfig()
     window.addEventListener('message', (event) => {
-      if (event.data.event === 'notification') {
-        // FIXME: create store for 'notifications'
-        store.commit('SET_PHONE_VISIBILITY', true)
-        this.notification = true
-        this.removePhone(7)
-      }
       if (event.data.keyUp !== undefined) {
         this.$bus.$emit('keyUp' + event.data.keyUp)
       }
@@ -140,11 +139,8 @@ export default {
         setTimeout(() => {
           if (!this.show) {
             this.showPhone = false;
-            this.notification = false;
-          }else {
-            // FIXME: create store for 'notifications'
-            store.commit('SET_PHONE_VISIBILITY', false)
           }
+          store.commit('SET_NOTIFICATION_SHOW', false)
           resolve();
         },timer)
       })
@@ -215,14 +211,14 @@ body {
   }
   100% {
     position: absolute;
-    transform: translateY(65%);
+    transform: translateY(45%);
   }
 }
 
 @keyframes notout-phone {
   0% {
     position: absolute;
-    transform: translateY(65%);
+    transform: translateY(45%);
   }
   100% {
     position: absolute;
