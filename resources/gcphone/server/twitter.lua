@@ -36,7 +36,9 @@ end
 function TwitterGetFavotireTweets (accountId, cb)
   if accountId == nil then
     MySQL.Async.fetchAll([===[
-      SELECT twitter_tweets.*,
+      SELECT twitter_tweets.authorId,
+        twitter_tweets.time,
+        twitter_tweets.likes,
         twitter_accounts.username as author,
         twitter_accounts.avatar_url as authorIcon
       FROM twitter_tweets
@@ -47,7 +49,9 @@ function TwitterGetFavotireTweets (accountId, cb)
     ]===], {}, cb)
   else
     MySQL.Async.fetchAll([===[
-      SELECT twitter_tweets.*,
+      SELECT twitter_tweets.authorId,
+        twitter_tweets.time,
+        twitter_tweets.likes,
         twitter_accounts.username as author,
         twitter_accounts.avatar_url as authorIcon,
         twitter_likes.id AS isLikes
@@ -152,7 +156,6 @@ function TwitterCreateAccount(username, password, avatarUrl, cb)
     ['avatarUrl'] = avatarUrl
   }, cb)
 end
--- ALTER TABLE `twitter_accounts`	CHANGE COLUMN `username` `username` VARCHAR(50) NOT NULL DEFAULT '0' COLLATE 'utf8_general_ci';
 
 function TwitterShowError (sourcePlayer, title, message)
   TriggerClientEvent('gcPhone:twitter_showError', sourcePlayer, message)
@@ -279,7 +282,6 @@ end)
 
 
 AddEventHandler('gcPhone:twitter_newTweets', function (tweet)
-  -- print(json.encode(tweet))
   local discord_webhook = GetConvar('discord_webhook', 'webhook_link_here') ---HERE GOES YOUR WEBHOOK LINK
   if discord_webhook == '' then
     return

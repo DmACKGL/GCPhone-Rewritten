@@ -3,6 +3,10 @@ Config = {}
 -- Script locale (only .Lua)
 Config.Locale = 'en'
 
+-- ESX Item requirement
+Config.NeedItem = false   -- Does the player need an item to open the phone?
+Config.ESXItem  = 'phone' -- Name of the item.
+
 Config.AutoFindFixePhones = true -- Automatically add pay phones as they are found by their models.
 
 Config.FixePhone = {

@@ -1,7 +1,7 @@
 --====================================================================================
 -- #Author: Jonathan D @ Gannon
 --====================================================================================
- 
+
 -- Configuration
 local KeyToucheCloseEvent = {
   { code = 172, event = 'ArrowUp' },
@@ -63,10 +63,10 @@ function hasPhone (cb)
     cb(qtty > 0)
   end, 'phone')
 end
-function ShowNoPhoneWarning () 
+function ShowNoPhoneWarning ()
   if (ESX == nil) then return end
   ESX.ShowNotification("Vous n'avez pas de ~r~téléphone~s~")
-end --]] 
+end --]]
 
 AddEventHandler('esx:onPlayerDeath', function()
   if menuIsOpen then
@@ -83,7 +83,7 @@ AddEventHandler('esx:playerLoaded', function()
 end)
 
 --====================================================================================
---  
+--
 --====================================================================================
 Citizen.CreateThread(function()
   while true do
@@ -214,12 +214,12 @@ end)
 
 Citizen.CreateThread(function ()
   local mod = 0
-  while true do 
+  while true do
     local playerPed   = PlayerPedId()
     local coords      = GetEntityCoords(playerPed)
     local inRangeToActivePhone = false
     local inRangedist = 0
-    for i, _ in pairs(PhoneInCall) do 
+    for i, _ in pairs(PhoneInCall) do
         local dist = GetDistanceBetweenCoords(
           PhoneInCall[i].coords.x, PhoneInCall[i].coords.y, PhoneInCall[i].coords.z,
           coords.x, coords.y, coords.z, 1)
@@ -228,7 +228,7 @@ Citizen.CreateThread(function ()
               0,0,0, 0,0,0, 0.1,0.1,0.1, 0,255,0,255, 0,0,0,0,0,0,0)
           inRangeToActivePhone = true
           inRangedist = dist
-          if (dist <= 1.5) then 
+          if (dist <= 1.5) then
             SetTextComponentFormat("STRING")
             AddTextComponentString(_U('key_answer'))
             DisplayHelpTextFromStringLabel(0, 0, 1, -1)
@@ -280,7 +280,7 @@ AddEventHandler("gcPhone:forceOpenPhone", function(_myPhoneNumber)
     TooglePhone()
   end
 end)
- 
+
 --====================================================================================
 --  Events
 --====================================================================================
@@ -337,11 +337,11 @@ end)
 --====================================================================================
 --  Function client | Contacts
 --====================================================================================
-function addContact(display, num) 
+function addContact(display, num)
     TriggerServerEvent('gcPhone:addContact', display, num)
 end
 
-function deleteContact(num) 
+function deleteContact(num)
     TriggerServerEvent('gcPhone:deleteContact', num)
 end
 --====================================================================================
@@ -353,7 +353,7 @@ end
 
 function deleteMessage(msgId)
   TriggerServerEvent('gcPhone:deleteMessage', msgId)
-  for k, v in ipairs(messages) do 
+  for k, v in ipairs(messages) do
     if v.id == msgId then
       table.remove(messages, k)
       SendNUIMessage({event = 'updateMessages', messages = messages})
@@ -372,7 +372,7 @@ end
 
 function setReadMessageNumber(num)
   TriggerServerEvent('gcPhone:setReadMessageNumber', num)
-  for k, v in ipairs(messages) do 
+  for k, v in ipairs(messages) do
     if v.transmitter == num then
       v.isRead = 1
     end
@@ -420,7 +420,7 @@ AddEventHandler("gcPhone:acceptCall", function(infoCall, initiator)
       NetworkSetTalkerProximity(0.0)
     end
   end
-  if menuIsOpen == false then 
+  if menuIsOpen == false then
     TooglePhone()
   end
   PhonePlayCall()
@@ -471,7 +471,7 @@ function ignoreCall(infoCall)
   TriggerServerEvent('gcPhone:ignoreCall', infoCall)
 end
 
-function requestHistoriqueCall() 
+function requestHistoriqueCall()
   TriggerServerEvent('gcPhone:getHistoriqueCall')
 end
 
@@ -482,7 +482,7 @@ end
 function appelsDeleteAllHistorique ()
   TriggerServerEvent('gcPhone:appelsDeleteAllHistorique')
 end
-  
+
 
 --====================================================================================
 --  Event NUI - Appels
@@ -490,21 +490,21 @@ end
 
 RegisterNUICallback('startCall', function (data, cb)
   startCall(data.numero, data.rtcOffer, data.extraData)
-  cb()
+  cb(true)
 end)
 
 RegisterNUICallback('acceptCall', function (data, cb)
   acceptCall(data.infoCall, data.rtcAnswer)
-  cb()
+  cb(true)
 end)
 RegisterNUICallback('rejectCall', function (data, cb)
   rejectCall(data.infoCall)
-  cb()
+  cb(true)
 end)
 
 RegisterNUICallback('ignoreCall', function (data, cb)
   ignoreCall(data.infoCall)
-  cb()
+  cb(true)
 end)
 
 RegisterNUICallback('notififyUseRTC', function (use, cb)
@@ -519,13 +519,13 @@ RegisterNUICallback('notififyUseRTC', function (use, cb)
       NetworkSetTalkerProximity(2.5)
     end
   end
-  cb()
+  cb(true)
 end)
 
 
 RegisterNUICallback('onCandidates', function (data, cb)
   TriggerServerEvent('gcPhone:candidates', data.id, data.candidates)
-  cb()
+  cb(true)
 end)
 
 RegisterNetEvent("gcPhone:candidates")
@@ -554,21 +554,21 @@ end)
 
 --====================================================================================
 --  Gestion des evenements NUI
---==================================================================================== 
+--====================================================================================
 RegisterNUICallback('log', function(data, cb)
   print(data)
-  cb()
+  cb(true)
 end)
 RegisterNUICallback('focus', function(data, cb)
-  cb()
+  cb(true)
 end)
 RegisterNUICallback('blur', function(data, cb)
-  cb()
+  cb(true)
 end)
 RegisterNUICallback('reponseText', function(data, cb)
   local limit = data.limit or 255
   local text = data.text or ''
-  
+
   DisplayOnscreenKeyboard(1, "FMMC_MPM_NA", "", text, "", "", "", limit)
   while (UpdateOnscreenKeyboard() == 0) do
       DisableAllControlActions(0);
@@ -591,48 +591,53 @@ RegisterNUICallback('sendMessage', function(data, cb)
     data.message = 'GPS: ' .. myPos.x .. ', ' .. myPos.y
   end
   TriggerServerEvent('gcPhone:sendMessage', data.phoneNumber, data.message)
+  cb(true)
 end)
 RegisterNUICallback('deleteMessage', function(data, cb)
   deleteMessage(data.id)
-  cb()
+  cb(true)
 end)
 RegisterNUICallback('deleteMessageNumber', function (data, cb)
   deleteMessageContact(data.number)
-  cb()
+  cb(true)
 end)
 RegisterNUICallback('deleteAllMessage', function (data, cb)
   deleteAllMessage()
-  cb()
+  cb(true)
 end)
 RegisterNUICallback('setReadMessageNumber', function (data, cb)
   setReadMessageNumber(data.number)
-  cb()
+  cb(true)
 end)
 --====================================================================================
 --  Event - Contacts
 --====================================================================================
-RegisterNUICallback('addContact', function(data, cb) 
-  TriggerServerEvent('gcPhone:addContact', data.display, data.phoneNumber)
+RegisterNUICallback('addContact', function(data, cb)
+    TriggerServerEvent('gcPhone:addContact', data.display, data.phoneNumber)
+    cb(true)
 end)
 RegisterNUICallback('updateContact', function(data, cb)
-  TriggerServerEvent('gcPhone:updateContact', data.id, data.display, data.phoneNumber)
+    TriggerServerEvent('gcPhone:updateContact', data.id, data.display, data.phoneNumber)
+    cb(true)
 end)
 RegisterNUICallback('deleteContact', function(data, cb)
-  TriggerServerEvent('gcPhone:deleteContact', data.id)
+    TriggerServerEvent('gcPhone:deleteContact', data.id)
+    cb(true)
 end)
 RegisterNUICallback('getContacts', function(data, cb)
-  cb(json.encode(contacts))
+    cb(json.encode(contacts))
+    cb(true)
 end)
 RegisterNUICallback('setGPS', function(data, cb)
   SetNewWaypoint(tonumber(data.x), tonumber(data.y))
-  cb()
+  cb(true)
 end)
 
 -- Add security for event (leuit#0100)
 RegisterNUICallback('callEvent', function(data, cb)
   local eventName = data.eventName or ''
   if string.match(eventName, 'gcphone') then
-    if data.data ~= nil then 
+    if data.data ~= nil then
       TriggerEvent(data.eventName, data.data)
     else
       TriggerEvent(data.eventName)
@@ -640,22 +645,23 @@ RegisterNUICallback('callEvent', function(data, cb)
   else
     print('Event not allowed')
   end
-  cb()
+  cb(true)
 end)
 RegisterNUICallback('useMouse', function(um, cb)
-  useMouse = um
+    useMouse = um
+    cb(true)
 end)
 RegisterNUICallback('deleteALL', function(data, cb)
-  TriggerServerEvent('gcPhone:deleteALL')
-  cb()
+    TriggerServerEvent('gcPhone:deleteALL')
+    cb(true)
 end)
 
 
 
-function TooglePhone() 
+function TooglePhone()
   menuIsOpen = not menuIsOpen
   SendNUIMessage({show = menuIsOpen})
-  if menuIsOpen == true then 
+  if menuIsOpen == true then
     PhonePlayIn()
     TriggerEvent('gcPhone:setMenuStatus', true)
     SetBigmapActive(1,0)
@@ -669,7 +675,7 @@ RegisterNUICallback('faketakePhoto', function(data, cb)
   menuIsOpen = false
   TriggerEvent('gcPhone:setMenuStatus', false)
   SendNUIMessage({show = false})
-  cb()
+  cb(true)
   TriggerEvent('camera:open')
 end)
 
@@ -679,7 +685,7 @@ RegisterNUICallback('closePhone', function(data, cb)
   SendNUIMessage({show = false})
   PhonePlayOut()
   SetBigmapActive(0,0)
-  cb()
+  cb(true)
 end)
 
 
@@ -690,11 +696,11 @@ end)
 ----------------------------------
 RegisterNUICallback('appelsDeleteHistorique', function (data, cb)
   appelsDeleteHistorique(data.numero)
-  cb()
+  cb(true)
 end)
 RegisterNUICallback('appelsDeleteAllHistorique', function (data, cb)
   appelsDeleteAllHistorique(data.infoCall)
-  cb()
+  cb(true)
 end)
 
 
@@ -714,7 +720,7 @@ end)
 
 RegisterNUICallback('setIgnoreFocus', function (data, cb)
   ignoreFocus = data.ignoreFocus
-  cb()
+  cb(true)
 end)
 
 RegisterNUICallback('takePhoto', function(data, cb)

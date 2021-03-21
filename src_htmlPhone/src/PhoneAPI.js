@@ -3,12 +3,12 @@ import VoiceRTC from './VoiceRCT'
 import Vue from 'vue'
 import {Howl} from 'howler'
 import emoji from './emoji.json'
-import axios from 'axios';
+import axios from 'axios'
 
 const keyEmoji = Object.keys(emoji)
 
 let USE_VOICE_RTC = false
-const BASE_URL = 'http://gcphone/'
+const BASE_URL = 'https://gcphone/'
 
 /* eslint-disable camelcase */
 class PhoneAPI {
@@ -29,13 +29,9 @@ class PhoneAPI {
 
   async post(method, data) {
     const ndata = data === undefined ? '{}' : JSON.stringify(data)
-    return await axios.post(BASE_URL + method, ndata)
+    return axios.post(BASE_URL + method, ndata)
       .then(response => response.data)
-      .catch(function () {
-        // TODO: Use Vue Errors
-        console.log("ERROR");
-        return false
-      })
+      .catch(error => error);
   }
 
   async log(...data) {
@@ -149,9 +145,8 @@ class PhoneAPI {
 
   async getConfig() {
     if (this.config === null) {
-      const response = await axios.get('/html/static/config/config.json')
-        .then(response => response.data)
-      this.config = response
+      this.config = await axios.get('/html/static/config/config.json')
+                        .then(response => response.data)
       if (this.config.useWebRTCVocal === true) {
         this.voiceRTC = new VoiceRTC(this.config.RTCConfig)
         USE_VOICE_RTC = true

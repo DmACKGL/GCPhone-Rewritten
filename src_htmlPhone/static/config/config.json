@@ -39,8 +39,8 @@
   },
   "//": "REQUIRE https://github.com/citizenfx/screenshot-basic or set false",
   "enableTakePhoto": true,
-  "fileUploadService_Url": "https://gcphone.herokuapp.com/uploads/upload",
-  "fileUploadService_Field": "image",
+  "fileUploadService_Url": "https://api.imgur.com/3/upload",
+  "fileUploadService_Field": "imgur",
   "background": {
     "White desert": "back001.jpg",
     "Palms": "back002.jpg",
