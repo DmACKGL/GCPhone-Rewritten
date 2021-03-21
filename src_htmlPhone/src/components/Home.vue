@@ -3,8 +3,33 @@
     style="width: 326px; height: 743px;"
     class="home"
     :style="{background: 'url(' + backgroundURL +')'}"
+    :class="{
+      'deblur' : prevRoute.path === '/menu',
+    }"
   >
     <InfoBare />
+    <span
+      v-if="notification.active"
+      class="notificationMess"
+    >
+      <div
+        class="notificationMess_icon"
+        :style="{ color : this.notification.icon.color }"
+      >
+        <FontAwesomeIcon :icon="[notification.icon.prefix, notification.icon.icon]" />
+      </div>
+      <span class="notificationMess_content">
+        <span
+          class="notificationMess_title"
+          style="font-weight:bold"
+        >
+          {{ notification.app }}
+        </span>
+        <br>
+        <span class="notificationMess_mess">{{ notification.message.substring(0,30) }}...</span>
+      </span>
+    </span>
+
     <span
       v-if="messages.length >= warningMessageCount"
       class="warningMess"
@@ -63,14 +88,44 @@ export default {
   components: {
     InfoBare
   },
+  beforeRouteEnter(to, from, next) {
+    next(function(vm) {
+      vm.prevRoute = from
+    })
+  },
   data() {
     return {
       timeDisplay: null,
-      currentSelect: 0
+      currentSelect: 0,
+      prevRoute: '/',
+      notification: {
+        active: false,
+        app: null,
+        icon: {
+          prefix: null,
+          icon: null,
+          color: null
+        },
+        message: null
+      }
     }
   },
   computed: {
     ...mapGetters(['IntlString', 'useMouse', 'nbMessagesUnread', 'backgroundURL', 'messages', 'AppsHome', 'warningMessageCount'])
+  },
+  mounted() {
+    window.addEventListener('message', (event) => {
+      if (event.data.event === 'notification') {
+        let data = event.data.data
+        this.notification.active = true
+        this.notification.app = data.app
+        this.notification.icon.prefix = data.icon.prefix
+        this.notification.icon.icon = data.icon.icon
+        this.notification.icon.color = data.icon.color
+        this.notification.message = data.message
+        this.resetNotifications(7);
+      }
+    })
   },
   created() {
     if (!this.useMouse) {
@@ -114,12 +169,29 @@ export default {
     },
     onBack() {
       this.closePhone()
+    },
+    resetNotifications (timer) {
+      new Promise((resolve) => {
+        setTimeout(() => {
+          if (this.notification.active) {
+            this.notification.active = false
+            this.notification.app = null
+            this.notification.icon.icon = null
+            this.notification.icon.color = null
+            this.notification.message = null
+          }
+          resolve();
+        },timer)
+      })
     }
   },
 }
 </script>
 
 <style scoped="true">
+.blur {
+  filter: blur(6px);
+}
 .home {
   background-size: cover !important;
   background-position: center !important;
@@ -158,7 +230,7 @@ export default {
   border-radius: 50%;
 }
 
-.warningMess .warningMess_icon .fa {
+.warningMess .warningMess_icon {
   text-align: center;
   color: #F94B42;
 }
@@ -175,6 +247,46 @@ export default {
 .warningMess_mess {
   font-size: 16px;
 }
+
+.notificationMess {
+  background-color: white;
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 34px;
+  min-height: 64px;
+  display: flex;
+  padding: 12px;
+  border-radius: 4px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+}
+
+.notificationMess .notificationMess_icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  width: 42px;
+  border-radius: 50%;
+}
+
+.notificationMess .notificationMess_icon {
+  text-align: center;
+}
+
+.notificationMess .wnotificationMess_content {
+  padding-left: 12px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.notificationMess_title {
+  font-size: 20px;
+}
+
+.notificationMess_mess {
+  font-size: 16px;
+}
+
 
 .home_buttons {
   display: flex;
@@ -247,6 +359,20 @@ button.select, button:hover {
 
 .btn_menu {
   height: 50px;
+}
+
+.deblur {
+  position: absolute;
+  background-size: cover !important;
+  background-position: center !important;
+  -webkit-animation: deblur 500ms;
+  filter: blur(0px);
+}
+
+@keyframes deblur {
+  0% { filter: blur(6px);}
+  50% { filter: blur(3px);}
+  100% { filter: blur(0px);}
 }
 
 

@@ -4,8 +4,10 @@
     class="phone_app"
   >
     <div
-      style="width: 342px;
-    height: 756px;"
+      style="
+        width: 342px;
+        height: 756px;
+      "
       class="backblur"
       :style="{background: 'url(' + backgroundURL +')'}"
     />
@@ -48,7 +50,7 @@ export default {
   data: function () {
     return {
       currentSelect: 0,
-      nBotonesMenu: 3
+      nBotonesMenu: 3,
     }
   },
   computed: {
@@ -113,8 +115,7 @@ export default {
     onEnter() {
       this.openApp(this.Apps[this.currentSelect])
     },
-    onBack: function (event) {
-      console.log(event)
+    onBack: function () {
       this.$router.push({name: 'home'})
     }
   }
@@ -139,7 +140,9 @@ export default {
   position: absolute;
   background-size: cover !important;
   background-position: center !important;
+  -webkit-animation: blur 500ms;
   filter: blur(6px);
+
 }
 
 .menu_content {
@@ -156,8 +159,7 @@ export default {
   align-content: flex-start;
   flex-flow: row;
   flex-wrap: wrap;
-  margin-bottom: 0px;
-
+  margin-bottom: 0;
   transition: all 0.5s ease-in-out;
 }
 
@@ -165,6 +167,12 @@ export default {
   animation-name: up;
   animation-duration: 0.6s;
   animation-fill-mode: forwards;
+}
+
+@keyframes blur {
+  0% { filter: blur(0px);}
+  50% { filter: blur(3px);}
+  100% { filter: blur(6px);}
 }
 
 @keyframes up {
@@ -176,14 +184,6 @@ export default {
   }
 }
 
-@keyframes down {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(100vh);
-  }
-}
 
 
 button {

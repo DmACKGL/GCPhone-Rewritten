@@ -284,6 +284,22 @@ end)
 --====================================================================================
 --  Events
 --====================================================================================
+
+-- TEST NOTIFICATIONS
+RegisterNetEvent("gcPhone:testNotifications")
+AddEventHandler("gcPhone:testNotifications", function()
+  SendNUIMessage({show = true})
+  SendNUIMessage({event = 'notification', data = {
+    app = 'twitter',
+    icon = { 
+      prefix = 'fab',
+      icon = 'twitter',
+      color = 'dodgerblue'
+    },
+    message = 'Hola esta es una prueba de notificaciones ekisde jajaja'
+  }})
+end)
+
 RegisterNetEvent("gcPhone:myPhoneNumber")
 AddEventHandler("gcPhone:myPhoneNumber", function(_myPhoneNumber)
   myPhoneNumber = _myPhoneNumber

@@ -22,8 +22,8 @@ const webpackConfig = merge(baseWebpackConfig, {
   devtool: config.build.productionSourceMap ? '#source-map' : false,
   output: {
     path: config.build.assetsRoot,
-    filename: utils.assetsPath('js/[name].js'),
-    chunkFilename: utils.assetsPath('js/[id].js')
+    filename: utils.assetsPath('js/[name].[contenthash].js'),
+    chunkFilename: utils.assetsPath('js/[id].[contenthash].js')
   },
   optimization: {
     runtimeChunk: 'single', // enable "runtime" chunk
@@ -32,7 +32,8 @@ const webpackConfig = merge(baseWebpackConfig, {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendor',
-          chunks: 'all'
+          chunks: 'all',
+          filename: utils.assetsPath('js/[name].[contenthash].bundle.js')
         }
       }
     }

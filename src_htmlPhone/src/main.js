@@ -41,6 +41,7 @@ import {
   faArrowUp,
   faArrowDown,
 } from '@fortawesome/free-solid-svg-icons'
+import { faTwitter }  from '@fortawesome/free-brands-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 
 library.add(
@@ -75,7 +76,8 @@ library.add(
   faUser,
   faArrowRight,
   faArrowUp,
-  faArrowDown
+  faArrowDown,
+  faTwitter
 )
 
 Vue.component('FontAwesomeIcon', FontAwesomeIcon)

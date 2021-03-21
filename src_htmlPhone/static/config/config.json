@@ -1,5 +1,5 @@
 {
-  "reseau": "Rewrite",
+  "reseau": "Rewritten",
   "warningMessageCount": 250,
   "themeColor": "#007aff",
   "themeColorTitle": "#f7f7f7",
@@ -60,12 +60,7 @@
     "value": "back003.jpg"
   },
   "coque": {
-    "Gray": "grey.png",
-    "Salmon": "pink.png",
-    "Red": "red.png",
-    "Mint": "s8.png",
-    "Blue": "blue.png",
-    "Iphone 11": "no_cover.png"
+    "iPhone 12": "12.png"
   },
   "sonido": {
     "Astronomia": "ring.ogg",
@@ -77,8 +72,8 @@
     "XXXTentacion": "xtentacion.ogg"
   },
   "coque_default": {
-    "label": "Mint",
-    "value": "s8.png"
+    "label": "iPhone 12",
+    "value": "12.png"
   },
   "sonido_default": {
     "label": "Casa Papel",

@@ -5,8 +5,13 @@
   >
     <notification />
     <div
-      v-if="show === true && tempoHide === false"
+      v-if="showPhone && tempoHide === false"
       :style="{zoom: zoom}"
+      :class="{
+        'getin-phone': !notification && showPhone,
+        'getout-phone': fadeout,
+        'notin-phone': notification,
+      }"
       @contextmenu.stop
     >
       <div class="phone_wrapper">
@@ -32,14 +37,19 @@
 import './PhoneBaseStyle.scss'
 import { mapGetters, mapActions } from 'vuex'
 import {Howl} from 'howler'
+import store from '@/store'
+
 export default {
   name: 'App',
   components: {
   },
-
   data: function () {
     return {
-      soundCall: null
+      showPhone: false,
+      fadeout: false,
+      soundCall: null,
+      notification: false,
+
     }
   },
 
@@ -86,12 +96,25 @@ export default {
       if (this.show === false && this.appelsInfo !== null) {
         this.rejectCall()
       }
-    }
+      if (this.show) {
+        this.fadeout = false
+        this.showPhone = true
+      } else {
+        this.fadeout = true
+        this.removePhone(2000);
+      }
+    },
   },
 
   mounted () {
     this.loadConfig()
     window.addEventListener('message', (event) => {
+      if (event.data.event === 'notification') {
+        // FIXME: create store for 'notifications'
+        store.commit('SET_PHONE_VISIBILITY', true)
+        this.notification = true
+        this.removePhone(7)
+      }
       if (event.data.keyUp !== undefined) {
         this.$bus.$emit('keyUp' + event.data.keyUp)
       }
@@ -111,10 +134,101 @@ export default {
     ...mapActions(['loadConfig', 'rejectCall']),
     closePhone () {
       this.$phoneAPI.closePhone()
+    },
+    removePhone (timer) {
+      new Promise((resolve) => {
+        setTimeout(() => {
+          if (!this.show) {
+            this.showPhone = false;
+            this.notification = false;
+          }else {
+            // FIXME: create store for 'notifications'
+            store.commit('SET_PHONE_VISIBILITY', false)
+          }
+          resolve();
+        },timer)
+      })
     }
   }
 }
 </script>
 
 <style lang="scss">
+body {
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.getin-phone {
+  -webkit-animation: getin-phone 1s;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+@keyframes getin-phone {
+  0% {
+    position: absolute;
+    transform: translateY(100%);
+  }
+  100% {
+    position: absolute;
+    transform: translateY(0%);
+  }
+}
+.getout-phone {
+  -webkit-animation: getout-phone 1s forwards;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+@keyframes getout-phone {
+  0% {
+    position: absolute;
+    transform: translateY(0%);
+  }
+  100% {
+    position: absolute;
+    transform: translateY(100%);
+  }
+}
+
+.notin-phone {
+  -webkit-animation-name: notin-phone, notout-phone;
+  -webkit-animation-fill-mode: forwards;
+  -webkit-animation-duration: 1s, 1s;
+  -webkit-animation-delay: 0ms, 4s;
+  -webkit-animation-iteration-count: 1, 1;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+@keyframes notin-phone {
+  0% {
+    position: absolute;
+    transform: translateY(100%);
+  }
+  100% {
+    position: absolute;
+    transform: translateY(65%);
+  }
+}
+
+@keyframes notout-phone {
+  0% {
+    position: absolute;
+    transform: translateY(65%);
+  }
+  100% {
+    position: absolute;
+    transform: translateY(100%);
+  }
+}
+
+
 </style>
