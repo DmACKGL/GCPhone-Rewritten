@@ -112,6 +112,9 @@ export default {
   },
 
   mounted () {
+    if (process.env.NODE_ENV !== 'production') {
+      this.showPhone = true
+    }
     this.loadConfig()
     window.addEventListener('message', (event) => {
       if (event.data.keyUp !== undefined) {
