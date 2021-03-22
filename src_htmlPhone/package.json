@@ -29,6 +29,7 @@
     "cross-env": "^7.0.3",
     "howler": "^2.2.1",
     "install": "^0.13.0",
+    "luxon": "^1.26.0",
     "node-sass": "^4.9.0",
     "sass-loader": "^6.0.7",
     "vue": "^2.5.16",

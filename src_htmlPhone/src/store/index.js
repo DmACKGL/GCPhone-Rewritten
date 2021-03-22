@@ -10,6 +10,7 @@ import notes from './modules/notes'
 import bourse from './modules/bourse'
 import tchat from './modules/tchat'
 import twitter from './modules/twitter'
+import racing from './modules/racing'
 
 Vue.use(Vuex)
 
@@ -23,7 +24,8 @@ export default new Vuex.Store({
     bourse,
     notes,
     tchat,
-    twitter
+    twitter,
+    racing
   },
   strict: true
 })

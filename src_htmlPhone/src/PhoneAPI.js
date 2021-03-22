@@ -231,6 +231,11 @@ class PhoneAPI {
     store.commit('SET_PLAYER_ID', data.id)
   }
 
+  // RACING HUD
+  onupdateRacingHUD(data) {
+    store.commit('SET', data)
+  }
+
   // Call
   async startCall(numero, extraData = undefined) {
     if (USE_VOICE_RTC === true) {

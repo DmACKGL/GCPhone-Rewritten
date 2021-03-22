@@ -1,31 +1,36 @@
 <template>
-  <div
-    style="height: 100vh; width: 100vw;"
-    @contextmenu="closePhone"
-  >
-    <notification />
+  <div>
     <div
-      v-if="showPhone && tempoHide === false"
-      :style="{zoom: zoom}"
-      :class="{
-        'getin-phone': !notification && showPhone,
-        'getout-phone': !notification && fadeout,
-        'notin-phone': notification,
-      }"
-      @contextmenu.stop
+      style="height: 100vh; width: 100vw;"
+      @contextmenu="closePhone"
     >
-      <div class="phone_wrapper">
-        <div
-          v-if="coque"
-          class="phone_coque"
-          :style="{backgroundImage: 'url(/html/static/img/coque/' + coque.value + ')'}"
-        />
+      <div v-if="racing">
+        <RacingHUD />
+      </div>
+      <notification />
+      <div
+        v-if="showPhone && tempoHide === false"
+        :style="{zoom: zoom}"
+        :class="{
+          'getin-phone': !notification && showPhone,
+          'getout-phone': !notification && fadeout,
+          'notin-phone': notification,
+        }"
+        @contextmenu.stop
+      >
+        <div class="phone_wrapper">
+          <div
+            v-if="coque"
+            class="phone_coque"
+            :style="{backgroundImage: 'url(/html/static/img/coque/' + coque.value + ')'}"
+          />
 
-        <div
-          id="app"
-          class="phone_screen"
-        >
-          <router-view />
+          <div
+            id="app"
+            class="phone_screen"
+          >
+            <router-view />
+          </div>
         </div>
       </div>
     </div>
@@ -45,9 +50,10 @@ export default {
   },
   data: function () {
     return {
-      showPhone: false,
+      showPhone: true,
       fadeout: false,
       soundCall: null,
+      racing: false
     }
   },
 

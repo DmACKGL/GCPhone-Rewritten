@@ -81,6 +81,7 @@ library.add(
 )
 
 Vue.component('FontAwesomeIcon', FontAwesomeIcon)
+Vue.component('RacingHUD', require('./components/Racing/RacingHUD').default)
 
 Vue.use(VueTimeago)
 Vue.use(Notification)
