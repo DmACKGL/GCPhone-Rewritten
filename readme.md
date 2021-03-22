@@ -11,61 +11,111 @@
   <img src='https://bettercodehub.com/edge/badge/DmACKGL/GCPhone-Rewrite?branch=master'>
 </h1>
 
-## Functions 
-
-  - Contact list
-  - Send SMS
-  - Calls
-  - Anonymous calls
-  - Bank application with bank transfers
-  - Reddit app
-  - Bag Application
-  - Notes application
-  - Selection of ringtones (WORKING!)
-  - Fixed bug numeric keyboard script
-  - Added different cases for iphone 11
-  - Added new background images
-  - Renewed the complete aesthetics of the gcphone as well as its dimensions
-
-## Instructions for use
-
-  - 1º Copy all the files from the resources folder and add them to the folder called GCPhone on your server
-
-
-## Troubleshooting
-  - If the script doesn't load the images, try to delete the cache of the server and your FiveM and it will be ready for operation
-## Requirements
-
-  - Official website esx_addons_gcphone -> https://github.com/N3MTV/gcphone/tree/master/resources/esx_addons_gcphone (To make use of sending messages to public services)
-  - Official website new_banking -> https://github.com/NewWayRP/new_banking (For the bank application to work)
-
-<details>
-  <summary>Screenshots!</summary>
-  
-  ![GCPhone Preview](https://imgur.com/a2ltY4l.png)
-  ![GCPhone Preview](https://imgur.com/HsRSwRk.png)
-  ![GCPhone Preview](https://imgur.com/hPcimYT.png)
-  ![GCPhone Preview](https://imgur.com/UogUOTD.png)
-  ![GCPhone Preview](https://imgur.com/tALSWBL.png)
-  ![GCPhone Preview](https://imgur.com/Z89F1Rj.png)
-  ![GCPhone Preview](https://imgur.com/KcL76Eo.png)
-  ![GCPhone Preview](https://imgur.com/VPlVnzS.png)
+<!-- TABLE OF CONTENTS -->
+<details open="open">
+  <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ol>
 </details>
 
-### Credits
+<!-- ABOUT THE PROJECT -->
+## About The Project
 
-  - Manuel Jiménez López (ElBichop) / Owner / FullStack
-  - Franco Sanllehi / Backend programmer
-  - Paty Blue / graphic designer / @psasfer
-  - Original GCPhone by Gannon https://github.com/N3MTV/gcphone
+<div align="center">
+  <img height="400px" src="https://i.imgur.com/6Csisqj.png">
+</div>
+
+GCPhone-Rewritten is a fork of the now unmaintained GCPhone V3 by ElBishop. This project's main objective is to deliver the best, most updated, and refined experience GCPhone can offers.
+
+We (or I at the moment) updated the whole project dependencies to ensure performance, security, and bug fixes. on top of that, we activate Eslint to ensure our code is in the best shape for production use (code standards-wise)
+
+
+### Built With
+
+* [Vue.js](https://vuejs.org)
+* [Webpack](https://webpack.js.org)
+* [BabelJS](https://babeljs.io)
+
+<!-- GETTING STARTED -->
+## Getting Started
+
+To get a local copy up and running follow these simple steps.
+
+### Prerequisites
+
+This is an example of how to list things you need to use the software and how to install them.
+* Yarn
+  ```sh
+  npm install yarn -g
+  ```
+
+### Installation
+
+1. Clone the repo
+   ```sh
+   git clone https://github.com/DmACKGL/GCPhone-Rewritten
+   ```
+2. Install Yarn packages
+   ```sh
+   yarn install
+   ```
+3. Build the project
+   1. For production
+      ```sh
+      yarn run build
+      ```
+   2. For development
+      ```
+      yarn run dev
+      ```
+      
+<!-- ROADMAP -->
+## Roadmap
+
+See the [open issues](https://github.com/github_username/repo_name/issues) for a list of proposed features (and known issues).
 
 
 
+<!-- CONTRIBUTING -->
+## Contributing
 
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+
+
+<!-- LICENSE -->
 ## License
 
-[GNU v3](https://opensource.org/licenses/gpl-3.0.html)
+Distributed under the GLP-3.0 License. See `LICENSE` for more information.
 
-[Jonathan (Gannon) D](https://github.com/N3MTV)
 
-[Manuel (ElBichop)](https://github.com/manueljlz)
+
+<!-- CONTACT -->
+## Contact
+
+Franco Sanllehi - [GLDmACK#1313](https://discord.com/users/313866383844966400) - f.sanllehiromero@uandresbello.edu
+
+Project Link: [GCPhone-Rewritten](https://github.com/DmACKGL/GCPhone-Rewritten)
