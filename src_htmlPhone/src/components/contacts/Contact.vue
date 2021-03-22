@@ -4,27 +4,26 @@
     class="phone_app"
   >
     <PhoneTitle
-      :title="contact.display"
+      :title="IntlString('APP_CONTACT_NEW')"
       @back="forceCancel"
     />
-    <div class="phone_content content inputText">
+    <div class="content inputText">
       <div
         class="group select"
         data-type="text"
         data-model="display"
         data-maxlength="64"
       >
-        <label>
-          <input
-            v-model="contact.display"
-            v-autofocus
-            type="text"
-            maxlength="64"
-          >
-        </label>
+        <input
+          id="contact-display"
+          v-model="contact.display"
+          v-autofocus
+          type="text"
+          maxlength="64"
+        >
         <span class="highlight" />
         <span class="bar" />
-        <label>{{ IntlString('APP_CONTACT_LABEL_NAME') }}</label>
+        <label for="contact-display">{{ IntlString('APP_CONTACT_LABEL_NAME') }}</label>
       </div>
 
       <div
@@ -33,16 +32,15 @@
         data-model="number"
         data-maxlength="10"
       >
-        <label>
-          <input
-            v-model="contact.number"
-            type="text"
-            maxlength="10"
-          >
-        </label>
+        <input
+          id="contact-number"
+          v-model="contact.number"
+          type="text"
+          maxlength="10"
+        >
         <span class="highlight" />
         <span class="bar" />
-        <label>{{ IntlString('APP_CONTACT_LABEL_NUMBER') }}</label>
+        <label for="contact-number">{{ IntlString('APP_CONTACT_LABEL_NUMBER') }}</label>
       </div>
       <div
         style="margin-top: 23px; width: 263px; margin-left: 23px; "
@@ -127,7 +125,6 @@ export default {
     }
     this.$bus.$on('keyUpBackspace', this.cancel)
     this.id = parseInt(this.$route.params.id)
-    this.contact.display = this.IntlString('APP_CONTACT_NEW')
     this.contact.number = this.$route.params.number
     if (this.id !== -1) {
       const c = this.contacts.find(e => e.id === this.id)
