@@ -1,15 +1,13 @@
-<h1 align="center">
-  <br>
-  GCPhone Rewritten
-  <br>
-  <br>
-  <img alt="GitHub Workflow Status (branch)" src="https://img.shields.io/github/workflow/status/DmACKGL/GCPhone-Rewrite/CI/master?style=for-the-badge">
-  <a href="https://github.com/DmACKGL/GCPhone-Rewrite"><img alt="GitHub license" src="https://img.shields.io/github/license/DmACKGL/GCPhone-Rewrite?style=for-the-badge"></a>
-  <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/DmACKGL/GCPhone-Rewrite/total?style=for-the-badge">
-  <br>
-  <img alt="StyleCI" src="https://github.styleci.io/repos/349118467/shield">
-  <img src='https://bettercodehub.com/edge/badge/DmACKGL/GCPhone-Rewrite?branch=master'>
-</h1>
+<p align="center">
+  <br />
+  <h1 align="center">GCPhone Rewritten</h3>
+  
+  <br />
+  <br />
+  <img align="center" alt="GitHub Workflow Status (branch)" src="https://img.shields.io/github/workflow/status/DmACKGL/GCPhone-Rewrite/CI/master?style=for-the-badge">
+  <a  align="center"href="https://github.com/DmACKGL/GCPhone-Rewrite"><img align="center" alt="GitHub license" src="https://img.shields.io/github/license/DmACKGL/GCPhone-Rewrite?style=for-the-badge"></a>
+  <img  align="center"alt="GitHub all releases" src="https://img.shields.io/github/downloads/DmACKGL/GCPhone-Rewrite/total?style=for-the-badge">
+</p>
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
@@ -28,6 +26,7 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
+
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
