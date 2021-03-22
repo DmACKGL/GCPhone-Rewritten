@@ -91,11 +91,13 @@ export default {
     } else {
       this.selectIndex = -1
     }
+    this.$bus.$on('keyUpBackspace', this.onBack)
   },
   beforeDestroy () {
     this.$bus.$off('keyUpArrowDown', this.onDown)
     this.$bus.$off('keyUpArrowUp', this.onUp)
     this.$bus.$off('keyUpEnter', this.onEnter)
+    this.$bus.$off('keyUpBackspace', this.onBack)
   },
   methods: {
     ...mapActions(['startCall', 'appelsDeleteHistorique', 'appelsDeleteAllHistorique', 'addContact']),
@@ -106,6 +108,9 @@ export default {
       this.$nextTick(() => {
         this.$el.querySelector('.active').scrollIntoViewIfNeeded()
       })
+    },
+    onBack() {
+      if (this.ignoreControls === true) return
     },
     onUp () {
       if (this.ignoreControls === true) return
@@ -120,6 +125,7 @@ export default {
     async selectItem (item) {
       const numero = item.num
       this.ignoreControls = true
+      this.$bus.$emit('ignoreControls', true)
       let choix = [
         {id: 0, title: this.IntlString('APP_RACING_JOIN'), icons: 'check-circle', color: 'green'},
         {id: 1, title: this.IntlString('APP_PHONE_DELETE_ALL'), icons: 'trash', color: 'red'},
@@ -127,6 +133,7 @@ export default {
       ]
       const rep = await Modal.CreateModal({ choix })
       this.ignoreControls = false
+      this.$bus.$emit('ignoreControls', false)
       switch (rep.id) {
         case 0:
           await Swal.fire({

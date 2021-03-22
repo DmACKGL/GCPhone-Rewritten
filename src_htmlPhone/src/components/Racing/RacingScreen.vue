@@ -75,6 +75,7 @@ export default {
       this.$bus.$on('keyUpArrowLeft', this.onLeft)
       this.$bus.$on('keyUpArrowRight', this.onRight)
     }
+    this.$bus.$on('ignoreControls', this.ignore)
   },
   beforeDestroy () {
     this.$bus.$off('keyUpBackspace', this.onBackspace)
@@ -90,6 +91,9 @@ export default {
       }
       return {}
     },
+    ignore(data) {
+      this.ignoreControls = data
+    },
     swapMenu (index) {
       this.currentMenuIndex = index
     },
@@ -100,9 +104,10 @@ export default {
       this.currentMenuIndex = Math.min(this.currentMenuIndex + 1, this.subMenu.length - 1)
     },
     onBackspace: function () {
-      if (this.ignoreControls === true) return
-      this.$router.push({ name: 'home' })
-    }
+      if (!this.ignoreControls === true) {
+        this.$router.push({ name: 'home' })
+      }
+    },
   }
 }
 </script>
