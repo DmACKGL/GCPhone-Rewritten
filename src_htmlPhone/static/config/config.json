@@ -266,6 +266,12 @@
       "name": "9GAG",
       "icons": "/html/static/img/icons_app/9gag.png",
       "routeName": "9gag"
+    },
+    {
+      "name": "Racing",
+      "es_ES__name": "Carreras",
+      "icons": "/html/static/img/icons_app/races.png",
+      "routeName": "racing"
     }
   ],
   "defaultLanguage": "en_US",
