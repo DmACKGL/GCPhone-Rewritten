@@ -7,7 +7,9 @@
     <InfoBare v-if="showInfoBare" />
     <div
       class="phone_title"
-      :style="{backgroundColor: backgroundColor}"
+      :style="{
+        backgroundColor: backgroundColor,
+      }"
     >
       <button
         class="btn-back"

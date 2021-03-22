@@ -32,6 +32,8 @@ import Photo from '@/components/Photo/Photo'
 
 import App9GAG from '@/components/App9GAG'
 
+import RacingScreen from "../components/Racing/RacingScreen";
+
 Vue.use(Router)
 
 export default new Router({
@@ -130,6 +132,10 @@ export default new Router({
       path: '/9gag',
       name: '9gag',
       component: App9GAG
+    }, {
+      path: '/racing',
+      name: 'racing',
+      component: RacingScreen,
     }, {
       path: '*',
       redirect: '/'

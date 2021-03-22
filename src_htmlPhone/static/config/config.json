@@ -524,6 +524,12 @@
       "APP_BANK_BUTTON_CANCEL": "Cancel",
       "APP_DARKTCHAT_NEW_NOTE": "New note",
       "APP_DARKTCHAT_DELETE_NOTE": "Delete note",
+
+      "APP_RACING_MENU_RACES": "Races",
+      "APP_RACING_MENU_MAPS": "Create",
+      "APP_RACING_MENU_LEADERBOARD": "Leaderboard",
+      "APP_RACING_JOIN": "Join Race",
+
       "TIMEAGO": [
         "just now",
         [
@@ -1096,3 +1102,4 @@
     }
   }
 }
+

@@ -5,9 +5,7 @@ const state = {
 }
 
 const getters = {
-  tchatChannels: ({ channels }) => channels,
-  tchatCurrentChannel: ({ currentChannel }) => currentChannel,
-  tchatMessages: ({ messagesChannel }) => messagesChannel
+
 }
 
 const actions = {

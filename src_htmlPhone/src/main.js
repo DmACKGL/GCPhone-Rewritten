@@ -40,7 +40,16 @@ import {
   faArrowRight,
   faArrowUp,
   faArrowDown,
+  faFlagCheckered,
+  faFlag,
+  faCheckCircle,
+  faMoneyBillAlt,
+  faRoad,
+  faMapMarker,
+  faTrophy
 } from '@fortawesome/free-solid-svg-icons'
+
+
 import { faTwitter }  from '@fortawesome/free-brands-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 
@@ -77,7 +86,14 @@ library.add(
   faArrowRight,
   faArrowUp,
   faArrowDown,
-  faTwitter
+  faTwitter,
+  faFlagCheckered,
+  faFlag,
+  faCheckCircle,
+  faMoneyBillAlt,
+  faRoad,
+  faMapMarker,
+  faTrophy
 )
 
 Vue.component('FontAwesomeIcon', FontAwesomeIcon)
