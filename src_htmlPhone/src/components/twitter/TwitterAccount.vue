@@ -373,7 +373,7 @@ export default {
         username: '',
         password: '',
         passwordConfirm: '',
-        avatarUrl: 'https://gcphone.nyc3.cdn.digitaloceanspaces.com/default_profile.png'
+        avatarUrl: 'https://i.imgur.com/pE20YaL.png'
       },
       notification: 0,
       notificationSound: false

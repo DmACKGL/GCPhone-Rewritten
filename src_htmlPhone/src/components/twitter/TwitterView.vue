@@ -25,7 +25,7 @@
       >
         <div class="tweet-img">
           <img
-            :src="tweet.authorIcon || 'https://gcphone.nyc3.cdn.digitaloceanspaces.com/default_profile.png'"
+            :src="tweet.authorIcon || 'https://i.imgur.com/pE20YaL.png'"
             style="max-width:48px; max-height:48px;"
             alt=""
           >
