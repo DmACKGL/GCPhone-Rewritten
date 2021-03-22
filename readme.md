@@ -89,7 +89,7 @@ This is an example of how to list things you need to use the software and how to
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/DmACKGL/GCPhone-Rewritten/issues) for a list of proposed features (and known issues).
 
 
 
