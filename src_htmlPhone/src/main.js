@@ -46,7 +46,9 @@ import {
   faMoneyBillAlt,
   faRoad,
   faMapMarker,
-  faTrophy
+  faTrophy,
+  faRoute,
+  faEye
 } from '@fortawesome/free-solid-svg-icons'
 
 
@@ -93,7 +95,9 @@ library.add(
   faMoneyBillAlt,
   faRoad,
   faMapMarker,
-  faTrophy
+  faTrophy,
+  faRoute,
+  faEye
 )
 
 Vue.component('FontAwesomeIcon', FontAwesomeIcon)

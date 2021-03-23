@@ -37,6 +37,7 @@
 <script>
 import PhoneTitle from './../PhoneTitle'
 import RacingMenu from "./RacingMenu";
+import RacingCreate from "./RacingCreate";
 import {mapGetters} from 'vuex'
 
 export default {
@@ -57,7 +58,7 @@ export default {
         icon: 'flag-checkered'
       },
       {
-        Comp: RacingMenu,
+        Comp: RacingCreate,
         name: this.IntlString('APP_RACING_MENU_MAPS'),
         icon: 'map-marker'
       },
@@ -93,6 +94,17 @@ export default {
     },
     ignore(data) {
       this.ignoreControls = data
+      if (this.ignoreControls) {
+        this.$bus.$off('keyUpEnter', this.onEnter)
+        this.$bus.$off('keyUpBackspace', this.onBack)
+        this.$bus.$off('keyUpArrowLeft', this.onLeft)
+        this.$bus.$off('keyUpArrowRight', this.onRight)
+      } else {
+        this.$bus.$on('keyUpEnter', this.onEnter)
+        this.$bus.$on('keyUpBackspace', this.onBack)
+        this.$bus.$on('keyUpArrowLeft', this.onLeft)
+        this.$bus.$on('keyUpArrowRight', this.onRight)
+      }
     },
     swapMenu (index) {
       this.currentMenuIndex = index
@@ -105,7 +117,7 @@ export default {
     },
     onBackspace: function () {
       if (!this.ignoreControls === true) {
-        this.$router.push({ name: 'home' })
+        this.$router.push({ name: 'menu' })
       }
     },
   }

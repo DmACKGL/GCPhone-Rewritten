@@ -525,10 +525,22 @@
       "APP_DARKTCHAT_NEW_NOTE": "New note",
       "APP_DARKTCHAT_DELETE_NOTE": "Delete note",
 
+      "_comment_RACING": "CHOIX",
+      "APP_RACING_JOIN": "Join Race",
+
       "APP_RACING_MENU_RACES": "Races",
       "APP_RACING_MENU_MAPS": "Create",
       "APP_RACING_MENU_LEADERBOARD": "Leaderboard",
-      "APP_RACING_JOIN": "Join Race",
+
+
+
+      "_comment_RACING_CREATE": "CREATE FORM",
+      "APP_RACING_CREATE": "Create Race",
+      "APP_RACING_CREATE_PREVIEW": "Preview",
+      "APP_RACING_CREATE_GPS": "Set GPS",
+
+      "APP_RACING_CREATE_EVENTNAME": "Event Name",
+      "APP_RACING_CREATE_ALIAS": "Your Alias",
 
       "TIMEAGO": [
         "just now",
