@@ -177,10 +177,10 @@ export default {
 
 @keyframes up {
   from {
-    transform: translateY(100vh);
+    transform: translate3d(0, 100vh, 0);
   }
   to {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 

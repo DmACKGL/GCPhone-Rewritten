@@ -4,7 +4,7 @@
       style="height: 100vh; width: 100vw;"
       @contextmenu="closePhone"
     >
-      <RacingHUD v-if="true" />
+      <RacingHUD v-if="raceInfo.active" />
       <notification />
       <div
         v-if="showPhone && tempoHide === false"
@@ -59,9 +59,6 @@ export default {
   },
 
   watch: {
-    raceInfo() {
-      console.log("WATCH! " + this.showRacingHUD)
-    },
     appelsInfo (newValue, oldValue) {
       if (this.appelsInfo !== null && this.appelsInfo.is_accepts !== true) {
         if (this.soundCall !== null) {
@@ -119,7 +116,7 @@ export default {
 
   mounted () {
     if (process.env.NODE_ENV !== 'production') {
-      //this.showPhone = true
+      this.showPhone = true
     }
     this.loadConfig()
     window.addEventListener('message', (event) => {
@@ -175,11 +172,11 @@ body {
 @keyframes getin-phone {
   0% {
     position: absolute;
-    transform: translateY(100%);
+    transform: translate3d(0, 100vh, 0);
   }
   100% {
     position: absolute;
-    transform: translateY(0%);
+    transform: translate3d(0, 0, 0);
   }
 }
 .getout-phone {
@@ -193,11 +190,11 @@ body {
 @keyframes getout-phone {
   0% {
     position: absolute;
-    transform: translateY(0%);
+    transform: translate3d(0, 0 ,0);
   }
   100% {
     position: absolute;
-    transform: translateY(100%);
+    transform: translate3d(0, 100vh, 0);
   }
 }
 
@@ -216,22 +213,22 @@ body {
 @keyframes notin-phone {
   0% {
     position: absolute;
-    transform: translateY(100%);
+    transform: translate3d(0, 100vh ,0);
   }
   100% {
     position: absolute;
-    transform: translateY(45%);
+    transform: translate3d(0, 70vh, 0);
   }
 }
 
 @keyframes notout-phone {
   0% {
     position: absolute;
-    transform: translateY(45%);
+    transform: translate3d(0, 70vh, 0);
   }
   100% {
     position: absolute;
-    transform: translateY(100%);
+    transform: translate3d(0, 100vh, 0);
   }
 }
 
