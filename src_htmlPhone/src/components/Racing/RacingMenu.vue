@@ -141,6 +141,8 @@ export default {
             title: 'All set!',
             text: 'You joined the race!',
             target: '.phone_screen',
+            showConfirmButton: false,
+            timer: 1500
           })
           break
         case 1:
