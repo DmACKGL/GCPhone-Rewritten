@@ -43,6 +43,9 @@ client_script {
 
 	-- ADDONS
 
+	-- Racing
+	"addons/racing/client.lua",
+
 	-- Service calls
 	"addons/pscall/client.lua"
 }
@@ -58,7 +61,10 @@ server_script {
 	"server/twitter.lua",
 
 	-- ADDONS
-	
+
+	-- Racing
+	"addons/racing/server.lua",
+
 	-- Service calls
 	"addons/pscall/server.lua"
 }

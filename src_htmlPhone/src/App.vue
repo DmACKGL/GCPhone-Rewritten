@@ -4,9 +4,7 @@
       style="height: 100vh; width: 100vw;"
       @contextmenu="closePhone"
     >
-      <div v-if="racing">
-        <RacingHUD />
-      </div>
+      <RacingHUD v-if="true" />
       <notification />
       <div
         v-if="showPhone && tempoHide === false"
@@ -50,18 +48,20 @@ export default {
   },
   data: function () {
     return {
-      showPhone: true,
+      showPhone: false,
       fadeout: false,
       soundCall: null,
-      racing: false
     }
   },
 
   computed: {
-    ...mapGetters(['notification', 'notificationInfo', 'show', 'zoom', 'coque', 'sonido', 'appelsInfo', 'myPhoneNumber', 'volume', 'tempoHide'])
+    ...mapGetters(['raceInfo', 'notification', 'notificationInfo', 'show', 'zoom', 'coque', 'sonido', 'appelsInfo', 'myPhoneNumber', 'volume', 'tempoHide']),
   },
 
   watch: {
+    raceInfo() {
+      console.log("WATCH! " + this.showRacingHUD)
+    },
     appelsInfo (newValue, oldValue) {
       if (this.appelsInfo !== null && this.appelsInfo.is_accepts !== true) {
         if (this.soundCall !== null) {
@@ -119,7 +119,7 @@ export default {
 
   mounted () {
     if (process.env.NODE_ENV !== 'production') {
-      this.showPhone = true
+      //this.showPhone = true
     }
     this.loadConfig()
     window.addEventListener('message', (event) => {

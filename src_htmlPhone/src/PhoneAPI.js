@@ -189,6 +189,45 @@ class PhoneAPI {
   }
 
   // ==========================================================================
+  // Racing
+  // ==========================================================================
+
+  // Core
+  onupdateRacingActive(data) {
+    store.dispatch('setRacingActive', data.data)
+  }
+  onupdateRacingStatus(data) {
+    store.dispatch('setRacingStatus', data.data)
+  }
+  onupdateRacingID(data) {
+    store.dispatch('setRacingID', data.data)
+  }
+
+  // Laps
+  onupdateRacingCurrentLap(data) {
+    store.dispatch('setRacingCurrentLap', data.data)
+  }
+  onupdateRacingLaps(data) {
+    store.dispatch('setRacingTotalLaps', data.data)
+  }
+
+  // Checkpoint
+  onupdateRacingCurrentCheckpoint(data){
+    store.dispatch('setRacingCurrentCheckpoint', data.data)
+  }
+  onupdateRacingCheckpoints(data) {
+    store.dispatch('setRacingTotalCheckpoints', data.data)
+  }
+
+  // Players
+  onupdateRacingCurrentPosition(data) {
+    store.dispatch('setRacingCurrentPosition', data.data)
+  }
+  onupdateRacingPlayers(data) {
+    store.dispatch('setRacingPlayers', data.data)
+  }
+
+  // ==========================================================================
   //  Gestion des events
   // ==========================================================================
   onupdateMyPhoneNumber(data) {
@@ -229,11 +268,6 @@ class PhoneAPI {
 
   onupdatePlayerID(data) {
     store.commit('SET_PLAYER_ID', data.id)
-  }
-
-  // RACING HUD
-  onupdateRacingHUD(data) {
-    store.commit('SET', data)
   }
 
   // Call

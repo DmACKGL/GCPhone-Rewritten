@@ -7,10 +7,6 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 math.randomseed(os.time()) 
 
-RegisterCommand("testnotification", function()
-    TriggerClientEvent('gcPhone:testNotifications', -1)
-end, false)
-
 --- Pour les numero du style XXX-XXXX
 function getPhoneRandomNumber()
     local numBase0 = math.random(100,999)
