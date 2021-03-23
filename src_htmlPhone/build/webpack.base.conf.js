@@ -52,11 +52,39 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        loader: 'url-loader',
-        options: {
-          limit: 10000,
-          name: utils.assetsPath('img/[name].[ext]')
-        }
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 10000,
+              name: utils.assetsPath('img/[name].[ext]')
+            }
+          },
+          {
+            loader: 'img-loader',
+            options: {
+              plugins: [
+                require('imagemin-gifsicle')({
+                  interlaced: false
+                }),
+                require('imagemin-mozjpeg')({
+                  progressive: true,
+                  arithmetic: false
+                }),
+                require('imagemin-pngquant')({
+                  floyd: 0.5,
+                  speed: 2
+                }),
+                require('imagemin-svgo')({
+                  plugins: [
+                    { removeTitle: true },
+                    { convertPathData: false }
+                  ]
+                })
+              ]
+            }
+          }
+        ]
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
