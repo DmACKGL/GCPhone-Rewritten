@@ -29,6 +29,7 @@ PhoneAPI.setUseMouse(state.mouse)
 
 const getters = {
   show: ({ show }) => show,
+  currency: ({ currency }) => currency,
   notification: ({ notification }) => notification,
   notificationInfo: ({ notificationInfo }) => notificationInfo,
   tempoHide: ({ tempoHide }) => tempoHide,

@@ -260,10 +260,10 @@ export default {
         allowEnterKey: false,
         showConfirmButton: false,
         showCancelButton: false,
-        onBeforeOpen() {
+        willOpen() {
           Swal.showLoading(); //Adds built in loader animation during modal open
         },
-        onAfterClose() {
+        willClose() {
           Swal.hideLoading(); //might not be necessary
         },
       })

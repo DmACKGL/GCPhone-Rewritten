@@ -32,7 +32,9 @@ const actions = {
     return PhoneAPI.getRaces()
       .then(response => {
         if (response.code) {
-          commit('')
+          commit('RACING_SET_RACES', response.races)
+          commit('RACING_SET_RACEINFO', response.raceInfo)
+          commit('RACING_SET_TRACKS', response.tracks)
           return true
         } else {
           return false

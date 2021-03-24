@@ -24,12 +24,12 @@
             <div class="col">
               <font-awesome-icon :icon="['fas', 'money-bill-alt']" />
               <br>
-              {{ val.money }}
+              ${{ val.money | toCurrency }}
             </div>
             <div class="col">
               <font-awesome-icon :icon="['fas', 'road']" />
               <br>
-              {{ racingTracks.find(track => track.id === val.trackID) }}
+              {{ racingTracks.find(track => track.id === val.trackID).name }}
             </div>
           </div>
         </div>

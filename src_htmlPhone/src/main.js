@@ -116,6 +116,18 @@ window.store = store
 
 Vue.directive('autofocus', AutoFocus)
 
+Vue.filter('toCurrency', function (value) {
+  if (typeof value !== "number") {
+    return value;
+  }
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: this.$store.currency,
+    minimumFractionDigits: 0
+  });
+  return formatter.format(value);
+});
+
 /* eslint-disable no-new */
 window.APP = new Vue({
   el: '#app',

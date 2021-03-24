@@ -96,6 +96,7 @@ export default {
   },
 
   created () {
+    this.$store.dispatch('racingGet')
     if (!this.useMouse) {
       this.$bus.$on('keyUpBackspace', this.onBackspace)
       this.$bus.$on('keyUpArrowLeft', this.onLeft)
