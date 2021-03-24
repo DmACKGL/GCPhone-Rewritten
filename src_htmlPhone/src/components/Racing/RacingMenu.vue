@@ -24,7 +24,7 @@
             <div class="col">
               <font-awesome-icon :icon="['fas', 'money-bill-alt']" />
               <br>
-              ${{ val.money | toCurrency }}
+              {{ parseInt(val.money) | toCurrency }}
             </div>
             <div class="col">
               <font-awesome-icon :icon="['fas', 'road']" />

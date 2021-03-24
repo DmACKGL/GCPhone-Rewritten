@@ -16,6 +16,7 @@ const state = {
   mouse: window.localStorage['gc_mouse'] === 'true',
   lang: window.localStorage['gc_language'],
   config: {
+    currency: "USD",
     reseau: 'Rewritten',
     useFormatNumberFrance: false,
     apps: [],
@@ -29,7 +30,7 @@ PhoneAPI.setUseMouse(state.mouse)
 
 const getters = {
   show: ({ show }) => show,
-  currency: ({ currency }) => currency,
+  currency: ({ config }) => config.currency,
   notification: ({ notification }) => notification,
   notificationInfo: ({ notificationInfo }) => notificationInfo,
   tempoHide: ({ tempoHide }) => tempoHide,

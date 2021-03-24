@@ -61,6 +61,7 @@
 
 <script>
 import PhoneTitle from './../PhoneTitle'
+import store from '@/store'
 import RacingMenu from "./RacingMenu";
 import RacingCreate from "./RacingCreate";
 import {mapGetters} from 'vuex'
@@ -96,7 +97,7 @@ export default {
   },
 
   created () {
-    this.$store.dispatch('racingGet')
+    store.dispatch('racingGet')
     if (!this.useMouse) {
       this.$bus.$on('keyUpBackspace', this.onBackspace)
       this.$bus.$on('keyUpArrowLeft', this.onLeft)

@@ -375,8 +375,6 @@ export default {
       }
     },
     async onEnter() {
-      console.log('Fire fire 🔥')
-      console.log(this.state, this.STATES.MENU)
       if (this.state === this.STATES.MENU) {
         if (this.ignoreControls === true) return
           await this.selectItem(this.racingTracks[this.selectIndex])
