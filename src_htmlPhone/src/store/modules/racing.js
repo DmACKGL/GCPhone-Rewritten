@@ -1,4 +1,9 @@
+import PhoneAPI from './../../PhoneAPI'
+
 const state = {
+  races: [],
+  tracks: [],
+  raceProcessing: false,
   raceInfo: {
     active: false,
     state: 0,
@@ -17,11 +22,45 @@ const state = {
 
 const getters = {
   raceInfo: ({raceInfo}) => raceInfo,
+  raceProcessing: ({raceProcessing}) => raceProcessing,
+  races: ({races}) => races,
+  racingTracks: ({tracks}) => tracks,
 }
 
 const actions = {
+  async racingGet({commit}) {
+    return PhoneAPI.getRaces()
+      .then(response => {
+        if (response.code) {
+          commit('')
+          return true
+        } else {
+          return false
+        }
+      })
+  },
+
   racingReset ({commit}) {
     commit('RACING_RESET')
+  },
+
+  racingCreate ({commit}, race) {
+    commit('RACING_SET_PROCCESING', true)
+    commit('RACING_ADD_RACE', race)
+    return PhoneAPI.createRace(race)
+      .then(response => {
+        if (response.raceID){
+          commit('RACING_ADD_RACE', response)
+          commit('RACING_SET_PROCCESING', false)
+          commit('SET_RACING_RACEID', response.raceID)
+          commit('SET_RACING_ACTIVE', true)
+          return true
+        } else {
+          commit('RACING_SET_PROCCESING', false)
+          return false
+        }
+      })
+
   },
 
   // Core
@@ -78,8 +117,25 @@ const actions = {
 }
 
 const mutations = {
+  RACING_SET_TRACKS(state, data) {
+    state.tracks = data
+  },
+  RACING_SET_RACES(state, data){
+    state.races = data
+  },
+  RACING_SET_RACEINFO(state, data) {
+    state.raceInfo = data
+  },
   RACING_RESET(state) {
     state.raceInfo = []
+  },
+
+  RACING_SET_PROCCESING(state, status) {
+    state.raceProcessing = status
+  },
+
+  RACING_ADD_RACE(state, race) {
+    state.races.push(race)
   },
 
   // Core
@@ -88,6 +144,9 @@ const mutations = {
   },
   SET_RACING_STATUS(state, status) {
     state.raceInfo.status = status
+  },
+  SET_RACING_RACEID(state, raceID) {
+    state.raceInfo.raceID = raceID
   },
 
   // Laps
@@ -126,5 +185,18 @@ export default {
 }
 
 if (process.env.NODE_ENV !== 'production') {
-  // BoilerPlate when on development
+  state.tracks = [
+    {
+      id: 1,
+      name: "Grand Prix 3.0",
+      type: "Lap",
+      km: "18.26 KM"
+    },
+    {
+      id: 2,
+      name: "Drag Queen",
+      type: "Sprint",
+      km: "300 KM"
+    }
+  ]
 }

@@ -11,7 +11,30 @@
     <div class="content">
       <component :is="subMenu[currentMenuIndex].Comp" />
     </div>
-    <div class="subMenu">
+    <div
+      v-if="raceInfo.active"
+      class="subMenu"
+    >
+      <div
+        class="subMenu-elem"
+        :style="{color: themeColor}"
+      >
+        <div class="subMenu-icon">
+          <FontAwesomeIcon
+            :icon="['fas', subMenu[0].icon]"
+          />
+        </div>
+        <span
+          class="subMenu-name"
+        >
+          {{ subMenu[0].name }}
+        </span>
+      </div>
+    </div>
+    <div
+      v-if="!raceInfo.active"
+      class="subMenu"
+    >
       <div
         v-for="(Comp, i) of subMenu"
         :key="i"
@@ -28,7 +51,9 @@
         <span
           class="subMenu-name"
           @click.stop="swapMenu(i)"
-        >{{ Comp.name }}</span>
+        >
+          {{ Comp.name }}
+        </span>
       </div>
     </div>
   </div>
@@ -50,7 +75,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['IntlString', 'useMouse', 'themeColor']),
+    ...mapGetters(['raceInfo', 'IntlString', 'useMouse', 'themeColor']),
     subMenu () {
       return [{
         Comp: RacingMenu,
@@ -77,6 +102,7 @@ export default {
       this.$bus.$on('keyUpArrowRight', this.onRight)
     }
     this.$bus.$on('ignoreControls', this.ignore)
+    this.$bus.$on('racingHome', this.home)
   },
   beforeDestroy () {
     this.$bus.$off('keyUpBackspace', this.onBackspace)
@@ -105,6 +131,9 @@ export default {
         this.$bus.$on('keyUpArrowLeft', this.onLeft)
         this.$bus.$on('keyUpArrowRight', this.onRight)
       }
+    },
+    home() {
+      this.currentMenuIndex = 0
     },
     swapMenu (index) {
       this.currentMenuIndex = index

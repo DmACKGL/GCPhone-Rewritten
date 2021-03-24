@@ -6,7 +6,7 @@
     <template v-if="state === STATES.MENU">
       <div class="elements">
         <div
-          v-for="(val, key) in tracks"
+          v-for="(val, key) in racingTracks"
           :key="key"
           class="element card shadow mr-3"
           :class="{'active': selectIndex === key}"
@@ -45,9 +45,10 @@
           </label>
           <input
             id="eventName"
+            v-model="raceCreate.eventName"
             class="form-control"
             type="text"
-            :value="raceCreate.eventName"
+            required
           >
         </div>
         <div
@@ -59,9 +60,129 @@
           </label>
           <input
             id="yourAlias"
+            v-model="raceCreate.yourAlias"
             class="form-control"
             type="text"
-            :value="raceCreate.yourAlias"
+            required
+          >
+        </div>
+        <div
+          class="form-group group"
+          data-type="text"
+        >
+          <label for="laps">
+            <small>{{ IntlString('APP_RACING_CREATE_LAPS') }}</small>
+          </label>
+          <input
+            id="laps"
+            v-model="raceCreate.Laps"
+            class="form-control"
+            type="number"
+            pattern="[0-9]"
+            required
+            @keydown.up.prevent
+            @keydown.down.prevent
+          >
+        </div>
+        <div
+          class="form-group group"
+          data-type="text"
+        >
+          <label for="ammount">
+            <small>{{ IntlString('APP_RACING_CREATE_MONEY') }}</small>
+          </label>
+          <input
+            id="ammount"
+            v-model="raceCreate.money"
+            class="form-control"
+            type="number"
+            min="1"
+            step="any"
+            pattern="[0-9]"
+            required
+            @keydown.up.prevent
+            @keydown.down.prevent
+          >
+        </div>
+        <div
+          class="form-group group"
+          data-type="text"
+        >
+          <label for="CST">
+            <small>{{ IntlString('APP_RACING_CREATE_COUNTDOWN') }}</small>
+          </label>
+          <input
+            id="CST"
+            v-model="raceCreate.CST"
+            class="form-control"
+            type="number"
+            min="1"
+            step="any"
+            pattern="[0-9]"
+            required
+            @keydown.up.prevent
+            @keydown.down.prevent
+          >
+        </div>
+        <div
+          class="form-group form-check group"
+        >
+          <input
+            id="reverse"
+            v-model="raceCreate.reverse"
+            type="checkbox"
+            class="form-check-input"
+          >
+          <label
+            class="form-check-label"
+            for="reverse"
+          >
+            <small>{{ IntlString('APP_RACING_CREATE_REVERSE') }}</small>
+          </label>
+        </div>
+        <div
+          class="form-group form-check group"
+        >
+          <input
+            id="positions"
+            v-model="raceCreate.showPosition"
+            type="checkbox"
+            class="form-check-input"
+          >
+          <label
+            class="form-check-label"
+            for="positions"
+          >
+            <small>{{ IntlString('APP_RACING_CREATE_POSITION') }}</small>
+          </label>
+        </div>
+        <div
+          class="form-group form-check group"
+        >
+          <input
+            id="sendNotification"
+            v-model="raceCreate.sendNotification"
+            type="checkbox"
+            class="form-check-input"
+          >
+          <label
+            class="form-check-label"
+            for="sendNotification"
+          >
+            <small>{{ IntlString('APP_RACING_CREATE_SEND_NOTIFICATION') }}</small>
+          </label>
+        </div>
+        <div
+          class="form-group group"
+          data-type="button"
+        >
+          <label for="create" />
+          <input
+            id="create"
+            type="button"
+            class="btn btn-primary"
+            :value="IntlString('APP_RACING_CREATE')"
+            @click.stop="doCreate"
           >
         </div>
       </div>
@@ -72,6 +193,7 @@
 <script>
 import {mapActions, mapGetters} from 'vuex'
 import Modal from '@/components/Modal/index.js'
+import Swal from 'sweetalert2'
 
 require('jquery');
 require('popper.js');
@@ -91,20 +213,8 @@ export default {
       state: STATES.MENU,
       ignoreControls: false,
       selectIndex: 0,
-      selectTrack: 0,
-      tracks: [
-        {
-          name: "Grand Prix 3.0",
-          type: "Lap",
-          km: "18.26 KM"
-        },
-        {
-          name: "Drag Queen",
-          type: "Sprint",
-          km: "300 KM"
-        }
-      ],
       raceCreate: {
+        trackID: null,
         eventName: "",
         yourAlias: "",
         Laps: null,
@@ -113,12 +223,13 @@ export default {
         reverse: false,
         showPosition: false,
         sendNotification: false,
+        players: [],
       }
     }
   },
 
   computed: {
-    ...mapGetters(['IntlString', 'useMouse']),
+    ...mapGetters(['IntlString', 'useMouse', 'racingTracks']),
   },
   created() {
     if (!this.useMouse) {
@@ -137,9 +248,45 @@ export default {
     this.$bus.$off('keyUpBackspace', this.onBack)
   },
   methods: {
-    ...mapActions([]),
-    create() {
-
+    ...mapActions(['racingCreate']),
+    doCreate() {
+      this.$bus.$emit('ignoreControls', false)
+      Swal.fire({
+        title: this.IntlString('APP_RACING_CREATE_REQUEST_TITLE'),
+        text: this.IntlString('APP_RACING_CREATE_REQUEST_TEXT'),
+        target: '.phone_screen',
+        allowOutsideClick: false, //makes modal behave captively
+        allowEscapeKey: false,
+        allowEnterKey: false,
+        showConfirmButton: false,
+        showCancelButton: false,
+        onBeforeOpen() {
+          Swal.showLoading(); //Adds built in loader animation during modal open
+        },
+        onAfterClose() {
+          Swal.hideLoading(); //might not be necessary
+        },
+      })
+      this.racingCreate(this.raceCreate)
+        .then(response => {
+          if (response) {
+            Swal.fire({
+              icon: 'success',
+              target: '.phone_screen',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          } else {
+            Swal.fire({
+              icon: 'error',
+              target: '.phone_screen',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          }
+          this.$bus.$emit('ignoreControls', true)
+          this.$bus.$emit('racingHome')
+        })
     },
     scrollIntoViewIfNeeded: function () {
       this.$nextTick(() => {
@@ -184,7 +331,7 @@ export default {
     onDown() {
       if (this.state === this.STATES.MENU) {
         if (this.ignoreControls === true) return
-        this.selectIndex = Math.min(this.tracks.length - 1, this.selectIndex + 1)
+        this.selectIndex = Math.min(this.racingTracks.length - 1, this.selectIndex + 1)
         this.scrollIntoViewIfNeeded()
       } else {
         let select = document.querySelector('.group.select')
@@ -212,9 +359,8 @@ export default {
       }
     },
     async selectItem(item) {
-      const trackID = item.id
+      this.raceCreate.trackID = item.id
       this.ignoreControls = true
-      this.$bus.$emit('ignoreControls', true)
       let choix = [
         {id: 0, title: this.IntlString('APP_RACING_CREATE'), icons: 'flag-checkered', color: 'green'},
         {id: 1, title: this.IntlString('APP_RACING_CREATE_PREVIEW'), icons: 'eye', color: 'orange'},
@@ -225,16 +371,17 @@ export default {
       switch (rep.id) {
         case 0:
           this.state = this.STATES.CREATE
-          this.selectTrack = trackID
           break
       }
-      this.$bus.$emit('ignoreControls', false)
     },
-    onEnter() {
+    async onEnter() {
+      console.log('Fire fire 🔥')
+      console.log(this.state, this.STATES.MENU)
       if (this.state === this.STATES.MENU) {
         if (this.ignoreControls === true) return
-          this.selectItem(this.tracks[this.selectIndex])
+          await this.selectItem(this.racingTracks[this.selectIndex])
       } else {
+        console.log('Here!')
         let select = document.querySelector('.group.select')
         if (select === null) return
 

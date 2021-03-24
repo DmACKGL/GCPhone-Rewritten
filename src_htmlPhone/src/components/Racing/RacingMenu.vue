@@ -5,31 +5,31 @@
   >
     <div class="elements">
       <div
-        v-for="(histo, key) in historique"
+        v-for="(val, key) in races"
         :key="key"
         class="element card shadow mr-3"
         :class="{'active': selectIndex === key}"
-        @click.stop="selectItem(histo)"
+        @click.stop="selectItem(val)"
       >
         <h5 class="card-title">
-          Grand Prix 2021
+          {{ val.eventName }}
         </h5>
         <div class="card-body p-0">
           <div class="row m-1 text-center">
             <div class="col">
               <font-awesome-icon :icon="['fas', 'user']" />
               <br>
-              10
+              1
             </div>
             <div class="col">
               <font-awesome-icon :icon="['fas', 'money-bill-alt']" />
               <br>
-              $1.000
+              {{ val.money }}
             </div>
             <div class="col">
               <font-awesome-icon :icon="['fas', 'road']" />
               <br>
-              Eastside Oilers
+              {{ racingTracks.find(track => track.id === val.trackID) }}
             </div>
           </div>
         </div>
@@ -40,7 +40,6 @@
 
 <script>
 import {mapActions, mapGetters} from 'vuex'
-import {generateColorForStr, groupBy} from '@/Utils'
 import Modal from '@/components/Modal/index.js'
 import Swal from 'sweetalert2'
 
@@ -55,33 +54,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['IntlString', 'useMouse', 'appelsHistorique', 'contacts']),
-    historique () {
-      let grpHist = groupBy(this.appelsHistorique, 'num')
-      let hist = []
-      for (let key in grpHist) {
-        const hg = grpHist[key]
-        const histoByDate = hg.map(e => {
-          e.date = new Date(e.time)
-          return e
-        }).sort((a, b) => {
-          return b.date - a.date
-        }).slice(0, 6)
-        const contact = this.getContact(key) || {letter: '#'}
-        hist.push({
-          num: key,
-          display: contact.display || key,
-          lastCall: histoByDate,
-          letter: contact.letter || contact.display[0],
-          backgroundColor: contact.backgroundColor || generateColorForStr(key),
-          icon: contact.icon
-        })
-      }
-      hist.sort((a, b) => {
-        return b.lastCall[0].time - a.lastCall[0].time
-      })
-      return hist
-    }
+    ...mapGetters(['IntlString', 'useMouse', 'races' , 'racingTracks']),
   },
   created () {
     if (!this.useMouse) {
@@ -100,7 +73,7 @@ export default {
     this.$bus.$off('keyUpBackspace', this.onBack)
   },
   methods: {
-    ...mapActions(['startCall', 'appelsDeleteHistorique', 'appelsDeleteAllHistorique', 'addContact']),
+    ...mapActions(['startCall', 'addContact']),
     getContact (num) {
       return this.contacts.find(e => e.number === num)
     },
@@ -119,17 +92,15 @@ export default {
     },
     onDown () {
       if (this.ignoreControls === true) return
-      this.selectIndex = Math.min(this.historique.length - 1, this.selectIndex + 1)
+      this.selectIndex = Math.min(this.races.length - 1, this.selectIndex + 1)
       this.scrollIntoViewIfNeeded()
     },
     async selectItem (item) {
-      const numero = item.num
+      const raceID = item.num
       this.ignoreControls = true
       this.$bus.$emit('ignoreControls', true)
       let choix = [
-        {id: 0, title: this.IntlString('APP_RACING_JOIN'), icons: 'check-circle', color: 'green'},
-        {id: 1, title: this.IntlString('APP_PHONE_DELETE_ALL'), icons: 'trash', color: 'red'},
-        {id: 2, title: this.IntlString('APP_PHONE_CANCEL'), icons: 'undo'},
+        {id: 0, title: this.IntlString('APP_RACING_JOIN'), icons: 'check-circle', color: 'green'}
       ]
       const rep = await Modal.CreateModal({ choix })
       this.ignoreControls = false
@@ -139,51 +110,18 @@ export default {
           await Swal.fire({
             icon: 'success',
             title: 'All set!',
-            text: 'You joined the race!',
+            text: `You joined the race! ${raceID}`,
             target: '.phone_screen',
             showConfirmButton: false,
             timer: 1500
           })
           break
-        case 1:
-          this.appelsDeleteHistorique({ numero })
-          break
-        case 2 :
-          this.appelsDeleteAllHistorique()
-          break
-        case 4 :
-          this.$router.push({name: 'contacts.view', params: {id: 0, number: numero}})
       }
     },
     async onEnter () {
       if (this.ignoreControls === true) return
-      await this.selectItem(this.historique[this.selectIndex])
+      await this.selectItem(this.races[this.selectIndex])
     },
-    save (numero) {
-      if (this.id !== -1) {
-        this.addContact({
-          number: numero
-        })
-      } else {
-        console.log('No añadido')
-      }
-      history.back()
-    },
-    stylePuce (data) {
-      data = data || {}
-      if (data.icon !== undefined) {
-        return {
-          backgroundImage: `url(${data.icon})`,
-          backgroundSize: 'cover',
-          color: 'rgba(0,0,0,0)'
-        }
-      }
-      return {
-        color: data.color || this.color,
-        backgroundColor: data.backgroundColor || this.backgroundColor,
-        borderRadius: '50%'
-      }
-    }
   },
 }
 </script>

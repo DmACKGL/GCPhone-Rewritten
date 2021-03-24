@@ -541,6 +541,14 @@
 
       "APP_RACING_CREATE_EVENTNAME": "Event Name",
       "APP_RACING_CREATE_ALIAS": "Your Alias",
+      "APP_RACING_CREATE_LAPS": "Laps",
+      "APP_RACING_CREATE_MONEY": "Cost",
+      "APP_RACING_CREATE_COUNTDOWN": "Countdown to Start",
+      "APP_RACING_CREATE_REVERSE": "Reverse",
+      "APP_RACING_CREATE_POSITION": "Show Position",
+      "APP_RACING_CREATE_SEND_NOTIFICATION": "Send Notification",
+      "APP_RACING_CREATE_REQUEST_TITLE": "Creating Race",
+      "APP_RACING_CREATE_REQUEST_TEXT": "Creating Race",
 
       "TIMEAGO": [
         "just now",

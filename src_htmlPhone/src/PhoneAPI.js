@@ -270,6 +270,14 @@ class PhoneAPI {
     store.commit('SET_PLAYER_ID', data.id)
   }
 
+  // RACING
+  async getRaces() {
+    return this.post('getRaces')
+  },
+  async createRace(raceInfo) {
+    return this.post('createRace', {raceInfo})
+  }
+
   // Call
   async startCall(numero, extraData = undefined) {
     if (USE_VOICE_RTC === true) {
@@ -279,6 +287,7 @@ class PhoneAPI {
       return this.post('startCall', {numero, extraData})
     }
   }
+
 
   async acceptCall(infoCall) {
     if (USE_VOICE_RTC === true) {
