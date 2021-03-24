@@ -72,7 +72,9 @@ export default {
   },
   data () {
     return {
-      currentMenuIndex: 0
+      currentMenuIndex: 0,
+      ignoreControls: false,
+      creating: false
     }
   },
   computed: {
@@ -105,6 +107,7 @@ export default {
     }
     this.$bus.$on('ignoreControls', this.ignore)
     this.$bus.$on('racingHome', this.home)
+    this.$bus.$on('creating', (data) => this.creating = data)
   },
   beforeDestroy () {
     this.$bus.$off('keyUpBackspace', this.onBackspace)
@@ -147,8 +150,10 @@ export default {
       this.currentMenuIndex = Math.min(this.currentMenuIndex + 1, this.subMenu.length - 1)
     },
     onBackspace: function () {
-      if (!this.ignoreControls === true) {
+      if (!this.ignoreControls === true && this.currentMenuIndex === 0) {
         this.$router.push({ name: 'menu' })
+      } else if (!this.ignoreControls && this.currentMenuIndex !== 0 && !this.creating){
+        this.currentMenuIndex--
       }
     },
   }

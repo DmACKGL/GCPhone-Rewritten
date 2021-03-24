@@ -231,6 +231,15 @@ export default {
   computed: {
     ...mapGetters(['IntlString', 'useMouse', 'racingTracks']),
   },
+  watch: {
+    state() {
+      if (this.state === this.STATES.CREATE) {
+        this.$bus.$emit('creating', true)
+      }else {
+        this.$bus.$emit('creating', false)
+      }
+    }
+  },
   created() {
     if (!this.useMouse) {
       this.$bus.$on('keyUpArrowDown', this.onDown)
