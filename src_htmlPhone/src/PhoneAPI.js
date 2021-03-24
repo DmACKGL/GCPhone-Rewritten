@@ -273,7 +273,7 @@ class PhoneAPI {
   // RACING
   async getRaces() {
     return this.post('getRaces')
-  },
+  }
   async createRace(raceInfo) {
     return this.post('createRace', {raceInfo})
   }
