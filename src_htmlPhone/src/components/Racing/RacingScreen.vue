@@ -95,6 +95,9 @@ export default {
         name: this.IntlString('APP_RACING_MENU_LEADERBOARD'),
         icon: 'trophy'
       }]
+    },
+    isOnRace() {
+      return !!this.raceInfo.raceID
     }
   },
 
@@ -144,13 +147,17 @@ export default {
       this.currentMenuIndex = index
     },
     onLeft () {
-      this.currentMenuIndex = Math.max(this.currentMenuIndex - 1, 0)
+      if (!this.isOnRace) {
+        this.currentMenuIndex = Math.max(this.currentMenuIndex - 1, 0)
+      }
     },
     onRight () {
-      this.currentMenuIndex = Math.min(this.currentMenuIndex + 1, this.subMenu.length - 1)
+      if (!this.isOnRace) {
+        this.currentMenuIndex = Math.min(this.currentMenuIndex + 1, this.subMenu.length - 1)
+      }
     },
     onBackspace: function () {
-      if (!this.ignoreControls === true && this.currentMenuIndex === 0) {
+      if (!this.ignoreControls === true && this.currentMenuIndex === 0 || this.isOnRace) {
         this.$router.push({ name: 'menu' })
       } else if (!this.ignoreControls && this.currentMenuIndex !== 0 && !this.creating){
         this.currentMenuIndex--

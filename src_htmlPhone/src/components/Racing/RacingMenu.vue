@@ -44,7 +44,7 @@
         <h1 class="text-center">
           {{ filteredRace.eventName }}
         </h1>
-        <div class="container shadow-lg">
+        <div class="container shadow-lg mr-3">
           <table class="table table-borderless">
             <tbody>
               <tr>
@@ -107,32 +107,54 @@
               </tr>
             </tbody>
           </table>
-          <div
-            class="group"
-            data-type="button"
-          >
-            <div v-if="filteredRace.owner !== myID">
+          <div v-if="filteredRace.owner !== myID">
+            <div
+              class="group"
+              data-type="button"
+            >
+              <label for="GPS" />
+              <input
+                id="GPS"
+                type="button"
+                class="btn btn-warning btn-lg btn-block"
+                :value="IntlString('APP_RACING_CREATE_GPS')"
+              >
+            </div>
+            <div
+              class="group"
+              data-type="button"
+            >
               <label for="leave" />
               <input
                 id="leave"
                 type="button"
-                class="btn btn-primary btn-lg btn-block"
+                class="btn btn-danger btn-lg btn-block"
                 :value="IntlString('APP_RACING_LEAVE')"
               >
             </div>
-            <div v-if="filteredRace.owner === myID">
+          </div>
+          <div v-if="filteredRace.owner === myID">
+            <div
+              class="group"
+              data-type="button"
+            >
               <label for="start" />
               <input
                 id="start"
                 type="button"
-                class="btn btn-secondary btn-lg btn-block"
+                class="btn btn-success btn-lg btn-block"
                 :value="IntlString('APP_RACING_START')"
               >
+            </div>
+            <div
+              class="group"
+              data-type="button"
+            >
               <label for="stop" />
               <input
                 id="stop"
                 type="button"
-                class="btn btn-secondary btn-lg btn-block"
+                class="btn btn-danger btn-lg btn-block"
                 :value="IntlString('APP_RACING_STOP')"
               >
             </div>
@@ -159,7 +181,8 @@ export default {
   data () {
     return {
       ignoreControls: false,
-      selectIndex: 0
+      selectIndex: 0,
+      onRace: false
     }
   },
   computed: {
@@ -170,6 +193,9 @@ export default {
     totalPrize() {
       return this.filteredRace.money * this.filteredRace.players.length
     },
+    isOnRace() {
+      return !!this.raceInfo.raceID
+    }
   },
   created () {
     if (!this.useMouse) {
@@ -191,7 +217,11 @@ export default {
     ...mapActions(['raceJoin']),
     scrollIntoViewIfNeeded: function () {
       this.$nextTick(() => {
-        this.$el.querySelector('.active').scrollIntoViewIfNeeded()
+        try {
+          this.$el.querySelector('.active').scrollIntoViewIfNeeded()
+        } catch (e) {
+          this.$el.querySelector('.select').scrollIntoViewIfNeeded()
+        }
       })
     },
     onBack() {
@@ -199,13 +229,89 @@ export default {
     },
     onUp () {
       if (this.ignoreControls === true) return
-      this.selectIndex = Math.max(0, this.selectIndex - 1)
+      if (!this.isOnRace) {
+        this.selectIndex = Math.max(0, this.selectIndex - 1)
+      } else {
+        let select = document.querySelector('.group.select')
+        if (select === null) {
+          select = document.querySelector('.group')
+          select.classList.add('select')
+          return
+        }
+        while (select.previousElementSibling !== null) {
+          if (select.previousElementSibling.classList.contains('group')) {
+            break
+          }
+          select = select.previousElementSibling
+        }
+        if (select.previousElementSibling !== null) {
+          document.querySelectorAll('.group').forEach(elem => {
+            elem.classList.remove('select')
+          })
+          select.previousElementSibling.classList.add('select')
+          let i = select.previousElementSibling.querySelector('input')
+          if (i !== null) {
+            i.focus()
+          }
+        }
+      }
       this.scrollIntoViewIfNeeded()
     },
     onDown () {
       if (this.ignoreControls === true) return
-      this.selectIndex = Math.min(this.races.length - 1, this.selectIndex + 1)
+      if (!this.isOnRace) {
+        this.selectIndex = Math.min(this.races.length - 1, this.selectIndex + 1)
+      } else {
+        let select = document.querySelector('.group.select')
+        if (select === null) {
+          select = document.querySelector('.group')
+          select.classList.add('select')
+          return
+        }
+        while (select.nextElementSibling !== null) {
+          if (select.nextElementSibling.classList.contains('group')) {
+            break
+          }
+          select = select.nextElementSibling
+        }
+        if (select.nextElementSibling !== null) {
+          document.querySelectorAll('.group').forEach(elem => {
+            elem.classList.remove('select')
+          })
+          select.nextElementSibling.classList.add('select')
+          let i = select.nextElementSibling.querySelector('input')
+          if (i !== null) {
+            i.focus()
+          }
+        }
+      }
       this.scrollIntoViewIfNeeded()
+    },
+    async onEnter () {
+      if (this.ignoreControls === true) return
+      if (!this.isOnRace) {
+        await this.selectItem(this.races[this.selectIndex])
+      } else {
+        let select = document.querySelector('.group.select')
+        if (select === null) return
+
+        if (select.dataset !== null) {
+          if (select.dataset.type === 'text') {
+            const $input = select.querySelector('input')
+            let options = {
+              limit: parseInt(select.dataset.maxlength) || 64,
+              text: select.dataset.defaultValue || ''
+            }
+            this.$phoneAPI.getReponseText(options).then(data => {
+              $input.value = data.text
+              $input.dispatchEvent(new window.Event('change'))
+            })
+          }
+          if (select.dataset.type === 'button') {
+            select.click()
+          }
+        }
+      }
     },
     async selectItem (item) {
       const raceID = item.num
@@ -254,10 +360,6 @@ export default {
             })
           break
       }
-    },
-    async onEnter () {
-      if (this.ignoreControls === true) return
-      await this.selectItem(this.races[this.selectIndex])
     },
   },
 }
