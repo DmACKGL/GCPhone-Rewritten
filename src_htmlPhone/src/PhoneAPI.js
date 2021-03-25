@@ -274,6 +274,9 @@ class PhoneAPI {
   async getRaces() {
     return this.post('getRaces')
   }
+  async joinRace(raceID) {
+    return this.post('joinRace', {raceID})
+  }
   async createRace(raceInfo) {
     return this.post('createRace', {raceInfo})
   }

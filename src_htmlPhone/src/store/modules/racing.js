@@ -5,9 +5,9 @@ const state = {
   tracks: [],
   raceProcessing: false,
   raceInfo: {
-    active: false,
+    active: true,
     state: 0,
-    raceID: 0,
+    raceID: 1,
 
     currentLap: 0,
     totalLaps: 0,
@@ -44,6 +44,20 @@ const actions = {
 
   racingReset ({commit}) {
     commit('RACING_RESET')
+  },
+
+  racingJoin ({commit}, raceID) {
+    commit('RACING_SET_PROCCESING', true)
+    commit('SET_RACING_RACEID', raceID)
+    return PhoneAPI.joinRace(raceID)
+      .then(response => {
+        if (response.success) {
+          commit('SET_RACING_RACEID', response.raceID)
+          commit('SET_RACING_PLAYERS', response.players)
+        }else{
+          return false
+        }
+      })
   },
 
   racingCreate ({commit}, race) {
@@ -187,6 +201,32 @@ export default {
 }
 
 if (process.env.NODE_ENV !== 'production') {
+  state.races = [
+    {
+      owner: 0,
+      raceID: 1,
+      trackID: 1,
+      state:0,
+      eventName: "GrandPrix",
+      yourAlias: "DmACK",
+      Laps: 1,
+      money: 500,
+      CST: 1,
+      reverse: true,
+      showPosition: false,
+      sendNotification: false,
+      players: [
+        {
+          id: 0,
+          alias: "DmACK",
+        },
+        {
+          id: 100,
+          alias: "Mark"
+        }
+      ],
+    }
+  ]
   state.tracks = [
     {
       id: 1,

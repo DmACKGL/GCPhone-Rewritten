@@ -48,7 +48,11 @@ import {
   faMapMarker,
   faTrophy,
   faRoute,
-  faEye
+  faEye,
+  faTimes,
+  faCheck,
+  faStopCircle,
+  faStopwatch,
 } from '@fortawesome/free-solid-svg-icons'
 
 
@@ -97,7 +101,11 @@ library.add(
   faMapMarker,
   faTrophy,
   faRoute,
-  faEye
+  faEye,
+  faTimes,
+  faCheck,
+  faStopCircle,
+  faStopwatch,
 )
 
 Vue.component('FontAwesomeIcon', FontAwesomeIcon)
