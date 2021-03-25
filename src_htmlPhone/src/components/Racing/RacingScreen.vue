@@ -147,12 +147,12 @@ export default {
       this.currentMenuIndex = index
     },
     onLeft () {
-      if (!this.isOnRace) {
+      if (!this.isOnRace && !this.creating) {
         this.currentMenuIndex = Math.max(this.currentMenuIndex - 1, 0)
       }
     },
     onRight () {
-      if (!this.isOnRace) {
+      if (!this.isOnRace && !this.creating) {
         this.currentMenuIndex = Math.min(this.currentMenuIndex + 1, this.subMenu.length - 1)
       }
     },

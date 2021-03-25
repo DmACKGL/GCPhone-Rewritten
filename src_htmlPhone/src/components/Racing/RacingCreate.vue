@@ -260,6 +260,9 @@ export default {
   },
   methods: {
     ...mapActions(['racingCreate']),
+    doCheck() {
+
+    },
     doCreate() {
       this.$bus.$emit('ignoreControls', false)
       Swal.fire({
@@ -442,7 +445,7 @@ export default {
 .active, .element:hover {
   background: radial-gradient(rgba(3, 168, 244, 0.14), rgba(3, 169, 244, 0.26));
 }
-.active, .from-group:hover {
+.select{
   background: radial-gradient(rgba(3, 168, 244, 0.14), rgba(3, 169, 244, 0.26));
 }
 
