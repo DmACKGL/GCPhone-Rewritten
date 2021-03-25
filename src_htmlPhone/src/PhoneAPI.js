@@ -192,6 +192,16 @@ class PhoneAPI {
   // Racing
   // ==========================================================================
 
+  getRaces() {
+    return this.post('getRaces')
+  }
+  async joinRace(raceID) {
+    return this.post('joinRace', {raceID})
+  }
+  async createRace(raceInfo) {
+    return this.post('createRace', {raceInfo})
+  }
+
   // Core
   onupdateRacingActive(data) {
     store.dispatch('setRacingActive', data.data)
@@ -268,17 +278,6 @@ class PhoneAPI {
 
   onupdatePlayerID(data) {
     store.commit('SET_PLAYER_ID', data.id)
-  }
-
-  // RACING
-  async getRaces() {
-    return this.post('getRaces')
-  }
-  async joinRace(raceID) {
-    return this.post('joinRace', {raceID})
-  }
-  async createRace(raceInfo) {
-    return this.post('createRace', {raceInfo})
   }
 
   // Call

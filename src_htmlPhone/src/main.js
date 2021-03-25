@@ -7,6 +7,7 @@ import PhoneAPI from './PhoneAPI'
 import Notification from './Notification'
 import AutoFocus from './directives/autofocus'
 import {library} from '@fortawesome/fontawesome-svg-core'
+import VueUnits from 'vue-units';
 import {
   faAngleLeft,
   faComment,
@@ -113,6 +114,7 @@ Vue.component('RacingHUD', require('./components/Racing/RacingHUD').default)
 
 Vue.use(VueTimeago)
 Vue.use(Notification)
+Vue.use(VueUnits)
 Vue.config.productionTip = false
 
 Vue.prototype.$bus = new Vue()

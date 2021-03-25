@@ -1,3 +1,19 @@
+--[[
+    NUI
+--]]
+
+RegisterNUICallback('getRaces', function (data, cb)
+    cb(
+        ESX.TriggerServerCallback('gcphone:getRaces', function(data)
+            cb(data)
+        end)
+    )
+end)
+
+--[[
+    Core
+--]]
+
 local currentMap = {}
 local customMaps = {}
 local dst = 30.0

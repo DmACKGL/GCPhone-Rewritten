@@ -1,11 +1,39 @@
 ESX = nil
+local races = {}
+local tracks = {}
+local raceInfo = {}
 
 TriggerEvent('esx:getSharedObject', function(obj)
     ESX = obj
 end)
 
+--[[
+    NUI CALLBACKS
+--]]
+
+ESX.RegisterServerCallback('gcphone:getRaces', function(source, cb)
+	local data = {}
+    data.code = true
+    data.races = races
+    data.tracks = tracks
+    data.raceInfo = nil
+    if (raceInfo[source] ~= nil) then
+        data.raceInfo = raceInfo[source]      
+    end
+    cb(data)
+end)
+
 -- Server side array of active races
-local races = {}
+
+
+Citizen.CreateThread(function()
+    local result = MySQL.Sync.fetchAll("SELECT * FROM racing_tracks")
+    if result[1] ~= nil then
+        tracks = result
+    else
+        tracks = {}
+    end
+end)
 
 -- Server event for creating a race
 RegisterNetEvent("races:createRace_sv")

@@ -20,7 +20,7 @@
               </div>
               <div class="col-md-auto text-muted">
                 <font-awesome-icon :icon="['fas', 'route']" />
-                {{ val.km }}
+                {{ val.km | units('m', 'km', true) }}
               </div>
             </div>
             <div class="row">
@@ -37,7 +37,7 @@
     <template v-else-if="state === STATES.CREATE">
       <div class="container pr-3 mt-1">
         <div
-          class="form-group group"
+          class="form-group group select"
           data-type="text"
         >
           <label for="eventName">
@@ -45,6 +45,7 @@
           </label>
           <input
             id="eventName"
+            ref="eventName"
             v-model="raceCreate.eventName"
             class="form-control"
             type="text"
@@ -235,6 +236,7 @@ export default {
     state() {
       if (this.state === this.STATES.CREATE) {
         this.$bus.$emit('creating', true)
+        this.$nextTick(() => this.$refs.eventName.focus())
       }else {
         this.$bus.$emit('creating', false)
       }
@@ -388,7 +390,6 @@ export default {
         if (this.ignoreControls === true) return
           await this.selectItem(this.racingTracks[this.selectIndex])
       } else {
-        console.log('Here!')
         let select = document.querySelector('.group.select')
         if (select === null) return
 
@@ -439,6 +440,9 @@ export default {
 }
 
 .active, .element:hover {
+  background: radial-gradient(rgba(3, 168, 244, 0.14), rgba(3, 169, 244, 0.26));
+}
+.active, .from-group:hover {
   background: radial-gradient(rgba(3, 168, 244, 0.14), rgba(3, 169, 244, 0.26));
 }
 

@@ -5,9 +5,9 @@ const state = {
   tracks: [],
   raceProcessing: false,
   raceInfo: {
-    active: true,
+    active: false,
     state: 0,
-    raceID: 1,
+    raceID: null,
 
     currentLap: 0,
     totalLaps: 0,
@@ -31,10 +31,12 @@ const actions = {
   async racingGet({commit}) {
     return PhoneAPI.getRaces()
       .then(response => {
-        if (response.code) {
-          commit('RACING_SET_RACES', response.races)
-          commit('RACING_SET_RACEINFO', response.raceInfo)
-          commit('RACING_SET_TRACKS', response.tracks)
+        if (response.data.code) {
+          commit('RACING_SET_RACES', response.data.races)
+          commit('RACING_SET_TRACKS', response.data.tracks)
+          if (response.data.raceInfo) {
+            commit('RACING_SET_RACEINFO', response.data.raceInfo)
+          }
           return true
         } else {
           return false
@@ -48,12 +50,11 @@ const actions = {
 
   racingJoin ({commit}, raceID) {
     commit('RACING_SET_PROCCESING', true)
-    commit('SET_RACING_RACEID', raceID)
     return PhoneAPI.joinRace(raceID)
       .then(response => {
-        if (response.success) {
-          commit('SET_RACING_RACEID', response.raceID)
-          commit('SET_RACING_PLAYERS', response.players)
+        if (response.data.success) {
+          commit('SET_RACING_RACEID', response.data.raceID)
+          commit('SET_RACING_PLAYERS', response.data.players)
         }else{
           return false
         }
@@ -62,13 +63,12 @@ const actions = {
 
   racingCreate ({commit}, race) {
     commit('RACING_SET_PROCCESING', true)
-    commit('RACING_ADD_RACE', race)
     return PhoneAPI.createRace(race)
       .then(response => {
-        if (response.raceID){
-          commit('RACING_ADD_RACE', response)
+        if (response.data.raceID){
+          commit('RACING_ADD_RACE', response.data)
           commit('RACING_SET_PROCCESING', false)
-          commit('SET_RACING_RACEID', response.raceID)
+          commit('SET_RACING_RACEID', response.data.raceID)
           commit('SET_RACING_ACTIVE', true)
           return true
         } else {
@@ -232,13 +232,13 @@ if (process.env.NODE_ENV !== 'production') {
       id: 1,
       name: "Grand Prix 3.0",
       type: "Lap",
-      km: "18.26 KM"
+      km: "18260"
     },
     {
       id: 2,
       name: "Drag Queen",
       type: "Sprint",
-      km: "300 KM"
+      km: "300"
     }
   ]
 }
