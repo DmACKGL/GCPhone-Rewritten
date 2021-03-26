@@ -16,9 +16,10 @@
         <label for="eventName">{{ IntlString("APP_RACING_CREATE_EVENTNAME") }}</label>
         <input
           id="eventName"
-          v-model="raceCreate.eventName"
           class="form-control"
           type="text"
+          :value="raceCreate.eventName"
+          @change="setValues($event, 'eventName')"
         >
       </div>
       <div
@@ -30,9 +31,10 @@
         <label for="yourAlias">{{ IntlString("APP_RACING_CREATE_ALIAS") }}</label>
         <input
           id="yourAlias"
-          v-model="raceCreate.yourAlias"
           class="form-control"
           type="text"
+          :value="raceCreate.yourAlias"
+          @change="setValues($event, 'yourAlias')"
         >
       </div>
       <div
@@ -44,10 +46,11 @@
         <label for="ammount">{{ IntlString('APP_RACING_CREATE_MONEY') }}</label>
         <input
           id="ammount"
-          v-model="raceCreate.money"
           class="form-control"
           type="number"
           pattern="[0-9]"
+          :value="raceCreate.money"
+          @change="setValues($event, 'money')"
           @keydown.up.prevent
           @keydown.down.prevent
         >
@@ -61,10 +64,11 @@
         <label for="laps">{{ IntlString('APP_RACING_CREATE_LAPS') }}</label>
         <input
           id="laps"
-          v-model="raceCreate.Laps"
           class="form-control"
           type="number"
           pattern="[0-9]"
+          :value="raceCreate.Laps"
+          @change="setValues($event, 'Laps')"
           @keydown.up.prevent
           @keydown.down.prevent
         >
@@ -78,10 +82,11 @@
         <label for="CST">{{ IntlString('APP_RACING_CREATE_COUNTDOWN') }}</label>
         <input
           id="CST"
-          v-model="raceCreate.CST"
           class="form-control"
           type="number"
           pattern="[0-9]"
+          :value="raceCreate.CST"
+          @change="setValues($event, 'CST')"
           @keydown.up.prevent
           @keydown.down.prevent
         >
@@ -93,6 +98,8 @@
         <input
           id="reverse"
           v-model="raceCreate.reverse"
+          :true-value="true"
+          :false-value="false"
           class="form-check-input"
           type="checkbox"
           @keydown.up.prevent
@@ -107,6 +114,8 @@
         <input
           id="position"
           v-model="raceCreate.showPosition"
+          :true-value="true"
+          :false-value="false"
           class="form-check-input"
           type="checkbox"
           @keydown.up.prevent
@@ -121,6 +130,8 @@
         <input
           id="sendNotification"
           v-model="raceCreate.sendNotification"
+          :true-value="true"
+          :false-value="false"
           class="form-check-input"
           type="checkbox"
           @keydown.up.prevent
@@ -185,6 +196,9 @@ export default {
     ignoreControls() {
       console.log("IGNORE: " + this.ignoreControls)
     },
+    raceCreate() {
+      console.log(this.raceCreate)
+    }
   },
   created() {
     if (!this.useMouse) {
@@ -202,6 +216,9 @@ export default {
   },
   methods: {
     ...mapActions(['racingCreate']),
+    setValues($event, key) {
+      this.raceCreate[key] = $event.target.value
+    },
     doCreate() {
       this.$bus.$emit('ignoreControls', false)
       Swal.fire({
@@ -317,6 +334,7 @@ export default {
         if (select.dataset.type === 'button') {
           select.click()
         }
+        this.$forceUpdate()
       }
     },
   },
