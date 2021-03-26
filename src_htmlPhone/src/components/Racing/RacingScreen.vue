@@ -9,7 +9,10 @@
       @back="onBackspace"
     />
     <div class="content">
-      <component :is="subMenu[currentMenuIndex].Comp" />
+      <component
+        :is="subMenu[currentMenuIndex].Comp"
+        :selectedtrack="selectedTrack"
+      />
     </div>
     <div
       v-if="raceInfo.active"
@@ -75,7 +78,8 @@ export default {
     return {
       currentMenuIndex: 0,
       ignoreControls: false,
-      creating: false
+      creating: false,
+      selectedTrack: null,
     }
   },
   computed: {
@@ -112,12 +116,15 @@ export default {
       this.$bus.$on('keyUpArrowLeft', this.onLeft)
       this.$bus.$on('keyUpArrowRight', this.onRight)
     }
+    this.$bus.$on('changeSelectedTrack', (data) => this.selectedTrack = data)
     this.$bus.$on('ignoreControls', this.ignore)
     this.$bus.$on('racingHome', this.home)
     this.$bus.$on('creating', (data) =>{
       this.creating = data
       if (this.creating) {
         this.currentMenuIndex = this.subMenu.length - 1
+      }else {
+        this.currentMenuIndex = 0
       }
     })
   },

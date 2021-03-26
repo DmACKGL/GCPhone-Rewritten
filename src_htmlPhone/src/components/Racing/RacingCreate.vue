@@ -90,7 +90,7 @@ export default {
       this.scrollIntoViewIfNeeded()
     },
     async selectItem(item) {
-      this.trackID = item.id
+      this.$bus.$emit('changeSelectedTrack', item.id)
       this.ignoreControls = true
       let choix = [
         {id: 0, title: this.IntlString('APP_RACING_CREATE'), icons: 'flag-checkered', color: 'green'},

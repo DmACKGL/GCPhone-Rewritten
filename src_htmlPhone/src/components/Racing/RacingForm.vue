@@ -4,6 +4,7 @@
     class="phone_app"
   >
     <div class="container mt-3">
+      <h3 class="text-center mr-1">{{ racingTracks.find(track => track.id === selectedtrack).name }}</h3>
       <div
         class="group inputText form-group mr-1"
         data-type="text"
@@ -151,12 +152,18 @@ require('bootstrap');
 export default {
   name: 'Recents',
   components: {},
+  props: {
+    selectedtrack: {
+      type: Number,
+      default: null,
+    }
+  },
   data() {
     return {
       ignoreControls: false,
       currentRef: 0,
       raceCreate: {
-        trackID: null,
+        trackID: this.selectedtrack,
         eventName: "",
         yourAlias: "",
         Laps: null,
@@ -165,7 +172,6 @@ export default {
         reverse: false,
         showPosition: false,
         sendNotification: false,
-        players: [],
       },
     }
   },
@@ -234,7 +240,7 @@ export default {
         })
     },
     onBack() {
-      //this.$bus.$emit('racingHome')
+      this.$bus.$emit('racingHome')
     },
     onUp() {
       if (this.ignoreControls === true) return
