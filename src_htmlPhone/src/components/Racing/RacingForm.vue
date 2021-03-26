@@ -4,7 +4,9 @@
     class="phone_app"
   >
     <div class="container mt-3">
-      <h3 class="text-center mr-1">{{ racingTracks.find(track => track.id === selectedtrack).name }}</h3>
+      <h3 class="text-center mr-1">
+        {{ racingTracks.find(track => track.id === selectedtrack).name }}
+      </h3>
       <div
         class="group inputText form-group mr-1"
         data-type="text"
