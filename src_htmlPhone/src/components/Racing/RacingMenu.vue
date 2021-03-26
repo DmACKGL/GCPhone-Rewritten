@@ -205,13 +205,11 @@ export default {
     } else {
       this.selectIndex = -1
     }
-    this.$bus.$on('keyUpBackspace', this.onBack)
   },
   beforeDestroy () {
     this.$bus.$off('keyUpArrowDown', this.onDown)
     this.$bus.$off('keyUpArrowUp', this.onUp)
     this.$bus.$off('keyUpEnter', this.onEnter)
-    this.$bus.$off('keyUpBackspace', this.onBack)
   },
   methods: {
     ...mapActions(['raceJoin']),

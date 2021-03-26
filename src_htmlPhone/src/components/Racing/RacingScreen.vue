@@ -36,7 +36,7 @@
       class="subMenu"
     >
       <div
-        v-for="(Comp, i) of subMenu"
+        v-for="(Comp, i) of subMenu.slice(0, -1)"
         :key="i"
         class="subMenu-elem"
         :style="getColorItem(i)"
@@ -64,6 +64,7 @@ import PhoneTitle from './../PhoneTitle'
 import store from '@/store'
 import RacingMenu from "./RacingMenu";
 import RacingCreate from "./RacingCreate";
+import RacingForm from "./RacingForm";
 import {mapGetters} from 'vuex'
 
 export default {
@@ -94,6 +95,9 @@ export default {
         Comp: RacingMenu,
         name: this.IntlString('APP_RACING_MENU_LEADERBOARD'),
         icon: 'trophy'
+      },
+      {
+        Comp: RacingForm,
       }]
     },
     isOnRace() {
@@ -110,7 +114,12 @@ export default {
     }
     this.$bus.$on('ignoreControls', this.ignore)
     this.$bus.$on('racingHome', this.home)
-    this.$bus.$on('creating', (data) => this.creating = data)
+    this.$bus.$on('creating', (data) =>{
+      this.creating = data
+      if (this.creating) {
+        this.currentMenuIndex = this.subMenu.length - 1
+      }
+    })
   },
   beforeDestroy () {
     this.$bus.$off('keyUpBackspace', this.onBackspace)
@@ -128,6 +137,7 @@ export default {
     },
     ignore(data) {
       this.ignoreControls = data
+      console.log(this.ignoreControls)
       if (this.ignoreControls) {
         this.$bus.$off('keyUpEnter', this.onEnter)
         this.$bus.$off('keyUpBackspace', this.onBack)
