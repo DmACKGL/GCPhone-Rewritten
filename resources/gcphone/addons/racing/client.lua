@@ -10,6 +10,14 @@ RegisterNUICallback('getRaces', function (data, cb)
     )
 end)
 
+RegisterNUICallback('createRace', function (data, cb)
+    cb(
+        ESX.TriggerServerCallback('gcphone:createRace', function(data)
+            cb(data)
+        end, data)
+    )
+end)
+
 --[[
     Core
 --]]
