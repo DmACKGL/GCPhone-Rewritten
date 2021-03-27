@@ -14,8 +14,6 @@ const state = {
 
     checkpoints: 0,
     currentCheckpoint: 0,
-
-    players: [],
     currentPosition: 1,
   }
 }
@@ -42,10 +40,14 @@ const actions = {
           return false
         }
       })
+      .catch(() => {return false})
   },
 
   racingReset ({commit}) {
     commit('RACING_RESET')
+  },
+  setRaces ({commit}, races) {
+    commit('RACING_SET_RACES', races)
   },
 
   racingJoin ({commit}, raceID) {
@@ -59,16 +61,18 @@ const actions = {
           return false
         }
       })
+      .catch(() => {return false})
   },
 
   racingCreate ({commit}, race) {
     commit('RACING_SET_PROCCESING', true)
     return PhoneAPI.createRace(race)
       .then(response => {
-        if (response.data.raceID){
-          commit('RACING_ADD_RACE', response.data)
-          commit('RACING_SET_PROCCESING', false)
-          commit('SET_RACING_RACEID', response.data.raceID)
+        if (response.data.success){
+          commit('RACING_SET_RACES', response.data.race)
+          commit('SET_RACING_RACEID', response.data.race.raceID)
+          commit('SET_RACING_TOTAL_LAPS', response.data.race.Laps)
+          commit('SET_RACING_CHECKPOINTS', response.data.race.checkpoints.checkpoints.length)
           commit('SET_RACING_ACTIVE', true)
           return true
         } else {
@@ -76,7 +80,7 @@ const actions = {
           return false
         }
       })
-
+      .catch(() => {return false})
   },
 
   // Core
@@ -117,7 +121,6 @@ const actions = {
     return state.raceInfo.currentCheckpoint
   },
 
-
   // Positions
   setRacingPlayers({commit,state}, players) {
     commit('SET_RACING_PLAYERS', players)
@@ -127,8 +130,6 @@ const actions = {
     commit('SET_RACING_CURRENT_POSITION', laps)
     return state.raceInfo.currentPosition
   }
-
-
 
 }
 

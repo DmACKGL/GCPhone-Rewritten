@@ -195,10 +195,10 @@ class PhoneAPI {
   getRaces() {
     return this.post('getRaces')
   }
-  async joinRace(raceID) {
+  joinRace(raceID) {
     return this.post('joinRace', {raceID})
   }
-  async createRace(raceInfo) {
+  createRace(raceInfo) {
     return this.post('createRace', {raceInfo})
   }
 
@@ -211,6 +211,9 @@ class PhoneAPI {
   }
   onupdateRacingID(data) {
     store.dispatch('setRacingID', data.data)
+  }
+  onupdateRacingRaces(data) {
+    store.dispatch('setRaces', data.data)
   }
 
   // Laps

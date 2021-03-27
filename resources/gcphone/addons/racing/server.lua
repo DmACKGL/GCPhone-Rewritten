@@ -40,31 +40,28 @@ end)
 ]]
 
 ESX.RegisterServerCallback('gcphone:createRace', function(source, cb, data)
-    if (raceInfo[source] ~= nil) then
-        data = {}
-        data.event = data.raceInfo.eventName
-        data.eventId = #races +1
-        data.owner = source
-        data.map = tracks[data.raceInfo.trackID]
-        data.startTime = data.raceInfo.CST
-        data.data = {
-            open = true,
-            counter = counter,
-            left = GetGameTimer() + (counter*1000),
-            map = map,
-            raceName = raceName,
-            laps = laps,
-            startTime = startTime,
-            mapDistance = 0,
-            mapCreator = mapCreator,
-            mapDescription = "XDD",
-            identifier = uniqueid,
-        }
-        table.insert(races, data)
-        TriggerClientEvent('racing:data:set', -1, data)
-        return data
-    end
-    cb(false)
+    race = {}
+    race.raceID = #races+1
+    race.trackID = data.raceInfo.trackID
+    race.owner = source
+    race.status = 0
+    race.Laps = data.raceInfo.Laps
+    race.money = data.raceInfo.money
+    race.CST = data.raceInfo.CST
+    race.reverse = data.raceInfo.reverse
+    race.showPosition = data.raceInfo.showPosition
+    race.sendNotification = data.raceInfo.sendNotification
+    race.checkpoints = tracks[race.trackID]
+    race.players = {}
+    race.players[''..source..''] = data.raceInfo.yourAlias
+    table.insert(races, race)
+    TriggerClientEvent('gcphone:racing:setRaces', -1, races)
+    print(ESX.DumpTable(race))
+    local response  ={}
+    response.success = true
+    response.raceID = race.raceID
+    response.race = race
+    cb(response)
 end)
 
 
