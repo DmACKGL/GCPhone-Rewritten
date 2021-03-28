@@ -41,7 +41,10 @@
       <div
         class="elements container"
       >
-        <h1 class="text-center">
+        <h1
+          ref="eventTitle"
+          class="text-center"
+        >
           {{ filteredRace.eventName }}
         </h1>
         <div class="container shadow-lg mr-3">
@@ -56,7 +59,7 @@
               <tr>
                 <td>{{ IntlString("APP_RACING_PRIZE") }}</td>
                 <td class="text-right">
-                  {{ totalPrize | toCurrency }}
+                  {{ filteredRace.money * filteredRace.players.length | toCurrency }}
                 </td>
               </tr>
               <tr>
@@ -95,12 +98,12 @@
                   >
                     <div class="col text-right">
                       <span
-                        v-if="val.id === myID"
+                        v-if="key === myID"
                         class="badge badge-pill badge-info"
                       >
                         {{ IntlString("APP_RACING_YOU") }}
                       </span>
-                      {{ val.alias }}
+                      {{ val }}
                     </div>
                   </div>
                 </td>
@@ -188,7 +191,6 @@ export default {
   computed: {
     ...mapGetters(['myID','IntlString', 'useMouse', 'races', 'racingTracks', 'raceInfo', 'getRaceById', 'raceProcessing']),
     filteredRace() {
-      console.log(this.getRaceById(this.raceInfo.raceID))
       return this.getRaceById(this.raceInfo.raceID)
     },
     totalPrize() {
@@ -200,13 +202,13 @@ export default {
   },
   watch: {
     raceProcessing() {
-      console.log("UPDATE! ", this.raceProcessing)
       if(!this.raceProcessing && this.raceInfo.raceID) {
-        console.log(1)
         this.raceInfo.active = true
         this.onRace = true
+        this.$nextTick(() => {
+          window.scrollTo(0,0)
+        })
       } else {
-        console.log(0)
         this.raceInfo.active = false
         this.onRace = false
       }

@@ -8,7 +8,7 @@
           <tr>
             <td>Pos</td>
             <td class="text-right">
-              {{ raceInfo.currentPosition }}/{{ raceInfo.players.length }}
+              {{ raceInfo.currentPosition }}/{{ raceInfo.players }}
             </td>
           </tr>
           <tr>
@@ -85,7 +85,7 @@ export default {
             .toFormat('mm:ss.SSS')
         }, 10)
       } else {
-        this.tick = null
+        clearInterval(this.tick)
       }
     },
     currentLap() {

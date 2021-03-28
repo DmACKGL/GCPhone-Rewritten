@@ -15,7 +15,7 @@ const state = {
     checkpoints: 0,
     currentCheckpoint: 0,
     currentPosition: 1,
-    players: []
+    players: 0
   }
 }
 
@@ -74,8 +74,8 @@ const actions = {
         if (response.data.success){
           commit('RACING_SET_PROCCESING', true)
           commit('SET_RACING_TOTAL_LAPS', response.data.race.Laps)
-          commit('SET_RACING_CHECKPOINTS', response.data.race.checkpoints.checkpoints.length)
-          commit('SET_RACING_PLAYERS', response.data.race.players)
+          commit('SET_RACING_CHECKPOINTS', response.data.race.checkpointsCount)
+          commit('SET_RACING_PLAYERS', response.data.race.playersCount)
           commit('SET_RACING_RACEID', response.data.race.raceID)
           // FIXME: HELP!
           return setTimeout(() => {

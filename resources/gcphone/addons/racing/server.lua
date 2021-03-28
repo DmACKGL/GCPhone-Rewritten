@@ -52,9 +52,11 @@ ESX.RegisterServerCallback('gcphone:createRace', function(source, cb, data)
     race.reverse = data.raceInfo.reverse
     race.showPosition = data.raceInfo.showPosition
     race.sendNotification = data.raceInfo.sendNotification
-    race.checkpoints = tracks[race.trackID]
+    race.checkpoints = tracks[race.trackID].checkpoints
+    race.checkpointsCount = #json.decode(tracks[race.trackID].checkpoints)
     race.players = {}
     race.players[''..source..''] = data.raceInfo.yourAlias
+    race.playersCount = #race.players
     table.insert(races, race)
     TriggerClientEvent('gcphone:racing:setRaces', -1, races)
     local response  ={}
