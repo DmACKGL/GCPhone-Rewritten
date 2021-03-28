@@ -43,6 +43,7 @@ ESX.RegisterServerCallback('gcphone:createRace', function(source, cb, data)
     race = {}
     race.raceID = #races+1
     race.trackID = data.raceInfo.trackID
+    race.eventName = data.raceInfo.eventName
     race.owner = source
     race.status = 0
     race.Laps = data.raceInfo.Laps
@@ -56,10 +57,10 @@ ESX.RegisterServerCallback('gcphone:createRace', function(source, cb, data)
     race.players[''..source..''] = data.raceInfo.yourAlias
     table.insert(races, race)
     TriggerClientEvent('gcphone:racing:setRaces', -1, races)
-    print(ESX.DumpTable(race))
     local response  ={}
     response.success = true
     response.raceID = race.raceID
+    response.races = races
     response.race = race
     cb(response)
 end)

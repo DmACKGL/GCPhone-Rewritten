@@ -1,5 +1,5 @@
 import PhoneAPI from './../../PhoneAPI'
-
+``
 const state = {
   races: [],
   tracks: [],
@@ -15,6 +15,7 @@ const state = {
     checkpoints: 0,
     currentCheckpoint: 0,
     currentPosition: 1,
+    players: []
   }
 }
 
@@ -23,23 +24,26 @@ const getters = {
   raceProcessing: ({raceProcessing}) => raceProcessing,
   races: ({races}) => races,
   racingTracks: ({tracks}) => tracks,
+  getRaceById: (state) => (id) => {
+    return state.races.find(race => race.raceID === id)
+  }
 }
 
 const actions = {
-  async racingGet({commit}) {
-    return PhoneAPI.getRaces()
-      .then(response => {
-        if (response.data.code) {
-          commit('RACING_SET_RACES', response.data.races)
-          commit('RACING_SET_TRACKS', response.data.tracks)
-          if (response.data.raceInfo) {
-            commit('RACING_SET_RACEINFO', response.data.raceInfo)
+   racingGet({commit}) {
+      return PhoneAPI.getRaces()
+        .then(response => {
+          if (response.data.code) {
+            commit('RACING_SET_RACES', response.data.races)
+            commit('RACING_SET_TRACKS', response.data.tracks)
+            if (response.data.raceInfo) {
+              commit('RACING_SET_RACEINFO', response.data.raceInfo)
+            }
+            return true
+          } else {
+            return false
           }
-          return true
-        } else {
-          return false
-        }
-      })
+        })
       .catch(() => {return false})
   },
 
@@ -69,11 +73,10 @@ const actions = {
     return PhoneAPI.createRace(race)
       .then(response => {
         if (response.data.success){
-          commit('RACING_SET_RACES', response.data.race)
-          commit('SET_RACING_RACEID', response.data.race.raceID)
           commit('SET_RACING_TOTAL_LAPS', response.data.race.Laps)
           commit('SET_RACING_CHECKPOINTS', response.data.race.checkpoints.checkpoints.length)
-          commit('SET_RACING_ACTIVE', true)
+          commit('SET_RACING_PLAYERS', response.data.race.players)
+          commit('SET_RACING_RACEID', response.data.race.raceID)
           return true
         } else {
           commit('RACING_SET_PROCCESING', false)
@@ -138,7 +141,11 @@ const mutations = {
     state.tracks = data
   },
   RACING_SET_RACES(state, data){
-    state.races = data
+    state.races = []
+    for (let i = 0; i < data.length; i++) {
+      console.log(data[i])
+      Object.assign(state.races, data)
+    }
   },
   RACING_SET_RACEINFO(state, data) {
     state.raceInfo = data
