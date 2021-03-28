@@ -37,7 +37,7 @@
         </div>
       </div>
     </template>
-    <template v-if="onRace">
+    <template v-if="raceInfo.active">
       <div
         class="elements container"
       >
@@ -186,7 +186,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['myID','IntlString', 'useMouse', 'races', 'racingTracks', 'raceInfo', 'getRaceById']),
+    ...mapGetters(['myID','IntlString', 'useMouse', 'races', 'racingTracks', 'raceInfo', 'getRaceById', 'raceProcessing']),
     filteredRace() {
       console.log(this.getRaceById(this.raceInfo.raceID))
       return this.getRaceById(this.raceInfo.raceID)
@@ -199,9 +199,9 @@ export default {
     }
   },
   watch: {
-    races() {
-      console.log("UPDATE!")
-      if(this.raceInfo.raceID) {
+    raceProcessing() {
+      console.log("UPDATE! ", this.raceProcessing)
+      if(!this.raceProcessing && this.raceInfo.raceID) {
         console.log(1)
         this.raceInfo.active = true
         this.onRace = true

@@ -69,17 +69,20 @@ const actions = {
   },
 
   racingCreate ({commit}, race) {
-    commit('RACING_SET_PROCCESING', true)
     return PhoneAPI.createRace(race)
       .then(response => {
         if (response.data.success){
+          commit('RACING_SET_PROCCESING', true)
           commit('SET_RACING_TOTAL_LAPS', response.data.race.Laps)
           commit('SET_RACING_CHECKPOINTS', response.data.race.checkpoints.checkpoints.length)
           commit('SET_RACING_PLAYERS', response.data.race.players)
           commit('SET_RACING_RACEID', response.data.race.raceID)
-          return true
+          // FIXME: HELP!
+          return setTimeout(() => {
+            commit('RACING_SET_PROCCESING', false)
+            return true
+          }, 2000)
         } else {
-          commit('RACING_SET_PROCCESING', false)
           return false
         }
       })
