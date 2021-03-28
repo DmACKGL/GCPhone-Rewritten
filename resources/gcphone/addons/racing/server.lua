@@ -23,21 +23,6 @@ ESX.RegisterServerCallback('gcphone:getRaces', function(source, cb)
     cb(data)
 end)
 
---[[
-    {
-    "raceInfo": {
-        "trackID": 1,
-        "eventName": "Test",
-        "yourAlias": "DmACK",
-        "Laps": "5",
-        "money": "5000",
-        "CST": "10",
-        "reverse": true,
-        "showPosition": true,
-        "sendNotification": true
-    }
-}:
-]]
 
 ESX.RegisterServerCallback('gcphone:createRace', function(source, cb, data)
     race = {}

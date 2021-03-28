@@ -110,22 +110,25 @@
               </tr>
             </tbody>
           </table>
+          <div
+            class="group"
+            data-type="button"
+            @click.stop="doSetGPS"
+          >
+            <label for="GPS" />
+            <input
+              id="GPS"
+              type="button"
+              class="btn btn-warning btn-lg btn-block"
+              :value="IntlString('APP_RACING_CREATE_GPS')"
+              @click.stop="doSetGPS"
+            >
+          </div>
           <div v-if="filteredRace.owner !== myID">
             <div
               class="group"
               data-type="button"
-            >
-              <label for="GPS" />
-              <input
-                id="GPS"
-                type="button"
-                class="btn btn-warning btn-lg btn-block"
-                :value="IntlString('APP_RACING_CREATE_GPS')"
-              >
-            </div>
-            <div
-              class="group"
-              data-type="button"
+              @click.stop="doLeaveRace"
             >
               <label for="leave" />
               <input
@@ -133,6 +136,7 @@
                 type="button"
                 class="btn btn-danger btn-lg btn-block"
                 :value="IntlString('APP_RACING_LEAVE')"
+                @click.stop="doLeaveRace"
               >
             </div>
           </div>
@@ -140,6 +144,7 @@
             <div
               class="group"
               data-type="button"
+              @click.stop="doStartRace"
             >
               <label for="start" />
               <input
@@ -147,11 +152,13 @@
                 type="button"
                 class="btn btn-success btn-lg btn-block"
                 :value="IntlString('APP_RACING_START')"
+                @click.stop="doStartRace"
               >
             </div>
             <div
               class="group"
               data-type="button"
+              @click.stop="doStopRace"
             >
               <label for="stop" />
               <input
@@ -159,6 +166,7 @@
                 type="button"
                 class="btn btn-danger btn-lg btn-block"
                 :value="IntlString('APP_RACING_STOP')"
+                @click.stop="doStopRace"
               >
             </div>
           </div>
@@ -171,6 +179,7 @@
 <script>
 import {mapActions, mapGetters} from 'vuex'
 import Modal from '@/components/Modal/index.js'
+import PhoneAPI from './../../PhoneAPI'
 import Swal from 'sweetalert2'
 
 export default {
@@ -238,6 +247,27 @@ export default {
           this.$el.querySelector('.select').scrollIntoViewIfNeeded()
         }
       })
+    },
+    doStartRace() {
+
+    },
+    doStopRace() {
+
+    },
+    doLeaveRace() {
+
+    },
+    doSetGPS() {
+      PhoneAPI.setRaceGPS(this.raceInfo.raceID)
+        .then( () => {
+          Swal.fire({
+            icon: 'success',
+            target: '.phone_screen',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          PhoneAPI.closePhone()
+        })
     },
     onBack() {
       if (this.ignoreControls === true) return
@@ -402,6 +432,10 @@ export default {
   border-radius: 2px;
 }
 .active, .element:hover {
+  background: radial-gradient(rgba(3, 168, 244, 0.14), rgba(3, 169, 244, 0.26));
+}
+
+.select{
   background: radial-gradient(rgba(3, 168, 244, 0.14), rgba(3, 169, 244, 0.26));
 }
 .elem-pic{

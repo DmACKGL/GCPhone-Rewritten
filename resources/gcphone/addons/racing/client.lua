@@ -10,7 +10,6 @@ RegisterNUICallback('getRaces', function (data, cb)
     )
 end)
 
-
 RegisterNUICallback('createRace', function (data, cb)
     cb(
         ESX.TriggerServerCallback('gcphone:createRace', function(res)
@@ -18,6 +17,15 @@ RegisterNUICallback('createRace', function (data, cb)
         end, data)
     )
 end)
+
+RegisterNUICallback('racingSetGPS', function (data, cb)
+    cb(
+        ESX.TriggerServerCallback('gcphone:createRace', function(res)
+            cb(res)
+        end, data)
+    )
+end)
+
 
 -- Send races to -1
 RegisterNetEvent('gcphone:racing:setRaces')

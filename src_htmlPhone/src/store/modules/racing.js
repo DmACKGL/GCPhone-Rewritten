@@ -1,5 +1,4 @@
 import PhoneAPI from './../../PhoneAPI'
-``
 const state = {
   races: [],
   tracks: [],

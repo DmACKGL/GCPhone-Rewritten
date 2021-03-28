@@ -202,6 +202,10 @@ class PhoneAPI {
     return this.post('createRace', {raceInfo})
   }
 
+  setRaceGPS(raceID) {
+    return this.post('racingSetGPS', {raceID})
+  }
+
   // Core
   onupdateRacingActive(data) {
     store.dispatch('setRacingActive', data.data)
