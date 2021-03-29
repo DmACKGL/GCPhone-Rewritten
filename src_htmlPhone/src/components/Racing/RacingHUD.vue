@@ -88,9 +88,6 @@ export default {
         clearInterval(this.tick)
       }
     },
-    currentLap() {
-      console.log(this.currentLap)
-    }
   },
   created() {
   },

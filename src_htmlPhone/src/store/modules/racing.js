@@ -24,8 +24,6 @@ const getters = {
   races: ({races}) => races,
   racingTracks: ({tracks}) => tracks,
   getRaceById: (state) => (id) => {
-    console.log(id)
-    console.log(state.races.find(race => race.raceID === id))
     return state.races.find(race => race.raceID === id)
   }
 }
@@ -78,21 +76,17 @@ const actions = {
   racingCreate ({commit, dispatch}, data) {
     return PhoneAPI.createRace(data)
       .then(response => {
-        console.log(response)
         if (response){
-          console.log('Pass!')
           dispatch('racingGet')
           return setTimeout(() => {
             commit('RACING_SET_PROCCESING', false)
             return true
           }, 2000)
         } else {
-          console.log('its False')
           return false
         }
       })
       .catch(() => {
-        console.log('Catch')
         return false
       })
   },

@@ -193,12 +193,6 @@ export default {
     ...mapGetters(['IntlString', 'useMouse', 'racingTracks']),
   },
   watch: {
-    ignoreControls() {
-      console.log("IGNORE: " + this.ignoreControls)
-    },
-    raceCreate() {
-      console.log(this.raceCreate)
-    }
   },
   created() {
     if (!this.useMouse) {

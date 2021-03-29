@@ -144,7 +144,6 @@ export default {
     },
     ignore(data) {
       this.ignoreControls = data
-      console.log(this.ignoreControls)
       if (this.ignoreControls) {
         this.$bus.$off('keyUpEnter', this.onEnter)
         this.$bus.$off('keyUpBackspace', this.onBack)

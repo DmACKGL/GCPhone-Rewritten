@@ -111,7 +111,6 @@ export default {
   },
   watch: {
     prevRoute() {
-      console.log(this.prevRoute.path)
       if (this.prevRoute.path === '/menu') {
         const self = this
         self.doDeblur = true;

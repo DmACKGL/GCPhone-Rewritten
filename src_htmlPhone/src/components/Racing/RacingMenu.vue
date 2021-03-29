@@ -51,12 +51,6 @@
           <table class="table table-borderless">
             <tbody>
               <tr>
-                <td>{{ IntlString("APP_RACING_CREATE_MONEY") }}</td>
-                <td class="text-right">
-                  {{ filteredRace.money | toCurrency }}
-                </td>
-              </tr>
-              <tr>
                 <td>{{ IntlString("APP_RACING_PRIZE") }}</td>
                 <td class="text-right">
                   {{ filteredRace.money * filteredRace.players.length | toCurrency }}

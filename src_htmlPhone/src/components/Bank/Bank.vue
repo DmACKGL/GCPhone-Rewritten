@@ -141,14 +141,12 @@ export default {
         this.currentSelect = this.currentSelect - 1
       }
       this.$refs['form' + this.currentSelect].focus()
-      console.log(this.currentSelect)
     },
     onDown() {
       if ((this.currentSelect + 1) <= 3) {
         this.currentSelect = this.currentSelect + 1
       }
       this.$refs['form' + this.currentSelect].focus()
-      console.log(this.currentSelect)
     },
     onEnter() {
       if (this.ignoreControls === true) return

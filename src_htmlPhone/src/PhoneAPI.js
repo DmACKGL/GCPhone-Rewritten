@@ -461,9 +461,6 @@ class PhoneAPI {
         src: path,
         volume: volume,
         loop: true,
-        onend: function () {
-          console.log('Finished!')
-        }
       })
       this.soundList[sound].play()
     }
