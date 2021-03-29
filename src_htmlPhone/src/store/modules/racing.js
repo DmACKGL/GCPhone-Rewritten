@@ -29,14 +29,17 @@ const getters = {
 }
 
 const actions = {
-   racingGet({commit}) {
+   racingGet({commit, getters, dispatch}) {
       return PhoneAPI.getRaces()
         .then(response => {
           if (response.data.code) {
             commit('RACING_SET_RACES', response.data.races)
             commit('RACING_SET_TRACKS', response.data.tracks)
-            if (response.data.raceInfo) {
-              commit('RACING_SET_RACEINFO', response.data.raceInfo)
+            if (response.data.userInfo) {
+              dispatch('setRacingTotalLaps', response.data.userInfo.Laps)
+              dispatch('setRacingTotalCheckpoints', response.data.userInfo.checkpoints)
+              dispatch('setRacingPlayers', getters.races.find(race => race.raceID === response.data.userInfo.raceID).Players)
+              dispatch('setRacingID', response.data.userInfo.raceID)
             }
             return true
           } else {
@@ -67,25 +70,25 @@ const actions = {
       .catch(() => {return false})
   },
 
-  racingCreate ({commit}, race) {
-    return PhoneAPI.createRace(race)
+  racingCreate ({commit}, data) {
+    return PhoneAPI.createRace(data)
       .then(response => {
-        if (response.data.success){
-          commit('RACING_SET_PROCCESING', true)
-          commit('SET_RACING_TOTAL_LAPS', response.data.race.Laps)
-          commit('SET_RACING_CHECKPOINTS', response.data.race.checkpointsCount)
-          commit('SET_RACING_PLAYERS', response.data.race.playersCount)
-          commit('SET_RACING_RACEID', response.data.race.raceID)
-          // FIXME: HELP!
+        console.log(response)
+        if (response){
+          console.log('Pass')
           return setTimeout(() => {
             commit('RACING_SET_PROCCESING', false)
             return true
           }, 2000)
         } else {
+          console.log('its False')
           return false
         }
       })
-      .catch(() => {return false})
+      .catch(() => {
+        console.log('Catch')
+        return false
+      })
   },
 
   // Core

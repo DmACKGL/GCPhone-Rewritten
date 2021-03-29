@@ -41,21 +41,26 @@ ESX.RegisterServerCallback('gcphone:createRace', function(source, cb, data)
     race.checkpoints = tracks[race.trackID].checkpoints
     race.checkpointsCount = #json.decode(tracks[race.trackID].checkpoints)
     race.players = {}
-    race.players[source] = {}
-    race.players[source].id = source
-    race.players[source].alias = data.raceInfo.yourAlias
-    race.players[source].checkpoint = 0
-    race.players[source].position = 0
+    playerInfo[source] = {}
+    playerInfo[source].id = source
     playerInfo[source].raceID = race.raceID
+    playerInfo[source].alias = data.raceInfo.yourAlias
+    playerInfo[source].checkpoint = 0
+    playerInfo[source].position = 0
     playerInfo[source].owner = true
-    race.playersCount = #race.players
+    race.players[source] = playerInfo[source]
+    race.playersCount = #json.decode(race.players)
+    print(ESX.DumpTable(playerInfo))
+    print(ESX.DumpTable(race))
     table.insert(races, race)
+    print(ESX.DumpTable(races))
     TriggerClientEvent('gcphone:racing:setRaces', -1, races)
-    local response  ={}
+    local response = {}
     response.success = true
     response.raceID = race.raceID
     response.races = races
     response.race = race
+    print(ESX.DumpTable(response))
     cb(response)
 end)
 
