@@ -1,4 +1,17 @@
 ESX = nil
+
+function catch(what)
+    return what[1]
+ end
+ 
+function try(what)
+    status, result = pcall(what[1])
+    if not status then
+        what[2](result)
+    end
+    return result
+end
+
 local races = {}
 local tracks = {}
 local raceInfo = {}
@@ -17,51 +30,50 @@ ESX.RegisterServerCallback('gcphone:getRaces', function(source, cb)
     data.code = true
     data.races = races
     data.tracks = tracks
-    data.raceInfo = nil
-    if (raceInfo[source] ~= nil) then
-        data.raceInfo = raceInfo[source]      
+    if playerInfo[source] ~= nil then
+        data.userInfo = playerInfo[source]
     end
     cb(data)
 end)
 
 
 ESX.RegisterServerCallback('gcphone:createRace', function(source, cb, data)
-    race = {}
-    race.raceID = #races+1
-    race.trackID = data.raceInfo.trackID
-    race.eventName = data.raceInfo.eventName
-    race.owner = source
-    race.status = 0
-    race.Laps = data.raceInfo.Laps
-    race.money = data.raceInfo.money
-    race.CST = data.raceInfo.CST
-    race.reverse = data.raceInfo.reverse
-    race.showPosition = data.raceInfo.showPosition
-    race.sendNotification = data.raceInfo.sendNotification
-    race.checkpoints = tracks[race.trackID].checkpoints
-    race.checkpointsCount = #json.decode(tracks[race.trackID].checkpoints)
-    race.players = {}
-    playerInfo[source] = {}
-    playerInfo[source].id = source
-    playerInfo[source].raceID = race.raceID
-    playerInfo[source].alias = data.raceInfo.yourAlias
-    playerInfo[source].checkpoint = 0
-    playerInfo[source].position = 0
-    playerInfo[source].owner = true
-    race.players[source] = playerInfo[source]
-    race.playersCount = #json.decode(race.players)
-    print(ESX.DumpTable(playerInfo))
-    print(ESX.DumpTable(race))
-    table.insert(races, race)
-    print(ESX.DumpTable(races))
-    TriggerClientEvent('gcphone:racing:setRaces', -1, races)
-    local response = {}
-    response.success = true
-    response.raceID = race.raceID
-    response.races = races
-    response.race = race
-    print(ESX.DumpTable(response))
-    cb(response)
+    try {
+        function()
+            race = {}
+            race.raceID = #races+1
+            race.trackID = data.raceInfo.trackID
+            race.eventName = data.raceInfo.eventName
+            race.owner = source
+            race.status = 0
+            race.Laps = data.raceInfo.Laps
+            race.money = data.raceInfo.money
+            race.CST = data.raceInfo.CST
+            race.reverse = data.raceInfo.reverse
+            race.showPosition = data.raceInfo.showPosition
+            race.sendNotification = data.raceInfo.sendNotification
+            race.checkpoints = tracks[race.trackID].checkpoints
+            race.checkpointsCount = #json.decode(tracks[race.trackID].checkpoints)
+            race.players = {}
+            playerInfo[source] = {}
+            playerInfo[source].id = source
+            playerInfo[source].raceID = race.raceID
+            playerInfo[source].alias = data.raceInfo.yourAlias
+            playerInfo[source].checkpoint = 0
+            playerInfo[source].position = 0
+            playerInfo[source].owner = true
+            table.insert(race.players, playerInfo[source])
+            race.playersCount = #race.players
+            table.insert(races, race)
+            TriggerClientEvent('gcphone:racing:setRaces', -1, races)
+            cb(true)
+        end,
+        catch {
+            function()
+                cb(false)
+            end
+        }
+    }
 end)
 
 ESX.RegisterServerCallback('gcphone:joinRace', function(source, cb, data)

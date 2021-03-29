@@ -24,6 +24,8 @@ const getters = {
   races: ({races}) => races,
   racingTracks: ({tracks}) => tracks,
   getRaceById: (state) => (id) => {
+    console.log(id)
+    console.log(state.races.find(race => race.raceID === id))
     return state.races.find(race => race.raceID === id)
   }
 }
@@ -36,10 +38,13 @@ const actions = {
             commit('RACING_SET_RACES', response.data.races)
             commit('RACING_SET_TRACKS', response.data.tracks)
             if (response.data.userInfo) {
-              dispatch('setRacingTotalLaps', response.data.userInfo.Laps)
-              dispatch('setRacingTotalCheckpoints', response.data.userInfo.checkpoints)
+              dispatch('setRacingTotalLaps', getters.races.find(race => race.raceID === response.data.userInfo.raceID).Laps)
+              dispatch('setRacingTotalCheckpoints', getters.races.find(race => race.raceID === response.data.userInfo.raceID).checkpointsCount)
               dispatch('setRacingPlayers', getters.races.find(race => race.raceID === response.data.userInfo.raceID).Players)
               dispatch('setRacingID', response.data.userInfo.raceID)
+              dispatch('setRacingActive', true)
+            } else {
+              dispatch('setRacingActive', false)
             }
             return true
           } else {
@@ -70,12 +75,13 @@ const actions = {
       .catch(() => {return false})
   },
 
-  racingCreate ({commit}, data) {
+  racingCreate ({commit, dispatch}, data) {
     return PhoneAPI.createRace(data)
       .then(response => {
         console.log(response)
         if (response){
-          console.log('Pass')
+          console.log('Pass!')
+          dispatch('racingGet')
           return setTimeout(() => {
             commit('RACING_SET_PROCCESING', false)
             return true
@@ -101,7 +107,7 @@ const actions = {
     return state.raceInfo.status
   },
   setRacingID({commit, state}, id) {
-    commit('SET_RACING_STATUS', id)
+    commit('SET_RACING_RACEID', id)
     return state.raceInfo.raceID
   },
 

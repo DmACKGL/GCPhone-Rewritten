@@ -5,6 +5,7 @@
 RegisterNUICallback('getRaces', function (data, cb)
     cb(
         ESX.TriggerServerCallback('gcphone:getRaces', function(data)
+            print(ESX.DumpTable(data))
             cb(data)
         end)
     )
@@ -12,8 +13,9 @@ end)
 
 RegisterNUICallback('createRace', function (data, cb)
     cb(
-        ESX.TriggerServerCallback('gcphone:createRace', function(data)
-            cb(data)
+        ESX.TriggerServerCallback('gcphone:createRace', function(res)
+            print(res)
+            cb(res)
         end, data)
     )
 end)
