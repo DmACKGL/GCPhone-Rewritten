@@ -98,12 +98,12 @@
                   >
                     <div class="col text-right">
                       <span
-                        v-if="key === myID"
+                        v-if="val.id === myID"
                         class="badge badge-pill badge-info"
                       >
                         {{ IntlString("APP_RACING_YOU") }}
                       </span>
-                      {{ val }}
+                      {{ val.alias }}
                     </div>
                   </div>
                 </td>
@@ -370,39 +370,41 @@ export default {
       this.$bus.$emit('ignoreControls', false)
       switch (rep.id) {
         case 0:
-          await Swal.fire({
-            title: this.IntlString('APP_RACING_JOINING'),
-            target: '.phone_screen',
-            allowOutsideClick: false, //makes modal behave captively
-            allowEscapeKey: false,
-            allowEnterKey: false,
-            showConfirmButton: false,
-            showCancelButton: false,
-            willOpen() {
-              Swal.showLoading(); //Adds built in loader animation during modal open
-            },
-            willClose() {
-              Swal.hideLoading(); //might not be necessary
-            },
-          })
-          await this.raceJoin(raceID)
-            .then(response => {
-              if (response) {
-                Swal.fire({
-                  icon: 'success',
-                  target: '.phone_screen',
-                  showConfirmButton: false,
-                  timer: 1500
-                })
-              } else {
-                Swal.fire({
-                  icon: 'error',
-                  target: '.phone_screen',
-                  showConfirmButton: false,
-                  timer: 1500
-                })
-              }
+          this.$phoneAPI.getReponseText({limit: 10, text: this.IntlString('APP_RACING_CREATE_ALIAS')}).then(data => {
+            Swal.fire({
+              title: this.IntlString('APP_RACING_JOINING'),
+              target: '.phone_screen',
+              allowOutsideClick: false, //makes modal behave captively
+              allowEscapeKey: false,
+              allowEnterKey: false,
+              showConfirmButton: false,
+              showCancelButton: false,
+              willOpen() {
+                Swal.showLoading(); //Adds built in loader animation during modal open
+              },
+              willClose() {
+                Swal.hideLoading(); //might not be necessary
+              },
             })
+            this.raceJoin(raceID, data.text)
+              .then(response => {
+                if (response) {
+                  Swal.fire({
+                    icon: 'success',
+                    target: '.phone_screen',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+                } else {
+                  Swal.fire({
+                    icon: 'error',
+                    target: '.phone_screen',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+                }
+              })
+          })
           break
       }
     },

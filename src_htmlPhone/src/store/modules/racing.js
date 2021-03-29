@@ -144,10 +144,7 @@ const mutations = {
   },
   RACING_SET_RACES(state, data){
     state.races = []
-    for (let i = 0; i < data.length; i++) {
-      console.log(data[i])
-      Object.assign(state.races, data)
-    }
+    Object.assign(state.races, data)
   },
   RACING_SET_RACEINFO(state, data) {
     state.raceInfo = data

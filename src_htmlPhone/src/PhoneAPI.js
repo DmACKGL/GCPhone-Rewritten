@@ -195,8 +195,8 @@ class PhoneAPI {
   getRaces() {
     return this.post('getRaces')
   }
-  joinRace(raceID) {
-    return this.post('joinRace', {raceID})
+  joinRace(raceID, yourAlias) {
+    return this.post('joinRace', {raceID, yourAlias})
   }
   createRace(raceInfo) {
     return this.post('createRace', {raceInfo})

@@ -2,6 +2,7 @@ ESX = nil
 local races = {}
 local tracks = {}
 local raceInfo = {}
+local playerInfo = {}
 
 TriggerEvent('esx:getSharedObject', function(obj)
     ESX = obj
@@ -40,7 +41,13 @@ ESX.RegisterServerCallback('gcphone:createRace', function(source, cb, data)
     race.checkpoints = tracks[race.trackID].checkpoints
     race.checkpointsCount = #json.decode(tracks[race.trackID].checkpoints)
     race.players = {}
-    race.players[''..source..''] = data.raceInfo.yourAlias
+    race.players[source] = {}
+    race.players[source].id = source
+    race.players[source].alias = data.raceInfo.yourAlias
+    race.players[source].checkpoint = 0
+    race.players[source].position = 0
+    playerInfo[source].raceID = race.raceID
+    playerInfo[source].owner = true
     race.playersCount = #race.players
     table.insert(races, race)
     TriggerClientEvent('gcphone:racing:setRaces', -1, races)
@@ -52,6 +59,21 @@ ESX.RegisterServerCallback('gcphone:createRace', function(source, cb, data)
     cb(response)
 end)
 
+ESX.RegisterServerCallback('gcphone:joinRace', function(source, cb, data)
+    races[data.raceID].players[source] = {}
+    races[data.raceID].players[source].id = source
+    races[data.raceID].players[source].alias = data.yourAlias
+    races[data.raceID].players[source].checkpoint = 0
+    races[data.raceID].players[source].position = 0
+    playerInfo[source].raceID = data.raceID
+    playerInfo[source].owner = false
+    TriggerClientEvent('gcphone:racing:setRaces', -1, races)
+    local response  ={}
+    response.success = true
+    response.races = races
+    response.race = race[data.raceID]
+    cb(response)
+end)
 
 -- Server side array of active races
 
