@@ -37,7 +37,7 @@ class PhoneAPI {
             return response
           }
       })
-      .catch(error => error);
+      .catch(error => this.log(error));
   }
 
   async log(...data) {
@@ -203,7 +203,7 @@ class PhoneAPI {
   }
 
   setRaceGPS(raceID) {
-    return this.post('racingSetGPS', {raceID})
+    return this.post('racingSetGPS', {raceID: raceID})
   }
 
   // Core

@@ -38,7 +38,7 @@ const actions = {
             if (response.data.userInfo) {
               dispatch('setRacingTotalLaps', getters.races.find(race => race.raceID === response.data.userInfo.raceID).Laps)
               dispatch('setRacingTotalCheckpoints', getters.races.find(race => race.raceID === response.data.userInfo.raceID).checkpointsCount)
-              dispatch('setRacingPlayers', getters.races.find(race => race.raceID === response.data.userInfo.raceID).Players)
+              dispatch('setRacingPlayers', getters.races.find(race => race.raceID === response.data.userInfo.raceID).playersCount)
               dispatch('setRacingID', response.data.userInfo.raceID)
               dispatch('setRacingActive', true)
             } else {
@@ -59,9 +59,9 @@ const actions = {
     commit('RACING_SET_RACES', races)
   },
 
-  racingJoin ({commit}, raceID) {
+  racingJoin ({commit}, raceID, alias) {
     commit('RACING_SET_PROCCESING', true)
-    return PhoneAPI.joinRace(raceID)
+    return PhoneAPI.joinRace(raceID, alias)
       .then(response => {
         if (response.data.success) {
           commit('SET_RACING_RACEID', response.data.raceID)

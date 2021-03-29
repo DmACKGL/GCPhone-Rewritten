@@ -43,7 +43,8 @@
       >
         <h1
           ref="eventTitle"
-          class="text-center"
+          class="group text-center select"
+          data-type="button"
         >
           {{ filteredRace.eventName }}
         </h1>
@@ -104,66 +105,65 @@
               </tr>
             </tbody>
           </table>
-          <div
-            class="group"
-            data-type="button"
+        </div>
+        <div
+          class="group"
+          data-type="button"
+          @click.stop="doSetGPS"
+        >
+          <label for="GPS" />
+          <input
+            id="GPS"
+            type="button"
+            class="btn btn-warning btn-lg btn-block"
+            :value="IntlString('APP_RACING_CREATE_GPS')"
             @click.stop="doSetGPS"
           >
-            <label for="GPS" />
-            <input
-              id="GPS"
-              type="button"
-              class="btn btn-warning btn-lg btn-block"
-              :value="IntlString('APP_RACING_CREATE_GPS')"
-              @click.stop="doSetGPS"
-            >
-          </div>
-          <div v-if="filteredRace.owner !== myID">
-            <div
-              class="group"
-              data-type="button"
-              @click.stop="doLeaveRace"
-            >
-              <label for="leave" />
-              <input
-                id="leave"
-                type="button"
-                class="btn btn-danger btn-lg btn-block"
-                :value="IntlString('APP_RACING_LEAVE')"
-                @click.stop="doLeaveRace"
-              >
-            </div>
-          </div>
-          <div v-if="filteredRace.owner === myID">
-            <div
-              class="group"
-              data-type="button"
-              @click.stop="doStartRace"
-            >
-              <label for="start" />
-              <input
-                id="start"
-                type="button"
-                class="btn btn-success btn-lg btn-block"
-                :value="IntlString('APP_RACING_START')"
-                @click.stop="doStartRace"
-              >
-            </div>
-            <div
-              class="group"
-              data-type="button"
-              @click.stop="doStopRace"
-            >
-              <label for="stop" />
-              <input
-                id="stop"
-                type="button"
-                class="btn btn-danger btn-lg btn-block"
-                :value="IntlString('APP_RACING_STOP')"
-                @click.stop="doStopRace"
-              >
-            </div>
-          </div>
+        </div>
+        <div
+          v-if="filteredRace.owner !== myID"
+          class="group"
+          data-type="button"
+          @click.stop="doLeaveRace"
+        >
+          <label for="leave" />
+          <input
+            id="leave"
+            type="button"
+            class="btn btn-danger btn-lg btn-block"
+            :value="IntlString('APP_RACING_LEAVE')"
+            @click.stop="doLeaveRace"
+          >
+        </div>
+        <div
+          v-if="filteredRace.owner === myID"
+          class="group"
+          data-type="button"
+          @click.stop="doStartRace"
+        >
+          <label for="start" />
+          <input
+            id="start"
+            type="button"
+            class="btn btn-success btn-lg btn-block"
+            :value="IntlString('APP_RACING_START')"
+            @click.stop="doStartRace"
+          >
+        </div>
+        <div
+          v-if="filteredRace.owner === myID"
+          class="group"
+          data-type="button"
+          @click.stop="doStopRace"
+        >
+          <label for="stop" />
+          <input
+            id="stop"
+            type="button"
+            class="btn btn-danger btn-lg btn-block"
+            :value="IntlString('APP_RACING_STOP')"
+            @click.stop="doStopRace"
+          >
         </div>
       </div>
     </template>
@@ -199,23 +199,6 @@ export default {
     totalPrize() {
       return this.filteredRace.money * this.filteredRace.players.length
     },
-    isOnRace() {
-      return !!this.onRace
-    }
-  },
-  watch: {
-    raceProcessing() {
-      if(!this.raceProcessing && this.raceInfo.raceID) {
-        this.raceInfo.active = true
-        this.onRace = true
-        this.$nextTick(() => {
-          window.scrollTo(0,0)
-        })
-      } else {
-        this.raceInfo.active = false
-        this.onRace = false
-      }
-    }
   },
   created () {
     if (!this.useMouse) {
@@ -225,6 +208,11 @@ export default {
     } else {
       this.selectIndex = -1
     }
+    if(this.raceInfo.active) {
+      this.$nextTick(() => {
+        this.$refs.eventTitle.focus()
+      })
+    }
   },
   beforeDestroy () {
     this.$bus.$off('keyUpArrowDown', this.onDown)
@@ -232,7 +220,7 @@ export default {
     this.$bus.$off('keyUpEnter', this.onEnter)
   },
   methods: {
-    ...mapActions(['raceJoin']),
+    ...mapActions(['racingJoin']),
     scrollIntoViewIfNeeded: function () {
       this.$nextTick(() => {
         try {
@@ -253,14 +241,13 @@ export default {
     },
     doSetGPS() {
       PhoneAPI.setRaceGPS(this.raceInfo.raceID)
-        .then( () => {
+        .then(() => {
           Swal.fire({
             icon: 'success',
             target: '.phone_screen',
             showConfirmButton: false,
-            timer: 1500
-          })
-          PhoneAPI.closePhone()
+            timer: 1000
+          }).then(() => PhoneAPI.closePhone())
         })
     },
     onBack() {
@@ -268,8 +255,9 @@ export default {
     },
     onUp () {
       if (this.ignoreControls === true) return
-      if (!this.isOnRace) {
+      if (!this.raceInfo.active) {
         this.selectIndex = Math.max(0, this.selectIndex - 1)
+        this.scrollIntoViewIfNeeded()
       } else {
         let select = document.querySelector('.group.select')
         if (select === null) {
@@ -294,12 +282,12 @@ export default {
           }
         }
       }
-      this.scrollIntoViewIfNeeded()
     },
     onDown () {
       if (this.ignoreControls === true) return
-      if (!this.isOnRace) {
+      if (!this.raceInfo.active) {
         this.selectIndex = Math.min(this.races.length - 1, this.selectIndex + 1)
+        this.scrollIntoViewIfNeeded()
       } else {
         let select = document.querySelector('.group.select')
         if (select === null) {
@@ -324,11 +312,10 @@ export default {
           }
         }
       }
-      this.scrollIntoViewIfNeeded()
     },
     async onEnter () {
       if (this.ignoreControls === true) return
-      if (!this.isOnRace) {
+      if (!this.raceInfo.active) {
         await this.selectItem(this.races[this.selectIndex])
       } else {
         let select = document.querySelector('.group.select')
@@ -346,9 +333,13 @@ export default {
               $input.dispatchEvent(new window.Event('change'))
             })
           }
+          if (select.dataset.type === 'checkbox') {
+            select.querySelector('input').click()
+          }
           if (select.dataset.type === 'button') {
             select.click()
           }
+          this.$forceUpdate()
         }
       }
     },
@@ -380,7 +371,7 @@ export default {
                 Swal.hideLoading(); //might not be necessary
               },
             })
-            this.raceJoin(raceID, data.text)
+            this.racingJoin(raceID, data.text)
               .then(response => {
                 if (response) {
                   Swal.fire({
