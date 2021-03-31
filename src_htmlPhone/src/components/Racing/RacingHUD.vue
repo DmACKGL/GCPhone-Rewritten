@@ -14,7 +14,7 @@
           <tr>
             <td>Lap</td>
             <td class="text-right">
-              {{ raceInfo.currentLap }}/{{ raceInfo.totalLaps }}
+              {{ raceInfo.currentLap+1 }}/{{ raceInfo.totalLaps }}
             </td>
           </tr>
           <tr>
@@ -61,33 +61,30 @@ const {DateTime} = require('luxon');
 export default {
   data() {
     return {
-      now: DateTime.local(),
+      nowLap: DateTime.local(),
+      nowTotal: DateTime.local(),
       tick: null,
       lapTime: "--:--:--",
       totalTime: "--:--:--",
-      bestLap: "--:--:--"
+      bestLap: "--:--:--",
+      lapTimes: []
     }
   },
   computed: {
-    ...mapGetters(['raceInfo'])
+    ...mapGetters(['raceInfo', 'raceStatus', 'raceLap'])
   },
   watch: {
     raceStatus() {
-      if (this.raceStatus) {
-        this.tick = setInterval(() => {
-          this.lapTime = DateTime
-            .local()
-            .diff(this.now)
-            .toFormat('mm:ss.SSS')
-          this.totalTime = DateTime
-            .local()
-            .diff(this.now)
-            .toFormat('mm:ss.SSS')
-        }, 10)
-      } else {
-        clearInterval(this.tick)
-      }
+      this.raceStatus === 1 ? this.startTimers() : this.stopTimers()
     },
+    raceLap() {
+      if(this.raceLap !== 0) {
+        this.lapTimes.push(DateTime.fromFormat(this.lapTime, 'mm:ss.SSS').toMillis())
+        this.nowLap = DateTime.local()
+        this.bestLap = DateTime.fromMillis(Math.min.apply(Math, this.lapTimes)).toFormat('mm:ss.SSS')
+      }
+    }
+
   },
   created() {
   },
@@ -95,8 +92,27 @@ export default {
 
   },
   beforeDestroy() {
+    if (this.tick) clearInterval(this.tick)
   },
-  methods: {},
+  methods: {
+    startTimers() {
+      const self = this
+      this.nowLap = this.nowTotal = DateTime.local()
+      this.tick = setInterval(() => {
+        self.lapTime = DateTime
+          .local()
+          .diff(this.nowLap)
+          .toFormat('mm:ss.SSS')
+        self.totalTime = DateTime
+          .local()
+          .diff(this.nowTotal)
+          .toFormat('mm:ss.SSS')
+      }, 10)
+    },
+    stopTimers() {
+      clearInterval(this.tick)
+    }
+  },
 }
 </script>
 

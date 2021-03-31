@@ -1,11 +1,12 @@
 import PhoneAPI from './../../PhoneAPI'
+
 const state = {
   races: [],
   tracks: [],
   raceProcessing: false,
   raceInfo: {
     active: false,
-    state: 0,
+    status: 0,
     raceID: null,
 
     currentLap: 0,
@@ -20,6 +21,8 @@ const state = {
 
 const getters = {
   raceInfo: ({raceInfo}) => raceInfo,
+  raceLap: ({raceInfo}) => raceInfo.currentLap,
+  raceStatus: ({raceInfo}) => raceInfo.status,
   raceProcessing: ({raceProcessing}) => raceProcessing,
   races: ({races}) => races,
   racingTracks: ({tracks}) => tracks,
@@ -29,54 +32,61 @@ const getters = {
 }
 
 const actions = {
-   racingGet({commit, getters, dispatch}) {
-      return PhoneAPI.getRaces()
-        .then(response => {
-          if (response.data.code) {
-            commit('RACING_SET_RACES', response.data.races)
-            commit('RACING_SET_TRACKS', response.data.tracks)
-            if (response.data.userInfo) {
-              dispatch('setRacingTotalLaps', getters.races.find(race => race.raceID === response.data.userInfo.raceID).Laps)
-              dispatch('setRacingTotalCheckpoints', getters.races.find(race => race.raceID === response.data.userInfo.raceID).checkpointsCount)
-              dispatch('setRacingPlayers', getters.races.find(race => race.raceID === response.data.userInfo.raceID).playersCount)
-              dispatch('setRacingID', response.data.userInfo.raceID)
-              dispatch('setRacingActive', true)
-            } else {
-              dispatch('setRacingActive', false)
-            }
-            return true
-          } else {
-            return false
-          }
-        })
-      .catch(() => {return false})
-  },
-
-  racingReset ({commit}) {
-    commit('RACING_RESET')
-  },
-  setRaces ({commit}, races) {
-    commit('RACING_SET_RACES', races)
-  },
-
-  racingJoin ({commit}, raceID, alias) {
-    commit('RACING_SET_PROCCESING', true)
-    return PhoneAPI.joinRace(raceID, alias)
+  racingGet({commit, getters, dispatch}) {
+    return PhoneAPI.getRaces()
       .then(response => {
-        if (response.data.success) {
-          commit('SET_RACING_RACEID', response.data.raceID)
-          commit('SET_RACING_PLAYERS', response.data.players)
-        }else{
+        if (response.data.code) {
+          commit('RACING_SET_RACES', response.data.races)
+          commit('RACING_SET_TRACKS', response.data.tracks)
+          if (response.data.userInfo) {
+            dispatch('setRacingTotalLaps', getters.races.find(race => race.raceID === response.data.userInfo.raceID).Laps)
+            dispatch('setRacingTotalCheckpoints', getters.races.find(race => race.raceID === response.data.userInfo.raceID).checkpointsCount)
+            dispatch('setRacingPlayers', getters.races.find(race => race.raceID === response.data.userInfo.raceID).playersCount)
+            dispatch('setRacingID', response.data.userInfo.raceID)
+            dispatch('setRacingActive', true)
+          } else {
+            dispatch('setRacingActive', false)
+          }
+          return true
+        } else {
           return false
         }
       })
-      .catch(() => {return false})
+      .catch(() => {
+        return false
+      })
   },
 
-  racingCreate ({commit, dispatch}, data) {
+  racingReset({commit}) {
+    commit('RACING_RESET')
+  },
+  setRaces({commit}, races) {
+    commit('RACING_SET_RACES', races)
+  },
+
+  racingJoin({commit, dispatch}, data) {
+    commit('RACING_SET_PROCCESING', true)
+    return PhoneAPI.joinRace(data.raceID, data.alias)
+      .then(response => {
+        if (response.data.success) {
+          dispatch('racingGet')
+          return setTimeout(() => {
+            commit('RACING_SET_PROCCESING', false)
+            return true
+          }, 2000)
+        } else {
+          return false
+        }
+      })
+      .catch(() => {
+        return false
+      })
+  },
+
+  racingCreate({commit, dispatch}, data) {
     return PhoneAPI.createRace(data)
       .then(response => {
-        if (response){
+        if (response) {
           dispatch('racingGet')
           return setTimeout(() => {
             commit('RACING_SET_PROCCESING', false)
@@ -110,11 +120,11 @@ const actions = {
     commit('SET_RACING_CURRENT_LAP', lap)
     return state.raceInfo.currentLap
   },
-  setRacingBestLap({commit,state}, timing) {
+  setRacingBestLap({commit, state}, timing) {
     commit('SET_RACING_BEST_LAP', timing)
     return state.raceInfo.bestLap
   },
-  setRacingTotalLaps({commit,state}, laps) {
+  setRacingTotalLaps({commit, state}, laps) {
     commit('SET_RACING_TOTAL_LAPS', laps)
     return state.raceInfo.totalLaps
   },
@@ -130,11 +140,11 @@ const actions = {
   },
 
   // Positions
-  setRacingPlayers({commit,state}, players) {
+  setRacingPlayers({commit, state}, players) {
     commit('SET_RACING_PLAYERS', players)
     return state.raceInfo.players
   },
-  setRacingCurrentPosition({commit,state}, laps) {
+  setRacingCurrentPosition({commit, state}, laps) {
     commit('SET_RACING_CURRENT_POSITION', laps)
     return state.raceInfo.currentPosition
   }
@@ -145,7 +155,7 @@ const mutations = {
   RACING_SET_TRACKS(state, data) {
     state.tracks = data
   },
-  RACING_SET_RACES(state, data){
+  RACING_SET_RACES(state, data) {
     state.races = []
     Object.assign(state.races, data)
   },
@@ -190,12 +200,12 @@ const mutations = {
   SET_RACING_CHECKPOINTS(state, checkpoints) {
     state.raceInfo.checkpoints = checkpoints
   },
-  SET_RACING_CURRENT_CHECKPOINT(state, checkpoint){
+  SET_RACING_CURRENT_CHECKPOINT(state, checkpoint) {
     state.raceInfo.currentCheckpoint = checkpoint
   },
 
   // Positions
-  SET_RACING_PLAYERS(state, players){
+  SET_RACING_PLAYERS(state, players) {
     state.raceInfo.players = players
   },
   SET_RACING_CURRENT_POSITION(state, position) {
@@ -216,7 +226,7 @@ if (process.env.NODE_ENV !== 'production') {
       owner: 0,
       raceID: 1,
       trackID: 1,
-      state:0,
+      state: 0,
       eventName: "GrandPrix",
       yourAlias: "DmACK",
       Laps: 1,

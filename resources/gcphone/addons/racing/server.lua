@@ -36,6 +36,19 @@ ESX.RegisterServerCallback('gcphone:getRaces', function(source, cb)
     cb(data)
 end)
 
+ESX.RegisterServerCallback('gcphone:startRace', function(source, cb, raceID)
+	data.race[raceID].status = 1
+    local data = {}
+    data.code = true
+    data.races = races
+    data.tracks = tracks
+    if playerInfo[source] ~= nil then
+        data.userInfo = playerInfo[source]
+    end
+    cb(data)
+end)
+
+
 
 ESX.RegisterServerCallback('gcphone:createRace', function(source, cb, data)
     try {
@@ -52,19 +65,20 @@ ESX.RegisterServerCallback('gcphone:createRace', function(source, cb, data)
             race.reverse = data.raceInfo.reverse
             race.showPosition = data.raceInfo.showPosition
             race.sendNotification = data.raceInfo.sendNotification
-            race.checkpoints = tracks[race.trackID].checkpoints
+            race.checkpoints = json.decode(tracks[race.trackID].checkpoints)
             race.checkpointsCount = #json.decode(tracks[race.trackID].checkpoints)
             race.players = {}
-            playerInfo[source] = {}
-            playerInfo[source].id = source
-            playerInfo[source].raceID = race.raceID
-            playerInfo[source].alias = data.raceInfo.yourAlias
-            playerInfo[source].checkpoint = 0
-            playerInfo[source].position = 0
-            playerInfo[source].owner = true
-            table.insert(race.players, playerInfo[source])
+            playerInfo[2] = {}
+            playerInfo[2].id = 2
+            playerInfo[2].raceID = race.raceID
+            playerInfo[2].alias = data.raceInfo.yourAlias
+            playerInfo[2].checkpoint = 0
+            playerInfo[2].position = 0
+            playerInfo[2].owner = true
+            table.insert(race.players, playerInfo[2])
             race.playersCount = #race.players
             table.insert(races, race)
+            TriggerClientEvent('gcphone:racing:updateCurrentRace', 2, race)
             TriggerClientEvent('gcphone:racing:setRaces', -1, races)
             cb(true)
         end,
@@ -77,18 +91,27 @@ ESX.RegisterServerCallback('gcphone:createRace', function(source, cb, data)
 end)
 
 ESX.RegisterServerCallback('gcphone:joinRace', function(source, cb, data)
-    races[data.raceID].players[source] = {}
-    races[data.raceID].players[source].id = source
-    races[data.raceID].players[source].alias = data.yourAlias
-    races[data.raceID].players[source].checkpoint = 0
-    races[data.raceID].players[source].position = 0
-    playerInfo[source].raceID = data.raceID
+    local raceID = tonumber(data.raceID)
+    print(ESX.DumpTable(races))
+    print(ESX.DumpTable(races[raceID]))
+    playerInfo[source] = {}
+    playerInfo[source].id = source
+    playerInfo[source].raceID = raceID
+    playerInfo[source].alias = data.yourAlias
+    playerInfo[source].checkpoint = 0
+    playerInfo[source].position = 0
     playerInfo[source].owner = false
+    local race = race[raceID]
+    table.insert(race.players, playerInfo[source])
+    print(ESX.DumpTable(playerInfo))
+    print(ESX.DumpTable(races))
+    TriggerClientEvent('gcphone:racing:updateCurrentRace', source, races[raceID])
     TriggerClientEvent('gcphone:racing:setRaces', -1, races)
-    local response  ={}
+    race.playersCount = #race.players
+    local response = {}
     response.success = true
     response.races = races
-    response.race = race[data.raceID]
+    response.race = race
     cb(response)
 end)
 

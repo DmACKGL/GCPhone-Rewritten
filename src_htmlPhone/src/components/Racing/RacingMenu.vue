@@ -10,7 +10,7 @@
           :key="key"
           class="element card shadow mr-3"
           :class="{'active': selectIndex === key}"
-          @click.stop="selectItem(val)"
+          @click.stop="selectItem(key)"
         >
           <h5 class="card-title">
             {{ val.eventName }}
@@ -231,7 +231,15 @@ export default {
       })
     },
     doStartRace() {
-
+      PhoneAPI.startRace(this.raceInfo.raceID)
+        .then(() =>{
+          Swal.fire({
+            icon: 'success',
+            target: '.phone_screen',
+            showConfirmButton: false,
+            timer: 1000
+          }).then(() => PhoneAPI.closePhone())
+        })
     },
     doStopRace() {
 
@@ -344,7 +352,8 @@ export default {
       }
     },
     async selectItem (item) {
-      const raceID = item.num
+      const raceID = item.raceID
+      console.log(raceID)
       this.ignoreControls = true
       this.$bus.$emit('ignoreControls', true)
       let choix = [
@@ -371,7 +380,8 @@ export default {
                 Swal.hideLoading(); //might not be necessary
               },
             })
-            this.racingJoin(raceID, data.text)
+            console.log(raceID, data.text)
+            this.racingJoin({raceID: raceID, alias: data.text})
               .then(response => {
                 if (response) {
                   Swal.fire({
@@ -380,6 +390,7 @@ export default {
                     showConfirmButton: false,
                     timer: 1500
                   })
+                  this.$router.go(0);
                 } else {
                   Swal.fire({
                     icon: 'error',
@@ -387,6 +398,7 @@ export default {
                     showConfirmButton: false,
                     timer: 1500
                   })
+                  this.$router.go(0);
                 }
               })
           })
