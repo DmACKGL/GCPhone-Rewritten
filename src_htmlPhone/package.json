@@ -58,7 +58,7 @@
     "compression-webpack-plugin": "^4.0.0",
     "connect-history-api-fallback": "^1.5.0",
     "copy-webpack-plugin": "^8.1.0",
-    "css-loader": "^0.28.11",
+    "css-loader": "^5.2.0",
     "css-minimizer-webpack-plugin": "^1.3.0",
     "eslint": "^7.22.0",
     "eslint-config-standard": "^6.2.1",
