@@ -30,41 +30,42 @@ files {
 }
 
 client_script {
-	"@es_extended/locale.lua",
-	"locales/en.lua",
-	"locales/es.lua",
-	"config.lua",
-	"client/animation.lua",
-	"client/client.lua",
-	"client/photo.lua",
-	"client/app_tchat.lua",
-	"client/bank.lua",
-	"client/twitter.lua",
+	'@es_extended/locale.lua',
+	'locales/en.lua',
+	'locales/es.lua',
+	'config.lua',
+	'client/animation.lua',
+	'client/client.lua',
+	'client/photo.lua',
+	'client/app_tchat.lua',
+	'client/bank.lua',
+	'client/twitter.lua',
 
 	-- ADDONS
 
 	-- Racing
-	"addons/racing/client.lua",
+	'addons/racing/client.lua',
 
 	-- Service calls
-	"addons/pscall/client.lua"
+	'addons/pscall/client.lua'
 }
 
 server_script {
-	"@mysql-async/lib/MySQL.lua",
-	"@es_extended/locale.lua",
-	"locales/en.lua",
-	"locales/es.lua",
-	"config.lua",
-	"server/server.lua",
-	"server/app_tchat.lua",
-	"server/twitter.lua",
+	'@mysql-async/lib/MySQL.lua',
+	'@es_extended/locale.lua',
+	'locales/en.lua',
+	'locales/es.lua',
+	'config.lua',
+	'secrets.lua',
+	'server/server.lua',
+	'server/app_tchat.lua',
+	'server/twitter.lua',
 
 	-- ADDONS
 
 	-- Racing
-	"addons/racing/server.lua",
+	'addons/racing/server.lua',
 
 	-- Service calls
-	"addons/pscall/server.lua"
+	'addons/pscall/server.lua'
 }

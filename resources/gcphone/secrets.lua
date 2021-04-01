@@ -1,0 +1,1 @@
+Config.Discord_Webhook = '' -- Set Discord Webhook (WIP)
