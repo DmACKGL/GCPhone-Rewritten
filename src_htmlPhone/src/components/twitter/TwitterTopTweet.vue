@@ -288,10 +288,8 @@ export default {
     },
     async onEnter() {
       if (this.ignoreControls === true) return
-      if (this.selectMessage === -1) {
-        this.newTweet()
-      } else {
-        this.showOption()
+      if (this.selectMessage !== -1) {
+        await this.showOption()
       }
     },
     onBack() {
