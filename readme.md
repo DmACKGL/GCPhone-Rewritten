@@ -8,7 +8,7 @@
   <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/DmACKGL/GCPhone-Rewrite/total?style=for-the-badge">
   <br>
   <img alt="StyleCI" src="https://github.styleci.io/repos/349118467/shield">
-  <img src='https://bettercodehub.com/edge/badge/DmACKGL/GCPhone-Rewrite?branch=master'>
+  <img src='https://bettercodehub.com/edge/badge/DmACKGL/GCPhone-Rewrite?branch=master' alt="">
 </h1>
 
 <!-- TABLE OF CONTENTS -->
@@ -66,7 +66,11 @@ This is an example of how to list things you need to use the software and how to
   npm install yarn -g
   ```
 
-### Installation
+### Installation Production
+
+Download the latest release of this resource here: https://github.com/DmACKGL/GCPhone-Rewritten/releases
+
+### Installation DEV
 
 1. Clone the repo
    ```sh
@@ -74,6 +78,7 @@ This is an example of how to list things you need to use the software and how to
    ```
 2. Install Yarn packages
    ```sh
+   cd src_htmlPhone
    yarn install
    ```
 3. Build the project
@@ -82,7 +87,7 @@ This is an example of how to list things you need to use the software and how to
       yarn run build
       ```
    2. For development
-      ```
+      ```sh
       yarn run dev
       ```
       
