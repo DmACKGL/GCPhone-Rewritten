@@ -361,7 +361,7 @@ export default {
       const rep = await Modal.CreateModal({ choix })
       this.ignoreControls = false
       this.$bus.$emit('ignoreControls', false)
-      switch (rep.id) {
+      switch (rep.id ?? 999) {
         case 0:
           this.$phoneAPI.getReponseText({limit: 10, text: this.IntlString('APP_RACING_CREATE_ALIAS')}).then(data => {
             Swal.fire({
@@ -398,6 +398,8 @@ export default {
                 }
               })
           })
+          break
+        case 999:
           break
       }
     },
