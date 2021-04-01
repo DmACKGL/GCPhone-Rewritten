@@ -56,7 +56,6 @@ server_script {
 	'locales/en.lua',
 	'locales/es.lua',
 	'config.lua',
-	'secrets.lua',
 	'server/server.lua',
 	'server/app_tchat.lua',
 	'server/twitter.lua',
