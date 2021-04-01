@@ -438,8 +438,8 @@ AddEventHandler("gcPhone:acceptCall", function(infoCall, initiator)
     if Config.UseMumbleVoIP then
       exports["mumble-voip"]:SetCallChannel(infoCall.id+1)
     elseif Config.UseSaltyChat then
-      exports['saltychat']:EstablishCall(AppelsEnCours[id].receiver_src, AppelsEnCours[id].transmitter_src)
-      exports['saltychat']:EstablishCall(AppelsEnCours[id].transmitter_src, AppelsEnCours[id].receiver_src)
+      exports['saltychat']:EstablishCall(AppelsEnCours[id].receiver_src, AppelsEnCours[id].transmitter_src) --Assign Channel
+      exports['saltychat']:EstablishCall(AppelsEnCours[id].transmitter_src, AppelsEnCours[id].receiver_src) --Assign Channel
     else
       NetworkSetVoiceChannel(infoCall.id + 1)
       NetworkSetTalkerProximity(0.0)
@@ -459,8 +459,8 @@ AddEventHandler("gcPhone:rejectCall", function(infoCall)
     if Config.UseMumbleVoIP then
       exports["mumble-voip"]:SetCallChannel(0)
     elseif Config.UseSaltyChat then
-      exports['saltychat']:EndCall(AppelsEnCours[id].receiver_src, AppelsEnCours[id].transmitter_src)
-      exports['saltychat']:EndCall(AppelsEnCours[id].transmitter_src, AppelsEnCours[id].receiver_src)
+      exports['saltychat']:EndCall(AppelsEnCours[id].receiver_src, AppelsEnCours[id].transmitter_src) --Assign Channel
+      exports['saltychat']:EndCall(AppelsEnCours[id].transmitter_src, AppelsEnCours[id].receiver_src) --Assign Channel
     else
       Citizen.InvokeNative(0xE036A705F989E049)
       NetworkSetTalkerProximity(2.5)
