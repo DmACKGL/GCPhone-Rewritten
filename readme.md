@@ -68,7 +68,7 @@ This is an example of how to list things you need to use the software and how to
 
 ### Installation Production
 
-Download the latest release of this resource here: https://github.com/DmACKGL/GCPhone-Rewritten/releases
+Download the latest release of this resource [HERE](https://github.com/DmACKGL/GCPhone-Rewritten/releases)
 
 ### Installation DEV
 
