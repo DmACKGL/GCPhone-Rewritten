@@ -148,11 +148,6 @@ window.APP = new Vue({
   router,
   render: h => h(App)
 })
-this.$router.push("path").catch(error => {
-  if (error.name !== "NavigationDuplicated") {
-    throw error;
-  }
-});
 
 Sentry.init({
   Vue,
