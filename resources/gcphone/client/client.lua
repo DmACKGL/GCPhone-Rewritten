@@ -328,7 +328,7 @@ AddEventHandler("gcPhone:receiveMessage", function(message)
   -- SendNUIMessage({event = 'updateMessages', messages = messages})
   SendNUIMessage({event = 'newMessage', message = message})
   table.insert(messages, message)
-  if hasPhone then
+  if hasPhone() then
     if message.owner == 0 then
       local app = _U('new_message')
       if Config.ShowNumberNotification == true then
@@ -430,7 +430,7 @@ AddEventHandler("gcPhone:waitingCall", function(infoCall, initiator)
     if menuIsOpen == false then
       TooglePhone()
     end
-  elseif hasPhone then
+  elseif hasPhone() then
     SendNUIMessage({event = 'waitingCall', infoCall = infoCall, initiator = initiator})
   end
 end)
