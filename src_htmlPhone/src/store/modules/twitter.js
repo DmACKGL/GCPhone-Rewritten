@@ -63,7 +63,7 @@ const actions = {
   },
   addTweet({commit, state}, tweet) {
     let notif = state.twitterNotification === 2
-    if (state.twitterNotification === 1) {
+    if (state.twitterNotification === 1 && tweet.message && state.twitterUsername) {
       notif = tweet.message && tweet.message.toLowerCase().indexOf(state.twitterUsername.toLowerCase()) !== -1
     }
     if (notif === true) {
