@@ -44,6 +44,6 @@ export default {
         modal.$el.parentNode.removeChild(modal.$el)
         modal.$destroy()
       })
-    })
+    }).catch(() => this.$phoneAPI.log('UserCancel'))
   }
 }
