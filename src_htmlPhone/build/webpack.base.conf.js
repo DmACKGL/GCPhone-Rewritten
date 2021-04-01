@@ -3,7 +3,6 @@ const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 const { VueLoaderPlugin } = require('vue-loader')
-const SentryWebpackPlugin = require("@sentry/webpack-plugin");
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -28,17 +27,7 @@ module.exports = {
     }
   },
   plugins: [
-    new VueLoaderPlugin(),
-    new SentryWebpackPlugin({
-      // sentry-cli configuration
-      authToken: process.env.SENTRY_AUTH_TOKEN,
-      org: "gcphone",
-      project: "app",
-
-      // webpack specific configuration
-      include: ".",
-      ignore: ["node_modules", "webpack.base.conf.js", "webpack.base.dev.js", "webpack.base.prod.js"],
-    }),
+    new VueLoaderPlugin()
   ],
   module: {
     rules: [
