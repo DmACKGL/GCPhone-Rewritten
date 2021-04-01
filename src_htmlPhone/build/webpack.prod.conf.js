@@ -28,9 +28,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     chunkFilename: utils.assetsPath('js/[id].[contenthash].js')
   },
   optimization: {
-    runtimeChunk: {
-      name: (entrypoint) => `runtimechunk~${entrypoint.name}`,
-    },
+    runtimeChunk: true,
     minimize: true,
     minimizer: [
       new TerserPlugin({
