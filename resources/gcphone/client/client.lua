@@ -437,9 +437,9 @@ AddEventHandler("gcPhone:acceptCall", function(infoCall, initiator)
     inCall = true
     if Config.UseMumbleVoIP then
       exports["mumble-voip"]:SetCallChannel(infoCall.id+1)
-    elseif Config.UseTokoVoIP then
-      exports.tokovoip_script:addPlayerToRadio(infoCall.id + 120)
-      TokoVoipID = infoCall.id + 120
+    elseif Config.UseSaltyChat then
+      exports['saltychat']:EstablishCall(AppelsEnCours[id].receiver_src, AppelsEnCours[id].transmitter_src)
+      exports['saltychat']:EstablishCall(AppelsEnCours[id].transmitter_src, AppelsEnCours[id].receiver_src)
     else
       NetworkSetVoiceChannel(infoCall.id + 1)
       NetworkSetTalkerProximity(0.0)
@@ -458,9 +458,9 @@ AddEventHandler("gcPhone:rejectCall", function(infoCall)
     inCall = false
     if Config.UseMumbleVoIP then
       exports["mumble-voip"]:SetCallChannel(0)
-    elseif Config.UseTokoVoIP then
-      exports.tokovoip_script:removePlayerFromRadio(TokoVoipID)
-      TokoVoipID = nil
+    elseif Config.UseSaltyChat then
+      exports['saltychat']:EndCall(AppelsEnCours[id].receiver_src, AppelsEnCours[id].transmitter_src)
+      exports['saltychat']:EndCall(AppelsEnCours[id].transmitter_src, AppelsEnCours[id].receiver_src)
     else
       Citizen.InvokeNative(0xE036A705F989E049)
       NetworkSetTalkerProximity(2.5)
