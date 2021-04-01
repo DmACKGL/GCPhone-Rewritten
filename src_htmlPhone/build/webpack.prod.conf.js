@@ -27,17 +27,21 @@ const webpackConfig = merge(baseWebpackConfig, {
     chunkFilename: utils.assetsPath('js/[id].[contenthash].js')
   },
   optimization: {
-    runtimeChunk: 'single', // enable "runtime" chunk
+    runtimeChunk: 'single',
     splitChunks: {
+      chunks: 'all',
+      maxInitialRequests: Infinity,
+      minSize: 0,
       cacheGroups: {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
-          name: 'vendor',
-          chunks: 'all',
-          filename: utils.assetsPath('js/[name].[contenthash].bundle.js')
-        }
-      }
-    }
+          name(module) {
+            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+            return `npm.${packageName.replace('@', '')}`;
+          },
+        },
+      },
+    },
   },
   plugins: [
     // extract css into its own file

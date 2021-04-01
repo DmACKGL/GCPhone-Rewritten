@@ -1,38 +1,38 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Home from '@/components/Home'
-import Menu from '@/components/Menu'
+const Home = () => import('@/components/Home')
+const Menu = () => import('@/components/Menu')
 
-import Contacts from '@/components/contacts/Contacts'
-import Contact from '@/components/contacts/Contact'
+const Contacts = () => import('@/components/contacts/Contacts')
+const Contact = () => import('@/components/contacts/Contact')
 
-import MessagesList from '@/components/messages/MessagesList'
-import Messages from '@/components/messages/Messages'
-import MessageContactsSelect from '@/components/messages/MessageContactsSelect'
+const MessagesList = () => import('@/components/messages/MessagesList')
+const Messages = () => import('@/components/messages/Messages')
+const MessageContactsSelect = () => import('@/components/messages/MessageContactsSelect')
 
-import Appels from '@/components/Appels/Appels'
-import AppelsActive from '@/components/Appels/AppelsActive'
-import AppelsNumber from '@/components/Appels/AppelsNumber'
+const Appels = () => import('@/components/Appels/Appels')
+const AppelsActive = () => import('@/components/Appels/AppelsActive')
+const AppelsNumber = () => import('@/components/Appels/AppelsNumber')
 
-import TchatSplashScreen from '@/components/Tchat/TchatSplashScreen'
-import TchatChannel from '@/components/Tchat/TchatChannel'
-import TchatMessage from '@/components/Tchat/TchatMessage'
+const TchatSplashScreen = () => import('@/components/Tchat/TchatSplashScreen')
+const TchatChannel = () => import('@/components/Tchat/TchatChannel')
+const TchatMessage = () => import('@/components/Tchat/TchatMessage')
 
-import NotesChannel from '@/components/Notes/NotesChannel'
-import NotesMessage from '@/components/Notes/NotesMessage'
+const NotesChannel = () => import('@/components/Notes/NotesChannel')
+const NotesMessage = () => import('@/components/Notes/NotesMessage')
 
-import TwitterSpashScreen from '@/components/twitter/TwitterSpashScreen'
-import TwitterScreen from '@/components/twitter/TwitterScreen'
+const TwitterSpashScreen = () => import('@/components/twitter/TwitterSpashScreen')
+const TwitterScreen = () => import('@/components/twitter/TwitterScreen')
 
-import Parametre from '@/components/parametre/Parametre'
-import Bank from '@/components/Bank/Bank'
-import Bourse from '@/components/Bourse/Bourse'
-import Photo from '@/components/Photo/Photo'
+const Parametre = () => import('@/components/parametre/Parametre')
+const Bank = () => import('@/components/Bank/Bank')
+const Bourse = () => import('@/components/Bourse/Bourse')
+const Photo = () => import('@/components/Photo/Photo')
 
-import App9GAG from '@/components/App9GAG'
+const App9GAG = () => import('@/components/App9GAG')
 
-import RacingScreen from "../components/Racing/RacingScreen";
+const RacingScreen = () => import("../components/Racing/RacingScreen")
 
 Vue.use(Router)
 
