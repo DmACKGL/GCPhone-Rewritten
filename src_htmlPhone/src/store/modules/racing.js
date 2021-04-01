@@ -8,6 +8,7 @@ const state = {
     active: false,
     status: 0,
     raceID: null,
+    PI: 0,
 
     currentLap: 0,
     totalLaps: 0,
@@ -38,14 +39,8 @@ const actions = {
         if (response.data.code) {
           commit('RACING_SET_RACES', response.data.races)
           commit('RACING_SET_TRACKS', response.data.tracks)
-          if (response.data.userInfo) {
-            dispatch('setRacingTotalLaps', getters.races.find(race => race.raceID === response.data.userInfo.raceID).Laps)
-            dispatch('setRacingTotalCheckpoints', getters.races.find(race => race.raceID === response.data.userInfo.raceID).checkpointsCount)
-            dispatch('setRacingPlayers', getters.races.find(race => race.raceID === response.data.userInfo.raceID).playersCount)
-            dispatch('setRacingID', response.data.userInfo.raceID)
-            dispatch('setRacingActive', true)
-          } else {
-            dispatch('setRacingActive', false)
+          if (getters.raceInfo.raceID && getters.races.find(race => race.raceID === getters.raceInfo.raceID)) {
+            dispatch('setRacingPlayers', getters.races.find(race => race.raceID === getters.raceInfo.raceID).players.length)
           }
           return true
         } else {
@@ -60,20 +55,21 @@ const actions = {
   racingReset({commit}) {
     commit('RACING_RESET')
   },
-  setRaces({commit}, races) {
-    commit('RACING_SET_RACES', races)
-  },
 
-  racingJoin({commit, dispatch}, data) {
+  racingJoin({commit, getters, dispatch}, data) {
     commit('RACING_SET_PROCCESING', true)
     return PhoneAPI.joinRace(data.raceID, data.alias)
       .then(response => {
+        console.log(response.data)
         if (response.data.success) {
+          console.log("JOIN", response.data.success, response.data.eventID, response.data.playerIndex)
+          dispatch('setRacingTotalLaps', getters.races.find(race => race.raceID === response.data.eventID).Laps)
+          dispatch('setRacingTotalCheckpoints', getters.races.find(race => race.raceID === response.data.eventID).checkpointsCount)
+          dispatch('setRacingPlayers', getters.races.find(race => race.raceID ===response.data.eventID).players.length)
+          dispatch('setRacingID', response.data.eventID)
+          dispatch('setPlayerIndex', response.data.playerIndex)
+          dispatch('setRacingActive', true)
           dispatch('racingGet')
-          return setTimeout(() => {
-            commit('RACING_SET_PROCCESING', false)
-            return true
-          }, 2000)
         } else {
           return false
         }
@@ -86,12 +82,13 @@ const actions = {
   racingCreate({commit, dispatch}, data) {
     return PhoneAPI.createRace(data)
       .then(response => {
-        if (response) {
+        if (response.data.success) {
           dispatch('racingGet')
           return setTimeout(() => {
+            dispatch('racingJoin', {raceID: response.data.eventID, alias: response.data.alias})
             commit('RACING_SET_PROCCESING', false)
             return true
-          }, 2000)
+          }, 500)
         } else {
           return false
         }
@@ -113,6 +110,11 @@ const actions = {
   setRacingID({commit, state}, id) {
     commit('SET_RACING_RACEID', id)
     return state.raceInfo.raceID
+  },
+
+  setPlayerIndex({commit, state}, PI) {
+    commit('SET_RACING_PI', PI)
+    return state.raceInfo.PI
   },
 
   // Laps
@@ -183,6 +185,10 @@ const mutations = {
   },
   SET_RACING_RACEID(state, raceID) {
     state.raceInfo.raceID = raceID
+  },
+
+  SET_RACING_PI(state, PI) {
+    state.raceInfo.PI = PI
   },
 
   // Laps

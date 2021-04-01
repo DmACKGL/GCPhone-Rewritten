@@ -36,16 +36,9 @@ ESX.RegisterServerCallback('gcphone:getRaces', function(source, cb)
     cb(data)
 end)
 
-ESX.RegisterServerCallback('gcphone:startRace', function(source, cb, raceID)
-	data.race[raceID].status = 1
-    local data = {}
-    data.code = true
-    data.races = races
-    data.tracks = tracks
-    if playerInfo[source] ~= nil then
-        data.userInfo = playerInfo[source]
-    end
-    cb(data)
+ESX.RegisterServerCallback('gcphone:startRace', function(source, cb, data)
+    TriggerClientEvent('gcphone:racing:startRace', -1, data.raceID)
+    cb(true)
 end)
 
 
@@ -53,6 +46,8 @@ end)
 ESX.RegisterServerCallback('gcphone:createRace', function(source, cb, data)
     try {
         function()
+            local alias = data.raceInfo.yourAlias
+            local raceID = #races+1
             race = {}
             race.raceID = #races+1
             race.trackID = data.raceInfo.trackID
@@ -68,19 +63,16 @@ ESX.RegisterServerCallback('gcphone:createRace', function(source, cb, data)
             race.checkpoints = json.decode(tracks[race.trackID].checkpoints)
             race.checkpointsCount = #json.decode(tracks[race.trackID].checkpoints)
             race.players = {}
-            playerInfo[2] = {}
-            playerInfo[2].id = 2
-            playerInfo[2].raceID = race.raceID
-            playerInfo[2].alias = data.raceInfo.yourAlias
-            playerInfo[2].checkpoint = 0
-            playerInfo[2].position = 0
-            playerInfo[2].owner = true
-            table.insert(race.players, playerInfo[2])
-            race.playersCount = #race.players
             table.insert(races, race)
-            TriggerClientEvent('gcphone:racing:updateCurrentRace', 2, race)
             TriggerClientEvent('gcphone:racing:setRaces', -1, races)
-            cb(true)
+            TriggerClientEvent('gcphone:racing:updateCurrentRace', source, raceID)
+            TriggerClientEvent('gcphone:racing:updateJoinedRaces', source, raceID, true)
+            TriggerClientEvent('gcphone:racing:NUIsetRaces', -1)
+            local data = {}
+            data.success = true
+            data.eventID = raceID
+            data.alias = alias
+            cb(data)
         end,
         catch {
             function()
@@ -92,31 +84,27 @@ end)
 
 ESX.RegisterServerCallback('gcphone:joinRace', function(source, cb, data)
     local raceID = tonumber(data.raceID)
-    print(ESX.DumpTable(races))
-    print(ESX.DumpTable(races[raceID]))
-    playerInfo[source] = {}
-    playerInfo[source].id = source
-    playerInfo[source].raceID = raceID
-    playerInfo[source].alias = data.yourAlias
-    playerInfo[source].checkpoint = 0
-    playerInfo[source].position = 0
-    playerInfo[source].owner = false
-    local race = race[raceID]
-    table.insert(race.players, playerInfo[source])
-    print(ESX.DumpTable(playerInfo))
-    print(ESX.DumpTable(races))
-    TriggerClientEvent('gcphone:racing:updateCurrentRace', source, races[raceID])
-    TriggerClientEvent('gcphone:racing:setRaces', -1, races)
-    race.playersCount = #race.players
-    local response = {}
-    response.success = true
-    response.races = races
-    response.race = race
-    cb(response)
+    if races[data.raceID] then
+        playerInfo = {}
+        playerInfo.id = source
+        playerInfo.alias = data.yourAlias
+        playerInfo.checkpoint = 0
+        playerInfo.position = 0
+        local index = #races[data.raceID].players+1
+        races[data.raceID].players[index] = playerInfo
+        TriggerClientEvent('gcphone:racing:setRaces', -1, races)
+        TriggerClientEvent('gcphone:racing:NUIsetRaces', -1)
+        TriggerClientEvent('gcphone:racing:updateCurrentRace', source, raceID)
+        TriggerClientEvent('gcphone:racing:updateJoinedRaces', source, raceID, true)
+        local response = {}
+        response.success = true
+        response.eventID = data.raceID
+        response.playerIndex = index
+        cb(response)
+    else
+        cb(false)
+    end
 end)
-
--- Server side array of active races
-
 
 Citizen.CreateThread(function()
     local result = MySQL.Sync.fetchAll("SELECT * FROM racing_tracks")

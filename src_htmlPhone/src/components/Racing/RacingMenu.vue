@@ -390,7 +390,6 @@ export default {
                     showConfirmButton: false,
                     timer: 1500
                   })
-                  this.$router.go(0);
                 } else {
                   Swal.fire({
                     icon: 'error',
@@ -398,7 +397,6 @@ export default {
                     showConfirmButton: false,
                     timer: 1500
                   })
-                  this.$router.go(0);
                 }
               })
           })

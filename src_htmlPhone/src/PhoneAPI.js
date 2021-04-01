@@ -220,8 +220,8 @@ class PhoneAPI {
   onupdateRacingID(data) {
     store.dispatch('setRacingID', data.data)
   }
-  onupdateRacingRaces(data) {
-    store.dispatch('setRaces', data.data)
+  onupdateRacingRaces() {
+    store.dispatch('racingGet')
   }
 
   // Laps

@@ -8,6 +8,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const env = config.build.env
 
@@ -72,18 +73,17 @@ const webpackConfig = merge(baseWebpackConfig, {
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       }
-    ])
+    ]),
+    new  BundleAnalyzerPlugin({
+      analyzerMode:  'static', //para que lo haga sólo al momento de hacer el build
+      openAnalyzer:  false, //para que nos muestre el resultado inmediatamente
+    }),
   ]
 })
 
 if (config.build.productionGzip) {
   const CompressionPlugin = require("compression-webpack-plugin");
   webpackConfig.plugins.push(new CompressionPlugin())
-}
-
-if (config.build.bundleAnalyzerReport) {
-  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-  webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
 
 module.exports = webpackConfig
