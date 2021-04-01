@@ -353,7 +353,6 @@ export default {
     },
     async selectItem (item) {
       const raceID = item.raceID
-      console.log(raceID)
       this.ignoreControls = true
       this.$bus.$emit('ignoreControls', true)
       let choix = [
@@ -380,7 +379,6 @@ export default {
                 Swal.hideLoading(); //might not be necessary
               },
             })
-            console.log(raceID, data.text)
             this.racingJoin({raceID: raceID, alias: data.text})
               .then(response => {
                 if (response) {

@@ -60,9 +60,7 @@ const actions = {
     commit('RACING_SET_PROCCESING', true)
     return PhoneAPI.joinRace(data.raceID, data.alias)
       .then(response => {
-        console.log(response.data)
         if (response.data.success) {
-          console.log("JOIN", response.data.success, response.data.eventID, response.data.playerIndex)
           dispatch('setRacingTotalLaps', getters.races.find(race => race.raceID === response.data.eventID).Laps)
           dispatch('setRacingTotalCheckpoints', getters.races.find(race => race.raceID === response.data.eventID).checkpointsCount)
           dispatch('setRacingPlayers', getters.races.find(race => race.raceID ===response.data.eventID).players.length)
