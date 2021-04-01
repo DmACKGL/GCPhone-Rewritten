@@ -68,7 +68,7 @@
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-html": "^6.1.2",
-    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-promise": "^4.3.1",
     "eslint-plugin-standard": "^2.0.1",
     "eslint-plugin-vue": "^7.7.0",
     "eventsource-polyfill": "^0.9.6",
