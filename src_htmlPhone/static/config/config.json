@@ -1,4 +1,5 @@
 {
+  "currency": "USD",
   "reseau": "Rewritten",
   "warningMessageCount": 250,
   "themeColor": "#007aff",
@@ -266,6 +267,12 @@
       "name": "9GAG",
       "icons": "/html/static/img/icons_app/9gag.png",
       "routeName": "9gag"
+    },
+    {
+      "name": "Racing",
+      "es_ES__name": "Carreras",
+      "icons": "/html/static/img/icons_app/races.png",
+      "routeName": "racing"
     }
   ],
   "defaultLanguage": "en_US",
@@ -518,6 +525,41 @@
       "APP_BANK_BUTTON_CANCEL": "Cancel",
       "APP_DARKTCHAT_NEW_NOTE": "New note",
       "APP_DARKTCHAT_DELETE_NOTE": "Delete note",
+
+      "_comment_RACING": "CHOIX",
+      "APP_RACING_JOIN": "Join Race",
+
+      "APP_RACING_JOINING": "Joining Race",
+      "APP_RACING_PRIZE": "Prize",
+      "APP_RACING_YOU": "You",
+      "APP_RACING_LEAVE": "Leave",
+      "APP_RACING_START": "START RACE",
+      "APP_RACING_STOP": "STOP RACE",
+
+      "APP_RACING_MENU_RACES": "Races",
+      "APP_RACING_MENU_MAPS": "Create",
+      "APP_RACING_MENU_LEADERBOARD": "Leaderboard",
+
+
+
+      "_comment_RACING_CREATE": "CREATE FORM",
+      "APP_RACING_CREATE": "Create Race",
+      "APP_RACING_CREATE_PREVIEW": "Preview",
+      "APP_RACING_CREATE_GPS": "Set GPS",
+
+      "APP_RACING_CREATE_EVENTNAME": "Event Name",
+      "APP_RACING_CREATE_ALIAS": "Your Alias",
+      "APP_RACING_CREATE_LAPS": "Laps",
+      "APP_RACING_CREATE_MONEY": "Cost",
+      "APP_RACING_CREATE_COUNTDOWN": "Countdown to Start",
+      "APP_RACING_CREATE_COUNTDOWN_SHORT": "C.S.T",
+      "APP_RACING_CREATE_REVERSE": "Reverse",
+      "APP_RACING_CREATE_POSITION": "Show Position",
+      "APP_RACING_CREATE_POSITION_SHORT": "S.P",
+      "APP_RACING_CREATE_SEND_NOTIFICATION": "Send Notification",
+      "APP_RACING_CREATE_REQUEST_TITLE": "Creating Race",
+      "APP_RACING_CREATE_REQUEST_TEXT": "Creating Race",
+
       "TIMEAGO": [
         "just now",
         [
@@ -1090,3 +1132,4 @@
     }
   }
 }
+

@@ -4,7 +4,7 @@
     class="home"
     :style="{background: 'url(' + backgroundURL +')'}"
     :class="{
-      'deblur' : prevRoute.path === '/menu',
+      'deblur' : doDeblur,
     }"
   >
     <InfoBare />
@@ -101,12 +101,24 @@ export default {
   data() {
     return {
       timeDisplay: null,
-      currentSelect: 0,
+      currentSelect: 2,
       prevRoute: '/',
+      doDeblur: false,
     }
   },
   computed: {
     ...mapGetters(['notification', 'notificationInfo', 'IntlString', 'useMouse', 'nbMessagesUnread', 'backgroundURL', 'messages', 'AppsHome', 'warningMessageCount'])
+  },
+  watch: {
+    prevRoute() {
+      if (this.prevRoute.path === '/menu') {
+        const self = this
+        self.doDeblur = true;
+        setTimeout(function(){
+          self.doDeblur = false;
+        }, 200);
+      }
+    }
   },
   created() {
     if (!this.useMouse) {
@@ -346,14 +358,19 @@ button.select, button:hover {
   position: absolute;
   background-size: cover !important;
   background-position: center !important;
-  -webkit-animation: deblur 500ms;
-  filter: blur(0px);
+  -webkit-animation: deblur 200ms ease;
 }
 
 @keyframes deblur {
-  0% { filter: blur(6px);}
-  50% { filter: blur(3px);}
-  100% { filter: blur(0px);}
+  0% {
+    -webkit-filter: blur(6px);
+  }
+  50% {
+    -webkit-filter: blur(3px);
+  }
+  100% {
+    -webkit-filter: blur(0px);
+  }
 }
 
 

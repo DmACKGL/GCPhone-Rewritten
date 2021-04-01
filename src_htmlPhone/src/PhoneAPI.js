@@ -37,7 +37,7 @@ class PhoneAPI {
             return response
           }
       })
-      .catch(error => error);
+      .catch(error => this.log(error));
   }
 
   async log(...data) {
@@ -189,6 +189,66 @@ class PhoneAPI {
   }
 
   // ==========================================================================
+  // Racing
+  // ==========================================================================
+
+  getRaces() {
+    return this.post('getRaces')
+  }
+  joinRace(raceID, yourAlias) {
+    return this.post('joinRace', {raceID, yourAlias})
+  }
+  createRace(raceInfo) {
+    return this.post('createRace', {raceInfo})
+  }
+
+  setRaceGPS(raceID) {
+    return this.post('racingSetGPS', {raceID: raceID})
+  }
+
+  startRace(raceID) {
+    return this.post('racingStartRace', {raceID: raceID})
+  }
+
+  // Core
+  onupdateRacingActive(data) {
+    store.dispatch('setRacingActive', data.data)
+  }
+  onupdateRacingStatus(data) {
+    store.dispatch('setRacingStatus', data.data)
+  }
+  onupdateRacingID(data) {
+    store.dispatch('setRacingID', data.data)
+  }
+  onupdateRacingRaces() {
+    store.dispatch('racingGet')
+  }
+
+  // Laps
+  onupdateRacingCurrentLap(data) {
+    store.dispatch('setRacingCurrentLap', data.data)
+  }
+  onupdateRacingLaps(data) {
+    store.dispatch('setRacingTotalLaps', data.data)
+  }
+
+  // Checkpoint
+  onupdateRacingCurrentCheckpoint(data){
+    store.dispatch('setRacingCurrentCheckpoint', data.data)
+  }
+  onupdateRacingCheckpoints(data) {
+    store.dispatch('setRacingTotalCheckpoints', data.data)
+  }
+
+  // Players
+  onupdateRacingCurrentPosition(data) {
+    store.dispatch('setRacingCurrentPosition', data.data)
+  }
+  onupdateRacingPlayers(data) {
+    store.dispatch('setRacingPlayers', data.data)
+  }
+
+  // ==========================================================================
   //  Gestion des events
   // ==========================================================================
   onupdateMyPhoneNumber(data) {
@@ -240,6 +300,7 @@ class PhoneAPI {
       return this.post('startCall', {numero, extraData})
     }
   }
+
 
   async acceptCall(infoCall) {
     if (USE_VOICE_RTC === true) {
@@ -404,9 +465,6 @@ class PhoneAPI {
         src: path,
         volume: volume,
         loop: true,
-        onend: function () {
-          console.log('Finished!')
-        }
       })
       this.soundList[sound].play()
     }

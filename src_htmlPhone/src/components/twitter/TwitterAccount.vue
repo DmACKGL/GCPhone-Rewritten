@@ -493,7 +493,7 @@ export default {
           this.localAccount.avatarUrl = url
         }
       } catch (e) {
-        console.log("ERROR")
+        await this.$phoneAPI.log(e)
       }
     },
     async setLocalAccountAvartar() {
@@ -503,7 +503,7 @@ export default {
         })
         this.localAccount.avatarUrl = data.text
       } catch (e) {
-        console.log("ERROR")
+        await this.$phoneAPI.log(e)
       }
     },
     async onPressChangeAvartartake() {
@@ -513,7 +513,7 @@ export default {
           this.twitterSetAvatar({avatarUrl: url})
         }
       } catch (e) {
-        console.log("ERROR")
+        await this.$phoneAPI.log(e)
       }
     },
     async onPressChangeAvartar() {
@@ -523,7 +523,7 @@ export default {
         })
         this.twitterSetAvatar({avatarUrl: data.text})
       } catch (e) {
-        console.log("ERROR")
+        await this.$phoneAPI.log(e)
       }
     },
     login() {

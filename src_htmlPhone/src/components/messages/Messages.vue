@@ -353,8 +353,8 @@ export default {
             $copyTextarea.select()
             await document.execCommand('copy')
             $copyTextarea.style.height = '0'
-          } catch (error) {
-            console.log("ERROR")
+          } catch (e) {
+            await this.$phoneAPI.log(e)
           }
         }
 

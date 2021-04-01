@@ -282,10 +282,6 @@ AddEventHandler("gcPhone:forceOpenPhone", function(_myPhoneNumber)
   end
 end)
 
---====================================================================================
---  Events
---====================================================================================
-
 -- TEST NOTIFICATIONS
 RegisterNetEvent("gcPhone:testNotifications")
 AddEventHandler("gcPhone:testNotifications", function()
@@ -300,8 +296,8 @@ AddEventHandler("gcPhone:testNotifications", function()
       message = 'Hola esta es una prueba de notificaciones ekisde jajaja'
     },
   })
-  
 end)
+
 
 RegisterNetEvent("gcPhone:myPhoneNumber")
 AddEventHandler("gcPhone:myPhoneNumber", function(_myPhoneNumber)

@@ -216,8 +216,6 @@ export default {
         this.addContact({
           number: numero
         })
-      } else {
-        console.log('No añadido')
       }
       history.back()
     },

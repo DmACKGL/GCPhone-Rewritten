@@ -1,31 +1,34 @@
 <template>
-  <div
-    style="height: 100vh; width: 100vw;"
-    @contextmenu="closePhone"
-  >
-    <notification />
+  <div>
     <div
-      v-if="showPhone && tempoHide === false"
-      :style="{zoom: zoom}"
-      :class="{
-        'getin-phone': !notification && showPhone,
-        'getout-phone': !notification && fadeout,
-        'notin-phone': notification,
-      }"
-      @contextmenu.stop
+      style="height: 100vh; width: 100vw;"
+      @contextmenu="closePhone"
     >
-      <div class="phone_wrapper">
-        <div
-          v-if="coque"
-          class="phone_coque"
-          :style="{backgroundImage: 'url(/html/static/img/coque/' + coque.value + ')'}"
-        />
+      <RacingHUD v-if="raceInfo.active" />
+      <notification />
+      <div
+        v-if="showPhone && tempoHide === false"
+        :style="{zoom: zoom}"
+        :class="{
+          'getin-phone': !notification && showPhone,
+          'getout-phone': !notification && fadeout,
+          'notin-phone': notification,
+        }"
+        @contextmenu.stop
+      >
+        <div class="phone_wrapper">
+          <div
+            v-if="coque"
+            class="phone_coque"
+            :style="{backgroundImage: 'url(/html/static/img/coque/' + coque.value + ')'}"
+          />
 
-        <div
-          id="app"
-          class="phone_screen"
-        >
-          <router-view />
+          <div
+            id="app"
+            class="phone_screen"
+          >
+            <router-view />
+          </div>
         </div>
       </div>
     </div>
@@ -52,7 +55,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['notification', 'notificationInfo', 'show', 'zoom', 'coque', 'sonido', 'appelsInfo', 'myPhoneNumber', 'volume', 'tempoHide'])
+    ...mapGetters(['raceInfo', 'notification', 'notificationInfo', 'show', 'zoom', 'coque', 'sonido', 'appelsInfo', 'myPhoneNumber', 'volume', 'tempoHide']),
   },
 
   watch: {
@@ -169,11 +172,11 @@ body {
 @keyframes getin-phone {
   0% {
     position: absolute;
-    transform: translateY(100%);
+    transform: translate3d(0, 100vh, 0);
   }
   100% {
     position: absolute;
-    transform: translateY(0%);
+    transform: translate3d(0, 0, 0);
   }
 }
 .getout-phone {
@@ -187,11 +190,11 @@ body {
 @keyframes getout-phone {
   0% {
     position: absolute;
-    transform: translateY(0%);
+    transform: translate3d(0, 0 ,0);
   }
   100% {
     position: absolute;
-    transform: translateY(100%);
+    transform: translate3d(0, 100vh, 0);
   }
 }
 
@@ -210,22 +213,22 @@ body {
 @keyframes notin-phone {
   0% {
     position: absolute;
-    transform: translateY(100%);
+    transform: translate3d(0, 100vh ,0);
   }
   100% {
     position: absolute;
-    transform: translateY(45%);
+    transform: translate3d(0, 70vh, 0);
   }
 }
 
 @keyframes notout-phone {
   0% {
     position: absolute;
-    transform: translateY(45%);
+    transform: translate3d(0, 70vh, 0);
   }
   100% {
     position: absolute;
-    transform: translateY(100%);
+    transform: translate3d(0, 100vh, 0);
   }
 }
 

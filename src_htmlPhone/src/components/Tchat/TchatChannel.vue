@@ -149,7 +149,7 @@ export default {
           this.tchatAddChannel({channel})
         }
       } catch (e) {
-        console.log("ERROR")
+        await this.$phoneAPI.log(e)
       }
     },
     async removeChannelOption() {

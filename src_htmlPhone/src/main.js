@@ -7,6 +7,7 @@ import PhoneAPI from './PhoneAPI'
 import Notification from './Notification'
 import AutoFocus from './directives/autofocus'
 import {library} from '@fortawesome/fontawesome-svg-core'
+import VueUnits from 'vue-units';
 import {
   faAngleLeft,
   faComment,
@@ -40,7 +41,22 @@ import {
   faArrowRight,
   faArrowUp,
   faArrowDown,
+  faFlagCheckered,
+  faFlag,
+  faCheckCircle,
+  faMoneyBillAlt,
+  faRoad,
+  faMapMarker,
+  faTrophy,
+  faRoute,
+  faEye,
+  faTimes,
+  faCheck,
+  faStopCircle,
+  faStopwatch,
 } from '@fortawesome/free-solid-svg-icons'
+
+
 import { faTwitter }  from '@fortawesome/free-brands-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 
@@ -77,13 +93,28 @@ library.add(
   faArrowRight,
   faArrowUp,
   faArrowDown,
-  faTwitter
+  faTwitter,
+  faFlagCheckered,
+  faFlag,
+  faCheckCircle,
+  faMoneyBillAlt,
+  faRoad,
+  faMapMarker,
+  faTrophy,
+  faRoute,
+  faEye,
+  faTimes,
+  faCheck,
+  faStopCircle,
+  faStopwatch,
 )
 
 Vue.component('FontAwesomeIcon', FontAwesomeIcon)
+Vue.component('RacingHUD', require('./components/Racing/RacingHUD').default)
 
 Vue.use(VueTimeago)
 Vue.use(Notification)
+Vue.use(VueUnits)
 Vue.config.productionTip = false
 
 Vue.prototype.$bus = new Vue()
@@ -94,6 +125,19 @@ window.Vue = Vue
 window.store = store
 
 Vue.directive('autofocus', AutoFocus)
+
+Vue.filter('toCurrency', function (value) {
+  if (typeof value !== "number") {
+    return value;
+  }
+
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: store.getters.currency,
+    minimumFractionDigits: 0
+  });
+  return formatter.format(value);
+});
 
 /* eslint-disable no-new */
 window.APP = new Vue({
