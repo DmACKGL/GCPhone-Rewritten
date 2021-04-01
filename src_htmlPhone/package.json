@@ -50,7 +50,7 @@
     "@babel/eslint-parser": "^7.13.10",
     "@babel/plugin-transform-runtime": "^7.13.10",
     "@babel/preset-env": "^7.13.10",
-    "@babel/register": "^7.13.8",
+    "@babel/register": "^7.13.14",
     "@babel/runtime": "^7.13.10",
     "autoprefixer": "^6.7.2",
     "babel-loader": "^8.2.1",
