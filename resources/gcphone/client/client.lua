@@ -328,34 +328,36 @@ AddEventHandler("gcPhone:receiveMessage", function(message)
   -- SendNUIMessage({event = 'updateMessages', messages = messages})
   SendNUIMessage({event = 'newMessage', message = message})
   table.insert(messages, message)
-  if message.owner == 0 then
-    local app = _U('new_message')
-    if Config.ShowNumberNotification == true then
-      app = _U('new_message_from', message.transmitter)
-      for _,contact in pairs(contacts) do
-        if contact.number == message.transmitter then
-          app = _U('new_message_transmitter', contact.display)
-          break
+  if hasPhone then
+    if message.owner == 0 then
+      local app = _U('new_message')
+      if Config.ShowNumberNotification == true then
+        app = _U('new_message_from', message.transmitter)
+        for _,contact in pairs(contacts) do
+          if contact.number == message.transmitter then
+            app = _U('new_message_transmitter', contact.display)
+            break
+          end
         end
       end
-    end
 
-    SendNUIMessage({event = 'updateNotification', active = true})
-    SendNUIMessage({
-      event = 'updateNotificationInfo', 
-      info = {
-        app = app,
-        icon = 'sms',
-        prefix = 'fas',
-        color = '#87fc6a',
-        message = message
-      }
-    })
-    PlaySound(-1, "Menu_Accept", "Phone_SoundSet_Default", 0, 0, 1)
-    Citizen.Wait(300)
-    PlaySound(-1, "Menu_Accept", "Phone_SoundSet_Default", 0, 0, 1)
-    Citizen.Wait(300)
-    PlaySound(-1, "Menu_Accept", "Phone_SoundSet_Default", 0, 0, 1)
+      SendNUIMessage({event = 'updateNotification', active = true})
+      SendNUIMessage({
+        event = 'updateNotificationInfo', 
+        info = {
+          app = app,
+          icon = 'sms',
+          prefix = 'fas',
+          color = '#87fc6a',
+          message = message
+        }
+      })
+      PlaySound(-1, "Menu_Accept", "Phone_SoundSet_Default", 0, 0, 1)
+      Citizen.Wait(300)
+      PlaySound(-1, "Menu_Accept", "Phone_SoundSet_Default", 0, 0, 1)
+      Citizen.Wait(300)
+      PlaySound(-1, "Menu_Accept", "Phone_SoundSet_Default", 0, 0, 1)
+    end
   end
 end)
 
@@ -422,12 +424,14 @@ local inCall = false
 
 RegisterNetEvent("gcPhone:waitingCall")
 AddEventHandler("gcPhone:waitingCall", function(infoCall, initiator)
-  SendNUIMessage({event = 'waitingCall', infoCall = infoCall, initiator = initiator})
   if initiator == true then
+    SendNUIMessage({event = 'waitingCall', infoCall = infoCall, initiator = initiator})
     PhonePlayCall()
     if menuIsOpen == false then
       TooglePhone()
     end
+  else if hasPhone then
+    SendNUIMessage({event = 'waitingCall', infoCall = infoCall, initiator = initiator})
   end
 end)
 
