@@ -142,3 +142,14 @@ export default new Router({
     }
   ]
 })
+
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location, onResolve, onReject) {
+  return onResolve || onReject ? originalPush.call(this, location, onResolve, onReject) : originalPush.call(this, location).catch((err) => {
+    if (Router.isNavigationFailure(err)) {
+      console.log('Navigation Failure')
+      return
+    }
+    return Promise.reject(err)
+  });
+}

@@ -430,7 +430,7 @@ AddEventHandler("gcPhone:waitingCall", function(infoCall, initiator)
     if menuIsOpen == false then
       TooglePhone()
     end
-  else if hasPhone then
+  elseif hasPhone then
     SendNUIMessage({event = 'waitingCall', infoCall = infoCall, initiator = initiator})
   end
 end)
