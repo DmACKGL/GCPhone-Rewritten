@@ -51,6 +51,38 @@ CREATE TABLE IF NOT EXISTS `phone_users_contacts` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `racing_leaderboard` (
+                                      `id` int(11) NOT NULL,
+                                      `track` int(11) NOT NULL,
+                                      `player` varchar(255) NOT NULL,
+                                      `time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `racing_tracks` (
+                                 `id` int(11) NOT NULL,
+                                 `name` varchar(255) NOT NULL,
+                                 `description` varchar(255) NOT NULL,
+                                 `type` varchar(255) NOT NULL,
+                                 `km` varchar(255) NOT NULL,
+                                 `author` varchar(255) NOT NULL,
+                                 `checkpoints` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`checkpoints`))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `racing_leaderboard`
+    ADD PRIMARY KEY (`id`),
+  ADD KEY `track` (`track`);
+
+ALTER TABLE `racing_tracks`
+    ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `racing_tracks`
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `racing_leaderboard`
+    ADD CONSTRAINT `racing_leaderboard_ibfk_1` FOREIGN KEY (`track`) REFERENCES `racing_tracks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
+
 -- Les données exportées n'étaient pas sélectionnées.
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

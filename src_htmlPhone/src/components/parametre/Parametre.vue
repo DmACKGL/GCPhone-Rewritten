@@ -33,6 +33,21 @@
           >{{ elem.value }}</span>
         </div>
       </div>
+      <div class="element">
+        <div class="fa">
+          <FontAwesomeIcon
+            :icon="['fas', 'undo']"
+          />
+        </div>
+        <div
+          class="element-content"
+        >
+          <span class="element-title">
+            Phone Version
+          </span>
+          <span class="element-value">{{ currentVersion }}</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -48,6 +63,7 @@ export default {
   },
   data () {
     return {
+      currentVersion: "1.0",
       ignoreControls: false,
       currentSelect: 0
     }
