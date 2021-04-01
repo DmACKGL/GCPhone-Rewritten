@@ -15,7 +15,7 @@ import racing from './modules/racing'
 
 Vue.use(Vuex)
 
-const debug = true;
+const debug = process.env.NODE_ENV !== 'production';
 export default new Vuex.Store({
   modules: {
     phone,
