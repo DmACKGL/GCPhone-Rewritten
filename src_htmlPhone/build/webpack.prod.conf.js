@@ -9,6 +9,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const TerserPlugin = require("terser-webpack-plugin");
 
 const env = config.build.env
 
@@ -28,6 +29,8 @@ const webpackConfig = merge(baseWebpackConfig, {
   },
   optimization: {
     runtimeChunk: 'single',
+    minimize: true,
+    minimizer: [new TerserPlugin()],
     splitChunks: {
       chunks: 'all',
       maxInitialRequests: Infinity,
