@@ -360,7 +360,7 @@ AddEventHandler("gcPhone:receiveMessage", function(message)
         PlaySound(-1, "Menu_Accept", "Phone_SoundSet_Default", 0, 0, 1)
       end
     end
-  end
+  end)
 end)
 
 --====================================================================================
@@ -437,7 +437,7 @@ AddEventHandler("gcPhone:waitingCall", function(infoCall, initiator)
       if hasPhone == true then
         SendNUIMessage({event = 'waitingCall', infoCall = infoCall, initiator = initiator})
       end
-    end
+    end)
   end
 end)
 
