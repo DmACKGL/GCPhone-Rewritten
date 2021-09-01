@@ -1175,10 +1175,15 @@
   resolved "https://registry.yarnpkg.com/@types/html-minifier-terser/-/html-minifier-terser-5.1.1.tgz#3c9ee980f1a10d6021ae6632ca3e79ca2ec4fb50"
   integrity sha512-giAlZwstKbmvMk1OO7WXSj4OZ0keXAcl2TQq4LWHiiPH2ByaH7WeUzng+Qej8UPxxv+8lRTuouo0iaNDBuzIBA==
 
-"@types/json-schema@*", "@types/json-schema@^7.0.5", "@types/json-schema@^7.0.6":
+"@types/json-schema@*", "@types/json-schema@^7.0.5":
   version "7.0.7"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.7.tgz#98a993516c859eb0d5c4c8f098317a9ea68db9ad"
   integrity sha512-cxWFQVseBm6O9Gbw1IWb8r6OS4OhSt3hPZLkFApLjM8TEXROBuQGLAH2i2gZpcXdLBIrpXuTDhH7Vbm1iXmNGA==
+
+"@types/json-schema@^7.0.8":
+  version "7.0.9"
+  resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.9.tgz#97edc9037ea0c38585320b28964dde3b39e4660d"
+  integrity sha512-qcUXuemtEu+E5wZSJHNxUXeCZhAfXKQ41D+duX+VYPde7xyEVZci+/oXKJL13tnRs9lR2pr4fod59GT6/X1/yQ==
 
 "@types/minimatch@*":
   version "3.0.3"
@@ -3959,7 +3964,7 @@ isstream@~0.1.2:
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
   integrity sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=
 
-jest-worker@^26.3.0, jest-worker@^26.5.0, jest-worker@^26.6.2:
+jest-worker@^26.3.0:
   version "26.6.2"
   resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-26.6.2.tgz#7f72cbc4d643c365e27b9fd775f9d0eaa9c7a8ed"
   integrity sha512-KWYVV1c4i+jbMpaBC+U++4Va0cp8OisU185o73T1vo99hqi7w8tSJfUXYswwqqrjzwxa6KpRK54WhPvwf5w6PQ==
@@ -3967,6 +3972,15 @@ jest-worker@^26.3.0, jest-worker@^26.5.0, jest-worker@^26.6.2:
     "@types/node" "*"
     merge-stream "^2.0.0"
     supports-color "^7.0.0"
+
+jest-worker@^27.0.6:
+  version "27.1.0"
+  resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-27.1.0.tgz#65f4a88e37148ed984ba8ca8492d6b376938c0aa"
+  integrity sha512-mO4PHb2QWLn9yRXGp7rkvXLAYuxwhq1ZYUo0LoDhg8wqvv4QizP1ZWEJOeolgbEgAWZLIEU0wsku8J+lGWfBhg==
+  dependencies:
+    "@types/node" "*"
+    merge-stream "^2.0.0"
+    supports-color "^8.0.0"
 
 jquery@^3.6.0:
   version "3.6.0"
@@ -5880,12 +5894,12 @@ schema-utils@^2.6.5:
     ajv "^6.12.4"
     ajv-keywords "^3.5.2"
 
-schema-utils@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-3.0.0.tgz#67502f6aa2b66a2d4032b4279a2944978a0913ef"
-  integrity sha512-6D82/xSzO094ajanoOSbe4YvXWMfn2A//8Y1+MUqFAJul5Bs+yn36xbK9OtNDcRVSBJ9jjeoXftM6CfztsjOAA==
+schema-utils@^3.0.0, schema-utils@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-3.1.1.tgz#bc74c4b6b6995c1d88f76a8b77bea7219e0c8281"
+  integrity sha512-Y5PQxS4ITlC+EahLuXaY86TXfR7Dc5lw294alXOq86JAHCihAIZfqv8nNCWvaEJvaC51uN9hbLGeV0cFBdH+Fw==
   dependencies:
-    "@types/json-schema" "^7.0.6"
+    "@types/json-schema" "^7.0.8"
     ajv "^6.12.5"
     ajv-keywords "^3.5.2"
 
@@ -5947,6 +5961,13 @@ serialize-javascript@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-5.0.1.tgz#7886ec848049a462467a97d3d918ebb2aaf934f4"
   integrity sha512-SaaNal9imEO737H2c05Og0/8LUXG7EnsZyMa8MzkmuHoELfT6txuj0cMqRj6zfPKnmQ1yasR4PCJc8x+M4JSPA==
+  dependencies:
+    randombytes "^2.1.0"
+
+serialize-javascript@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-6.0.0.tgz#efae5d88f45d7924141da8b5c3a7a7e663fefeb8"
+  integrity sha512-Qr3TosvguFt8ePWqsvRfrKyQXIiW+nGbYpy8XK24NQHE83caxWt+mIymTT19DGFbNWNLfEwsrkSmN64lVWB9ag==
   dependencies:
     randombytes "^2.1.0"
 
@@ -6276,6 +6297,13 @@ supports-color@^7.0.0, supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
+supports-color@^8.0.0:
+  version "8.1.1"
+  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-8.1.1.tgz#cd6fc17e28500cff56c1b86c0a7fd4a54a73005c"
+  integrity sha512-MpUEN2OodtUzxvKQl72cUF7RQ5EiHsGvSsVG0ia9c5RbWGL2CI4C7EpPS8UTBIplnlzZiNuV56w+FuNxy3ty2Q==
+  dependencies:
+    has-flag "^4.0.0"
+
 svgo@^1.0.0:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/svgo/-/svgo-1.3.2.tgz#b6dc511c063346c9e415b81e43401145b96d4167"
@@ -6336,32 +6364,17 @@ tar@^6.0.2:
     mkdirp "^1.0.3"
     yallist "^4.0.0"
 
-terser-webpack-plugin@^4.2.3:
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/terser-webpack-plugin/-/terser-webpack-plugin-4.2.3.tgz#28daef4a83bd17c1db0297070adc07fc8cfc6a9a"
-  integrity sha512-jTgXh40RnvOrLQNgIkwEKnQ8rmHjHK4u+6UBEi+W+FPmvb+uo+chJXntKe7/3lW5mNysgSWD60KyesnhW8D6MQ==
+terser-webpack-plugin@^5.1.1, terser-webpack-plugin@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/terser-webpack-plugin/-/terser-webpack-plugin-5.2.0.tgz#694c54fcdfa5f5cb2ceaf31929e7535b32a8a50c"
+  integrity sha512-FpR4Qe0Yt4knSQ5u2bA1wkM0R8VlVsvhyfSHvomXRivS4vPLk0dJV2IhRBIHRABh7AFutdMeElIA5y1dETwMBg==
   dependencies:
-    cacache "^15.0.5"
-    find-cache-dir "^3.3.1"
-    jest-worker "^26.5.0"
-    p-limit "^3.0.2"
-    schema-utils "^3.0.0"
-    serialize-javascript "^5.0.1"
-    source-map "^0.6.1"
-    terser "^5.3.4"
-    webpack-sources "^1.4.3"
-
-terser-webpack-plugin@^5.1.1:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/terser-webpack-plugin/-/terser-webpack-plugin-5.1.1.tgz#7effadee06f7ecfa093dbbd3e9ab23f5f3ed8673"
-  integrity sha512-5XNNXZiR8YO6X6KhSGXfY0QrGrCRlSwAEjIIrlRQR4W8nP69TaJUlh3bkuac6zzgspiGPfKEHcY295MMVExl5Q==
-  dependencies:
-    jest-worker "^26.6.2"
+    jest-worker "^27.0.6"
     p-limit "^3.1.0"
-    schema-utils "^3.0.0"
-    serialize-javascript "^5.0.1"
+    schema-utils "^3.1.1"
+    serialize-javascript "^6.0.0"
     source-map "^0.6.1"
-    terser "^5.5.1"
+    terser "^5.7.2"
 
 terser@^4.6.3:
   version "4.8.0"
@@ -6372,10 +6385,10 @@ terser@^4.6.3:
     source-map "~0.6.1"
     source-map-support "~0.5.12"
 
-terser@^5.3.4, terser@^5.5.1:
-  version "5.6.1"
-  resolved "https://registry.yarnpkg.com/terser/-/terser-5.6.1.tgz#a48eeac5300c0a09b36854bf90d9c26fb201973c"
-  integrity sha512-yv9YLFQQ+3ZqgWCUk+pvNJwgUTdlIxUk1WTN+RnaFJe2L7ipG2csPT0ra2XRm7Cs8cxN7QXmK1rFzEwYEQkzXw==
+terser@^5.7.2:
+  version "5.7.2"
+  resolved "https://registry.yarnpkg.com/terser/-/terser-5.7.2.tgz#d4d95ed4f8bf735cb933e802f2a1829abf545e3f"
+  integrity sha512-0Omye+RD4X7X69O0eql3lC4Heh/5iLj3ggxR/B5ketZLOtLiOqukUgjw3q4PDnNQbsrkKr3UMypqStQG3XKRvw==
   dependencies:
     commander "^2.20.0"
     source-map "~0.7.2"
