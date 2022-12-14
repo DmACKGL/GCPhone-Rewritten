@@ -72,7 +72,7 @@
     "eslint-plugin-standard": "^5.0.0",
     "eslint-plugin-vue": "^7.7.0",
     "eventsource-polyfill": "^0.9.6",
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.3.1",
     "http-proxy-middleware": "^0.17.3",
