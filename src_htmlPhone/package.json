@@ -35,7 +35,7 @@
     "img-loader": "^3.0.2",
     "install": "^0.13.0",
     "jquery": "^3.6.0",
-    "luxon": "^1.26.0",
+    "luxon": "^2.5.2",
     "node-sass": "^4.9.0",
     "popper.js": "^1.16.1",
     "sass-loader": "^11.0.1",
